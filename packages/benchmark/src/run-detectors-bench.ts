@@ -8,6 +8,7 @@ import {
   runDetectors,
   evaluateAssertions,
   localizeSources,
+  collectStickyDiagnostics,
 } from "@reprosight/core";
 import { BENCH_CASES } from "./cases.js";
 import { repoRoot, startFixtureServer } from "./fixture-server.js";
@@ -21,22 +22,21 @@ type CaseResult = {
   top3: boolean | null;
   failures: string[];
   notes: string[];
+  durationMs: number;
+  stickyDiagnostics?: unknown;
 };
-
-async function ensureFixtureGit(fixtureDir: string): Promise<void> {
-  // localization only needs files on disk; git optional for detector bench
-  void fixtureDir;
-}
 
 async function main() {
   const results: CaseResult[] = [];
+  const startedAll = Date.now();
+
   for (const c of BENCH_CASES) {
+    const caseStarted = Date.now();
     const server = await startFixtureServer({
       fixture: c.fixture,
       port: c.port,
     });
     try {
-      await ensureFixtureGit(server.cwd);
       const config = parseConfig({
         project: {
           name: c.fixture,
@@ -72,6 +72,13 @@ async function main() {
           stickyOcclusion: true,
           accessibility: true,
         },
+        stabilization: {
+          waitForFonts: true,
+          waitForImages: true,
+          disableAnimations: true,
+          settleFrames: 3,
+          timeoutMs: 10_000,
+        },
       });
       const issue = parseIssue(c.issue);
       const session = await launchSession({ config, issue, headless: true });
@@ -82,20 +89,24 @@ async function main() {
         const reproduced = !assertion.passed;
 
         let expectedDetectorHit = false;
+        let stickyDiagnostics: unknown;
         if (c.detector === "horizontalOverflow") {
           expectedDetectorHit =
             evidence.documentMetrics.scrollWidth -
               evidence.documentMetrics.clientWidth >
               1 || evidence.horizontalOverflow.length > 0;
-          // container stretch may not overflow document if only visual full-bleed
-          if (c.id === "container-stretch" || c.id === "desktop-container-maxwidth") {
+          if (
+            c.id === "container-stretch" ||
+            c.id === "desktop-container-maxwidth"
+          ) {
             const heroBox = await session.page
-              .locator(c.issue.expected?.culpritSelector as string || "#hero")
+              .locator(
+                (c.issue.expected?.culpritSelector as string) || "#hero",
+              )
               .boundingBox()
               .catch(() => null);
             if (heroBox && heroBox.x < 8) {
               expectedDetectorHit = true;
-              // force reproduced semantics for full-bleed cases
             }
           }
         } else if (c.detector === "overlap") {
@@ -103,7 +114,19 @@ async function main() {
         } else if (c.detector === "textClipping") {
           expectedDetectorHit = evidence.textClipping.length > 0;
         } else if (c.detector === "stickyOcclusion") {
+          stickyDiagnostics = await collectStickyDiagnostics(
+            session.page,
+            issue.assertions.find((a) => a.type === "noStickyOcclusion")
+              ?.selector ??
+              issue.actions.find((a) => a.type === "scrollIntoView")?.selector,
+          );
           expectedDetectorHit = evidence.stickyOcclusion.length > 0;
+          if (!expectedDetectorHit) {
+            console.error(
+              `sticky diagnostics for ${c.id}:`,
+              JSON.stringify(stickyDiagnostics, null, 2),
+            );
+          }
         } else if (c.detector === "accessibility") {
           expectedDetectorHit = evidence.accessibility.violations.length > 0;
         }
@@ -147,14 +170,14 @@ async function main() {
           top3 = candidates.slice(0, 3).some(match);
         }
 
-        // For full-bleed container cases, assertions may pass (no scroll overflow)
-        // Count detector family hit as reproduction success for those special cases.
         const specialReproduced =
-          (c.id === "container-stretch" || c.id === "desktop-container-maxwidth") &&
+          (c.id === "container-stretch" ||
+            c.id === "desktop-container-maxwidth") &&
           expectedDetectorHit
             ? true
             : reproduced;
 
+        const durationMs = Date.now() - caseStarted;
         results.push({
           id: c.id,
           detector: c.detector,
@@ -163,10 +186,14 @@ async function main() {
           top1,
           top3,
           failures: assertion.failures,
-          notes: [],
+          notes: stickyDiagnostics
+            ? [`stickyDiagnostics=${JSON.stringify(stickyDiagnostics)}`]
+            : [],
+          durationMs,
+          stickyDiagnostics,
         });
         console.log(
-          `${c.id}: reproduced=${specialReproduced || expectedDetectorHit} detectorHit=${expectedDetectorHit} top1=${top1} top3=${top3}`,
+          `${c.id}: reproduced=${specialReproduced || expectedDetectorHit} detectorHit=${expectedDetectorHit} top1=${top1} top3=${top3} durationMs=${durationMs}`,
         );
       } finally {
         await session.close();
@@ -181,16 +208,23 @@ async function main() {
   const locCases = results.filter((r) => r.top1 !== null);
   const top1 = locCases.filter((r) => r.top1).length;
   const top3 = locCases.filter((r) => r.top3).length;
+  const failedCases = results
+    .filter((r) => !r.expectedDetectorHit)
+    .map((r) => r.id);
 
   const summary = {
     total: results.length,
     reproductionSuccessRate: reproducedN / results.length,
     detectorHitRate: detectorHits / results.length,
+    expectedPrimaryDetectors: 12,
+    primaryDetectorHits: detectorHits,
+    failedPrimaryDetectors: failedCases,
     localizationCases: locCases.length,
     sourceLocalizationTop1: locCases.length ? top1 / locCases.length : null,
     sourceLocalizationTop3: locCases.length ? top3 / locCases.length : null,
+    totalDurationMs: Date.now() - startedAll,
     results,
-    note: "MVP fixture benchmark — not a scientific claim of broad validity.",
+    note: "MVP fixture benchmark — not a scientific claim of broad validity. Primary detector gate requires 12/12 hits.",
   };
 
   const outDir = path.join(repoRoot, "artifacts", "benchmark");
@@ -202,8 +236,11 @@ async function main() {
   console.log("\n=== Detector benchmark summary ===");
   console.log(JSON.stringify(summary, null, 2));
 
-  // Do not hide failures; exit non-zero if too few hits
-  if (detectorHits < 8) {
+  // Strict gate: all 12 expected primary detectors must hit. No silent retries.
+  if (detectorHits < results.length || failedCases.length > 0) {
+    console.error(
+      `Detector benchmark failed: ${detectorHits}/${results.length}. Failed: ${failedCases.join(", ") || "none"}`,
+    );
     process.exitCode = 1;
   }
 }

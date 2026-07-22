@@ -18,6 +18,7 @@ export * from "./runner/target-process.js";
 export * from "./runner/browser.js";
 export * from "./detectors/run-all.js";
 export * from "./detectors/annotate.js";
+export * from "./detectors/sticky.js";
 export * from "./source-locator/cdp.js";
 export * from "./source-locator/scoring.js";
 export * from "./verifier/verify.js";

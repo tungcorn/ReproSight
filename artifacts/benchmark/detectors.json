@@ -2,9 +2,13 @@
   "total": 12,
   "reproductionSuccessRate": 1,
   "detectorHitRate": 1,
+  "expectedPrimaryDetectors": 12,
+  "primaryDetectorHits": 12,
+  "failedPrimaryDetectors": [],
   "localizationCases": 12,
   "sourceLocalizationTop1": 0.75,
   "sourceLocalizationTop3": 0.9166666666666666,
+  "totalDurationMs": 35713,
   "results": [
     {
       "id": "container-stretch",
@@ -17,7 +21,8 @@
         "Horizontal overflow detected (delta=160, offenders=2)",
         "Selector #hero extends beyond viewport"
       ],
-      "notes": []
+      "notes": [],
+      "durationMs": 2779
     },
     {
       "id": "locale-overflow-vi-768",
@@ -30,7 +35,8 @@
         "Horizontal overflow detected (delta=120, offenders=3)",
         "Selector #about extends beyond viewport"
       ],
-      "notes": []
+      "notes": [],
+      "durationMs": 2801
     },
     {
       "id": "overlap-cta-badge",
@@ -42,7 +48,8 @@
       "failures": [
         "Overlap between #cta and #badge"
       ],
-      "notes": []
+      "notes": [],
+      "durationMs": 2651
     },
     {
       "id": "clipping-vi-paragraph",
@@ -54,7 +61,8 @@
       "failures": [
         "Text clipping detected (1)"
       ],
-      "notes": []
+      "notes": [],
+      "durationMs": 3035
     },
     {
       "id": "sticky-heading-occlusion",
@@ -66,7 +74,39 @@
       "failures": [
         "Sticky occlusion on #section"
       ],
-      "notes": []
+      "notes": [
+        "stickyDiagnostics={\"viewport\":{\"width\":1440,\"height\":900},\"scrollX\":0,\"scrollY\":174,\"headerRect\":{\"x\":0,\"y\":0,\"width\":1440,\"height\":54},\"targetRect\":{\"x\":0,\"y\":0,\"width\":1440,\"height\":48},\"intersection\":{\"x\":0,\"y\":0,\"width\":1440,\"height\":48},\"scrollMarginTop\":\"0px\",\"stabilizationFrames\":3,\"detectorVerdict\":\"occluded\"}"
+      ],
+      "durationMs": 2980,
+      "stickyDiagnostics": {
+        "viewport": {
+          "width": 1440,
+          "height": 900
+        },
+        "scrollX": 0,
+        "scrollY": 174,
+        "headerRect": {
+          "x": 0,
+          "y": 0,
+          "width": 1440,
+          "height": 54
+        },
+        "targetRect": {
+          "x": 0,
+          "y": 0,
+          "width": 1440,
+          "height": 48
+        },
+        "intersection": {
+          "x": 0,
+          "y": 0,
+          "width": 1440,
+          "height": 48
+        },
+        "scrollMarginTop": "0px",
+        "stabilizationFrames": 3,
+        "detectorVerdict": "occluded"
+      }
     },
     {
       "id": "contrast-light",
@@ -76,7 +116,8 @@
       "top1": true,
       "top3": true,
       "failures": [],
-      "notes": []
+      "notes": [],
+      "durationMs": 2868
     },
     {
       "id": "grid-mincontent-overflow",
@@ -88,7 +129,8 @@
       "failures": [
         "Horizontal overflow detected (delta=154, offenders=3)"
       ],
-      "notes": []
+      "notes": [],
+      "durationMs": 2600
     },
     {
       "id": "mobile-nav-overflow",
@@ -100,7 +142,8 @@
       "failures": [
         "Horizontal overflow detected (delta=188, offenders=2)"
       ],
-      "notes": []
+      "notes": [],
+      "durationMs": 2590
     },
     {
       "id": "cards-overlap-breakpoint",
@@ -112,7 +155,8 @@
       "failures": [
         "Overlap between #card-a and #card-b"
       ],
-      "notes": []
+      "notes": [],
+      "durationMs": 2639
     },
     {
       "id": "fixed-badge-blocks-control",
@@ -124,7 +168,8 @@
       "failures": [
         "Overlap between #save and #promo"
       ],
-      "notes": []
+      "notes": [],
+      "durationMs": 2805
     },
     {
       "id": "desktop-container-maxwidth",
@@ -136,7 +181,8 @@
       "failures": [
         "Horizontal overflow detected (delta=10, offenders=1)"
       ],
-      "notes": []
+      "notes": [],
+      "durationMs": 2806
     },
     {
       "id": "focus-indicator-removed",
@@ -146,8 +192,9 @@
       "top1": true,
       "top3": true,
       "failures": [],
-      "notes": []
+      "notes": [],
+      "durationMs": 2565
     }
   ],
-  "note": "MVP fixture benchmark — not a scientific claim of broad validity."
+  "note": "MVP fixture benchmark — not a scientific claim of broad validity. Primary detector gate requires 12/12 hits."
 }
