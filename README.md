@@ -1,135 +1,147 @@
 # ReproSight — Evidence-driven AI Visual Repair
 
-ReproSight reproduces visual frontend defects, collects deterministic browser evidence, localizes likely root-cause CSS rules, proposes a minimal patch inside an isolated Git worktree, reruns the failing scenario plus a regression matrix, and produces a reviewable proof report.
+**Visual defect → measured evidence → authored CSS rule → minimal patch → isolated worktree verification → regression proof → human review.**
 
-**The system does not merely suggest a fix. It produces evidence showing whether the fix worked.**
+ReproSight does not merely suggest a fix. It produces evidence showing whether the fix worked.
 
-## 30-second explanation
+## Flagship proof: container stretch
 
-1. Describe a visual bug (route, viewport, locale/theme, actions, assertions).
-2. ReproSight starts the target app, replays the scenario in Chromium, and measures overflow/overlap/clipping/sticky/axe.
-3. CDP + deterministic scoring ranks authored CSS candidates.
-4. A model (or mock provider in CI) proposes a minimal unified diff.
-5. The patch is policy-checked and applied only in a linked Git worktree.
-6. The original failure and a regression matrix are re-run.
-7. A self-contained HTML report awaits human approval. Nothing is merged automatically.
+At 1440px, a Hero that also uses `.container` becomes edge-to-edge because a later `.hero` rule overrides the shared container max-width.
+
+| Before | Annotated | After | Diff |
+| --- | --- | --- | --- |
+| ![](artifacts/demo/container-stretch-before.png) | ![](artifacts/demo/container-stretch-annotated.png) | ![](artifacts/demo/container-stretch-after.png) | ![](artifacts/demo/container-stretch-diff.png) |
+
+Self-contained report: [artifacts/demo/report-container-stretch.html](artifacts/demo/report-container-stretch.html)
+
+Second flagship (Vietnamese tablet overflow): [artifacts/demo/report-locale-overflow.html](artifacts/demo/report-locale-overflow.html)
 
 ## Why screenshot diff alone is insufficient
 
-- Diffs do not identify the offending DOM node or authored CSS rule
+- Diffs do not name the offending DOM node or authored CSS rule
 - Intentional redesign vs breakage is ambiguous
-- Locale/theme/viewport matrices explode baseline surface area
+- Locale/theme/viewport matrices explode baselines
 - A green pixel match is not a geometric proof that overflow/occlusion is gone
 
-## Architecture
+## Architecture (one pipeline)
 
 ```
-Bug / issue JSON
-   → deterministic browser reproduction
-   → detectors + CDP source localization
-   → model diagnosis (optional; mock in CI)
-   → patch policy
-   → isolated git worktree
-   → target + regression verification
-   → HTML report + dashboard review
-   → human approval / export only
+Issue JSON
+  → deterministic Chromium reproduction
+  → detectors + CDP source localization
+  → model diagnosis (mock in CI; OpenAI-compatible optional)
+  → patch policy
+  → linked Git worktree only
+  → target + regression verification
+  → HTML report / dashboard review
+  → AWAITING_HUMAN_REVIEW
 ```
 
 See [docs/architecture.md](docs/architecture.md).
 
 ## Quick start
 
-Requirements: Node.js 20+ (LTS), Git, npm.
-
 ```bash
 npm ci
-npm run build
 npx playwright install chromium
-
-# Unit tests / typecheck
-npm test
 npm run typecheck
-
-# Detector benchmark (12 fixtures)
+npm run lint
+npm test
+npm run build
 npm run benchmark:detectors
-
-# End-to-end mock provider runs (flagship + more)
+npm run benchmark:localization
 npm run e2e:mock
+npm run evaluation:mock-matrix
+npm run evaluation:real-provider   # blocked without OPENAI_API_KEY
 ```
 
-### Run a flagship demo (mock provider)
-
-Initialize fixture git repos once (benchmark e2e does this automatically):
+### Flagship CLI (mock provider)
 
 ```bash
-# Example after fixtures are git-initialized by e2e:mock
 node packages/cli/dist/index.js run examples/issues/container-stretch.json \
   --config examples/configs/container-stretch.config.json \
   --provider mock
 ```
 
-Open the printed `report/index.html`.
-
 ### Dashboard
 
 ```bash
 npm run dev -w @reprosight/dashboard
+# http://127.0.0.1:5173
+# deep link: /run/<run-id>
+# artifact root: <workspace>/.reprosight/runs (Vite middleware, no manual copy)
 ```
 
-Serve or copy run artifacts under the dashboard `public/runs/<id>/` tree for browser access. The CLI HTML report works without the dashboard.
+## Verified evaluation results (this repository)
 
-## Example issue
+Four categories are **never** merged into one success rate.
 
-See [examples/issues/container-stretch.json](examples/issues/container-stretch.json).
+### 1) Deterministic detector benchmark
+
+- **12/12** expected primary detectors hit
+- **10 consecutive full runs passed** (see `artifacts/audit/detector-10x.txt`)
+- Command: `npm run benchmark:detectors`
+
+### 2) Deterministic source localization
+
+From `artifacts/benchmark/localization-analysis.json`:
+
+| Metric | Value |
+| --- | ---: |
+| Cases | 12 |
+| Top-1 | **83.3%** (10/12) |
+| Top-3 | **100%** (12/12) |
+
+Failure categories:
+
+- `correct`: 10
+- `ambiguous-cascade`: 2 (`locale-overflow-vi-768`, `mobile-nav-overflow`)
+
+### 3) Mock orchestration benchmark
+
+Label: **Orchestration and verification success with deterministic mock provider**  
+(Not real-model repair accuracy.)
+
+- **6/6** clean-room cases → `AWAITING_HUMAN_REVIEW`
+- Worktree-only apply, original checkout hash unchanged, regressions clean, no new axe/console
+- Commands: `npm run e2e:mock`, `npm run evaluation:mock-matrix`
+
+### 4) Real-provider repair evaluation
+
+Status: **blocked** — no `OPENAI_API_KEY` in this environment (value never logged).
+
+```bat
+set OPENAI_API_KEY=***
+set REPROSIGHT_MODEL_BASE_URL=https://api.openai.com/v1
+set REPROSIGHT_MODEL_NAME=gpt-4o-mini
+npm run evaluation:real-provider
+```
+
+Artifact: `artifacts/evaluation/real-provider.json`
 
 ## Safety model
 
 - Issue actions are a fixed allow-list (no arbitrary JS)
 - Page/repo content is untrusted data to the model
-- Secrets are redacted from console/network evidence
-- Patches: relative paths only, glob policy, size limits, forbid global `overflow-x: hidden` on `html,body`
-- Target original checkout must be clean; repairs apply only in `.reprosight/worktrees/<run-id>/`
-- Approval updates ReproSight metadata / export only — never commit/merge/push the target
+- Secrets redacted from console/network evidence
+- Patch policy: relative paths, globs, size limits; forbid global `overflow-x: hidden` on html/body
+- Target checkout must be clean; repairs only in `.reprosight/worktrees/<run-id>/`
+- Human approval updates ReproSight metadata / export only — never commit/merge/push the target
 
-## Benchmark (MVP)
+## Honest limitations
 
-```bash
-npm run benchmark:detectors
-npm run e2e:mock
-```
-
-Results write to `artifacts/benchmark/`. This is an MVP fixture bench (12 detection cases, localization subset, 6 mock e2e cases). It is **not** a claim of broad scientific validity.
-
-## CLI
-
-```text
-reprosight init
-reprosight reproduce <issue-file>
-reprosight run <issue-file>
-reprosight report <run-id>
-reprosight export-patch <run-id>
-reprosight approve <run-id>
-reprosight reject <run-id> --reason "..."
-reprosight clean <run-id>
-reprosight serve
-reprosight benchmark
-```
-
-Exit codes: `0` success/awaiting review, `2` not reproduced, `3` abstained, `4` patch rejected, `5` target failed, `6` regression, `10` infrastructure.
-
-## Limitations
-
-See [docs/limitations.md](docs/limitations.md). Unsupported: auth-heavy apps, Safari/Firefox repair, CSS-in-JS rewriting, Shadow DOM, auto-PR/merge, cloud SaaS.
+- MVP fixture set — **not** a broad scientific benchmark
+- Automated axe checks are partial (not a full WCAG audit)
+- Pixel diffs are environment-sensitive
+- Localization top-1 is not 100% (ambiguous cascade remains)
+- Real-model accuracy is unmeasured until a provider key is available
+- Trace zip capture is optional and may be absent
+- Demo video: not recorded in-repo (see [docs/demo-script.md](docs/demo-script.md) for the walkthrough)
 
 ## Documentation
 
-- [Research](docs/research.md)
-- [Architecture](docs/architecture.md)
-- [Evaluation](docs/evaluation.md)
-- [Threat model](docs/threat-model.md)
-- [Limitations](docs/limitations.md)
-- [Demo script](docs/demo-script.md)
-- [Implementation plan](implementation-plan.md)
+- [Research](docs/research.md) · [Architecture](docs/architecture.md) · [Evaluation](docs/evaluation.md)
+- [Threat model](docs/threat-model.md) · [Limitations](docs/limitations.md) · [Demo script](docs/demo-script.md)
 
 ## License
 

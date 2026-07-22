@@ -1,18 +1,21 @@
-# Demo Script (60–90 seconds)
+# Demo Script (60–90 seconds) — evidence walkthrough
 
-## Audience
+## Status of video capture
 
-Recruiters and engineers evaluating a portfolio project.
+**No in-repo WebM was recorded in this hardening pass.**  
+Recommended external path if captured later:
 
-## Script
+`artifacts/demo/reprosight-flagship-demo.webm` (gitignored by size policy)
 
-**0:00–0:10 — Problem**
+Until a real capture exists, use this live walkthrough with actual CLI/report output.
 
-“Visual bugs are easy to screenshot and hard to prove fixed. Pixel diffs don’t name the CSS rule. Coding agents propose patches without replaying the failure.”
+## Narrative (container-stretch)
+
+**0:00–0:10 — Broken state**
+
+Open the fixture at 1440×900. Show the hero edge-to-edge vs the constrained body content.
 
 **0:10–0:25 — Reproduce**
-
-Open the flagship issue: desktop hero container stretch.
 
 ```bash
 node packages/cli/dist/index.js run examples/issues/container-stretch.json \
@@ -20,24 +23,30 @@ node packages/cli/dist/index.js run examples/issues/container-stretch.json \
   --provider mock
 ```
 
-Show the before screenshot and document metrics: hero width / left edge vs shared container.
+Point to terminal: state transitions and run id.
 
-**0:25–0:40 — Evidence → source**
+**0:25–0:40 — Evidence**
 
-Point to ranked source candidates: file `styles.css`, selector `.hero`, property `max-width`/`width`, later override over `.container`.
+Open `.reprosight/runs/<id>/report/index.html` (self-contained data-URI images).
 
-**0:40–0:55 — Isolated repair**
+Show:
 
-Show patch policy acceptance, worktree path under `.reprosight/worktrees/`, and that the original fixture checkout hash is unchanged.
+- Before + annotated screenshot
+- Document metrics / overflow offenders
+- Ranked CSS candidates: `styles.css`, `.hero`, `max-width` / `min-width`
+
+**0:40–0:55 — Patch + isolation**
+
+Show unified diff (remove bad hero override only), policy accepted, worktree path under `.reprosight/worktrees/…`, original checkout hash unchanged.
 
 **0:55–1:15 — Verify**
 
-Show after screenshot, pixel diff, original scenario Fixed, regression matrix across desktop/tablet/mobile, no new axe/console errors, terminal state `AWAITING_HUMAN_REVIEW`.
+After screenshot, pixel diff, target Fixed, regression matrix, no new axe/console, terminal state `AWAITING_HUMAN_REVIEW`.
 
 **1:15–1:30 — Close**
 
 “ReproSight doesn’t merge itself. It produces evidence that the fix worked—and leaves approval to a human.”
 
-## Second flagship (optional extra 30s)
+## Optional second beat (30s)
 
-Vietnamese tablet overflow: multi-signal root cause (`white-space: nowrap` + late grid override).
+Vietnamese tablet overflow: multi-signal root cause (`white-space: nowrap` + late grid override). Report: `artifacts/demo/report-locale-overflow.html`.
