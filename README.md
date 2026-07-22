@@ -33,7 +33,7 @@ Copy-paste prompt: [docs/prompts/use-reprosight.md](docs/prompts/use-reprosight.
 
 At the desktop viewport, a later `.hero` rule clears the shared `.container` max-width and forces a `1600px` minimum width, so the hero stretches edge-to-edge and the document scrolls horizontally.
 
-**State:** `1440 × 900` · en · dark · **Detector:** horizontal overflow · **Patch:** `styles.css` (`+0/−3`) · **Verdict:** target fixed, regressions passed · **Decision:** human review required
+**State:** `1440 × 900` · en · dark · **Detector:** horizontal overflow · **Patch:** 2 declarations removed from `styles.css` · **Verdict:** target fixed, regressions passed · **Decision:** human review required
 
 *Deterministic mock-provider pipeline demonstration — not real-model repair accuracy.*
 
@@ -57,7 +57,6 @@ At the desktop viewport, a later `.hero` rule clears the shared `.container` max
 | Measured defect | `#hero` / `.hero` exceeds the intended container and viewport content width |
 | Authored source | `styles.css` |
 | Top-ranked CSS candidates | `.hero { max-width: none; }`, `.hero { min-width: 1600px; }` (CDP / stylesheet match) |
-| Pipeline labels | Target **Fixed** · Overall **VERIFIED** · State **AWAITING_HUMAN_REVIEW** · Human **pending** |
 
 ### Root cause and minimal repair
 
@@ -73,7 +72,7 @@ The hero also uses `.container`, but a later `.hero` block overrides the shared 
  }
 ```
 
-Removing only those two declarations restores the shared `1080px` container behavior. Patch policy **accepted** (`styles.css`, `+0/−3`). No global `overflow-x: hidden` “cover-up.”
+Removing only those two declarations restores the shared `1080px` container behavior. Patch policy **accepted** (`styles.css`; unified diff is `+0/−3` including the comment). No global `overflow-x: hidden` “cover-up.”
 
 ### Before vs after verified repair
 
@@ -121,25 +120,24 @@ Removing only those two declarations restores the shared `1080px` container beha
 | --- | --- |
 | Original failing scenario | Fixed (`noHorizontalOverflow` / hero within content width) |
 | Regression matrix | Passed: `original` 1440×900, `tablet-en-dark` 768×1024, `mobile-en-dark` 390×844 |
-| New axe violations | none (`1 → 1`) |
+| New axe violations | 0 new — 1 existing before and after |
 | New console errors | none |
 | Patch policy | accepted |
 | Original checkout | unchanged (integrity hash recorded in report) |
 | Final decision | **Human review required** (`AWAITING_HUMAN_REVIEW`, human `pending`) |
 
-[Open the complete self-contained HTML evidence report →](artifacts/demo/report-container-stretch.html)
+[Download the self-contained HTML evidence report →](artifacts/demo/report-container-stretch.html) (open the file locally in a browser; GitHub shows source, not a live page)
+
+Walkthrough: [transcript](artifacts/demo/reprosight-flagship-demo-transcript.md) · [commands](artifacts/demo/reprosight-flagship-demo-commands.txt)
 
 <details>
   <summary><strong>Secondary proof: Vietnamese tablet overflow</strong></summary>
 
   **Case:** long Vietnamese About labels overflow at `768 × 1024` (nowrap + late grid override).
-  **Artifacts:** [before](artifacts/demo/locale-overflow-before.png) · [annotated](artifacts/demo/locale-overflow-annotated.png) · [after](artifacts/demo/locale-overflow-after.png) · [report](artifacts/demo/report-locale-overflow.html)
+  **Artifacts:** [before](artifacts/demo/locale-overflow-before.png) · [annotated](artifacts/demo/locale-overflow-annotated.png) · [after](artifacts/demo/locale-overflow-after.png) · [report](artifacts/demo/report-locale-overflow.html) (download/open locally)
   Same pipeline class: deterministic evidence → authored CSS candidates → minimal patch → isolated verify → human review.
 
 </details>
-
-**Demo media:** WebM **not recorded** (no capture tool; file not fabricated).  
-Walkthrough: [transcript](artifacts/demo/reprosight-flagship-demo-transcript.md) · [commands](artifacts/demo/reprosight-flagship-demo-commands.txt)
 
 ## Four separate evaluation categories
 
@@ -199,7 +197,9 @@ Holdout set includes English + Vietnamese, mobile/tablet/desktop, multi-rule cas
 - **Success (mock pipeline demo):** container-stretch → Fixed / VERIFIED / human review required (demo PNGs + report above).
 - **Failure/abstention (real model):** not available until credentials exist; protocol + abstention-designed holdout documented in [artifacts/evaluation/holdout-failure-story.md](artifacts/evaluation/holdout-failure-story.md).
 
-## Quick start
+## Development and verification
+
+Local setup and quality gates for contributors (not the primary human product path — that is “tell your coding agent” above):
 
 ```bash
 npm ci
@@ -211,11 +211,12 @@ npm run build
 npm run benchmark:detectors
 npm run evaluation:mock-matrix
 npm run e2e:mock
+npm run e2e:agent
 npm run evaluation:holdout-validate
 npm run evaluation:holdout-real
 ```
 
-### Dashboard
+Optional local dashboard for reviewing generated runs:
 
 ```bash
 npm run dev -w @reprosight/dashboard
@@ -236,8 +237,9 @@ npm run dev -w @reprosight/dashboard
 - Localization top-1 is not 100%
 - Axe is partial; pixel diffs are environment-sensitive
 - Real-model accuracy unmeasured without provider credentials
-- Demo WebM missing (storyboard only)
+- Demo **WebM not recorded** (no capture tool; walkthrough transcript/commands only — not fabricated video)
 - No claim of general autonomous production repair
+- End users depend on a coding agent that follows `AGENTS.md` / the copy-paste prompt
 
 ## License
 
