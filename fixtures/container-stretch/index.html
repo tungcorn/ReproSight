@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Container Stretch Fixture</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container">ReproSight Demo</div>
+    </header>
+    <section class="hero container" id="hero">
+      <h1>Evidence-driven visual repair</h1>
+      <p class="lede">
+        This hero incorrectly becomes edge-to-edge because a later rule overrides
+        the shared container max-width.
+      </p>
+      <button class="cta" type="button">Get proof</button>
+    </section>
+    <main class="container">
+      <p>
+        Body content remains constrained. Compare left edge of hero vs this
+        paragraph.
+      </p>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,8 @@
+{
+  "name": "fixture-container-stretch",
+  "private": true,
+  "version": "0.0.0",
+  "scripts": {
+    "start": "npx --yes serve -l 4173 ."
+  }
+}

@@ -1,0 +1,33 @@
+body {
+  margin: 0;
+  font-family: system-ui, sans-serif;
+  background: #0f172a;
+  color: #fff;
+}
+.wrap {
+  position: relative;
+  margin: 80px auto;
+  width: 320px;
+  height: 120px;
+}
+.cta {
+  position: absolute;
+  left: 40px;
+  top: 40px;
+  padding: 12px 20px;
+  background: #38bdf8;
+  color: #041018;
+  border: 0;
+  border-radius: 8px;
+  font-weight: 700;
+}
+.badge {
+  position: absolute;
+  left: 90px;
+  top: 30px;
+  background: #ef4444;
+  padding: 18px 22px;
+  border-radius: 999px;
+  z-index: 5;
+  font-weight: 800;
+}

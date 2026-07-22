@@ -1,0 +1,8 @@
+{
+  "name": "fixture-locale-overflow",
+  "private": true,
+  "version": "0.0.0",
+  "scripts": {
+    "start": "npx --yes serve -l 4174 ."
+  }
+}

@@ -1,0 +1,26 @@
+body {
+  margin: 0;
+  font-family: system-ui, sans-serif;
+  background: #0b1220;
+  color: #e5e7eb;
+}
+.nav {
+  position: sticky;
+  top: 0;
+  background: #111827;
+  border-bottom: 1px solid #334155;
+  padding: 16px 20px;
+  z-index: 10;
+}
+.spacer {
+  height: 120px;
+}
+.spacer.tall {
+  height: 1200px;
+}
+#section {
+  margin: 0;
+  padding: 8px 20px;
+  /* intentionally missing scroll-margin-top — heading sits under sticky nav */
+  background: #1e293b;
+}

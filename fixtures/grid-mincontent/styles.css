@@ -1,0 +1,21 @@
+body {
+  margin: 0;
+  font-family: system-ui, sans-serif;
+  background: #0b1220;
+  color: #e5e7eb;
+}
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 8px;
+  padding: 16px;
+  width: 100%;
+}
+.cell {
+  border: 1px solid #334155;
+  padding: 12px;
+  min-width: auto;
+}
+.long {
+  white-space: nowrap;
+}

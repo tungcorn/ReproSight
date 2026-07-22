@@ -1,0 +1,5 @@
+{
+  "name": "fixture-clipping",
+  "private": true,
+  "scripts": { "start": "npx --yes serve -l 4176 ." }
+}

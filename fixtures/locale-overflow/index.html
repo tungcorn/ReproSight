@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en" data-theme="dark" data-locale="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Locale Overflow Fixture</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <header class="top">
+      <button type="button" data-language-toggle id="lang-toggle">VI / EN</button>
+      <button type="button" data-theme-toggle id="theme-toggle">Theme</button>
+    </header>
+    <section id="about" class="about container">
+      <h2 data-i18n="aboutTitle">About highlights</h2>
+      <ul class="about__highlights">
+        <li>
+          <strong data-i18n="h1">Deterministic evidence first</strong>
+          <span data-i18n="h1d">Geometry before model guesses</span>
+        </li>
+        <li>
+          <strong data-i18n="h2">Isolated worktree repair</strong>
+          <span data-i18n="h2d">Original checkout stays clean</span>
+        </li>
+        <li>
+          <strong data-i18n="h3">Human approval required</strong>
+          <span data-i18n="h3d">No autonomous merge</span>
+        </li>
+      </ul>
+    </section>
+    <script src="./app.js"></script>
+  </body>
+</html>
