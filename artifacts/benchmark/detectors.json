@@ -1,0 +1,148 @@
+{
+  "total": 12,
+  "reproductionSuccessRate": 0.9166666666666666,
+  "detectorHitRate": 0.9166666666666666,
+  "localizationCases": 12,
+  "sourceLocalizationTop1": 0.75,
+  "sourceLocalizationTop3": 0.9166666666666666,
+  "results": [
+    {
+      "id": "container-stretch",
+      "detector": "horizontalOverflow",
+      "reproduced": true,
+      "expectedDetectorHit": true,
+      "top1": true,
+      "top3": true,
+      "failures": [],
+      "notes": []
+    },
+    {
+      "id": "locale-overflow-vi-768",
+      "detector": "horizontalOverflow",
+      "reproduced": true,
+      "expectedDetectorHit": true,
+      "top1": false,
+      "top3": true,
+      "failures": [
+        "Horizontal overflow detected (delta=120, offenders=3)",
+        "Selector #about extends beyond viewport"
+      ],
+      "notes": []
+    },
+    {
+      "id": "overlap-cta-badge",
+      "detector": "overlap",
+      "reproduced": true,
+      "expectedDetectorHit": true,
+      "top1": true,
+      "top3": true,
+      "failures": [
+        "Overlap between #cta and #badge"
+      ],
+      "notes": []
+    },
+    {
+      "id": "clipping-vi-paragraph",
+      "detector": "textClipping",
+      "reproduced": true,
+      "expectedDetectorHit": true,
+      "top1": true,
+      "top3": true,
+      "failures": [
+        "Text clipping detected (1)"
+      ],
+      "notes": []
+    },
+    {
+      "id": "sticky-heading-occlusion",
+      "detector": "stickyOcclusion",
+      "reproduced": false,
+      "expectedDetectorHit": false,
+      "top1": true,
+      "top3": true,
+      "failures": [],
+      "notes": []
+    },
+    {
+      "id": "contrast-light",
+      "detector": "accessibility",
+      "reproduced": true,
+      "expectedDetectorHit": true,
+      "top1": true,
+      "top3": true,
+      "failures": [],
+      "notes": []
+    },
+    {
+      "id": "grid-mincontent-overflow",
+      "detector": "horizontalOverflow",
+      "reproduced": true,
+      "expectedDetectorHit": true,
+      "top1": false,
+      "top3": false,
+      "failures": [
+        "Horizontal overflow detected (delta=154, offenders=3)"
+      ],
+      "notes": []
+    },
+    {
+      "id": "mobile-nav-overflow",
+      "detector": "horizontalOverflow",
+      "reproduced": true,
+      "expectedDetectorHit": true,
+      "top1": false,
+      "top3": true,
+      "failures": [
+        "Horizontal overflow detected (delta=188, offenders=2)"
+      ],
+      "notes": []
+    },
+    {
+      "id": "cards-overlap-breakpoint",
+      "detector": "overlap",
+      "reproduced": true,
+      "expectedDetectorHit": true,
+      "top1": true,
+      "top3": true,
+      "failures": [
+        "Overlap between #card-a and #card-b"
+      ],
+      "notes": []
+    },
+    {
+      "id": "fixed-badge-blocks-control",
+      "detector": "overlap",
+      "reproduced": true,
+      "expectedDetectorHit": true,
+      "top1": true,
+      "top3": true,
+      "failures": [
+        "Overlap between #save and #promo"
+      ],
+      "notes": []
+    },
+    {
+      "id": "desktop-container-maxwidth",
+      "detector": "horizontalOverflow",
+      "reproduced": true,
+      "expectedDetectorHit": true,
+      "top1": true,
+      "top3": true,
+      "failures": [
+        "Horizontal overflow detected (delta=10, offenders=1)"
+      ],
+      "notes": []
+    },
+    {
+      "id": "focus-indicator-removed",
+      "detector": "accessibility",
+      "reproduced": true,
+      "expectedDetectorHit": true,
+      "top1": true,
+      "top3": true,
+      "failures": [],
+      "notes": []
+    }
+  ],
+  "note": "MVP fixture benchmark — not a scientific claim of broad validity."
+}

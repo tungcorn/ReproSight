@@ -1,0 +1,50 @@
+{
+  "total": 6,
+  "passed": 3,
+  "results": [
+    {
+      "id": "container-stretch",
+      "runId": "run_2026-07-22T04-00-14-251Z_358bcb04",
+      "state": "NOT_REPRODUCED",
+      "exitCode": 2,
+      "ok": true
+    },
+    {
+      "id": "locale-overflow-vi-768",
+      "runId": "run_2026-07-22T04-00-19-981Z_e88db779",
+      "state": "PATCH_REJECTED",
+      "exitCode": 4,
+      "ok": false
+    },
+    {
+      "id": "overlap-cta-badge",
+      "runId": "run_2026-07-22T04-00-25-562Z_3d5230ac",
+      "state": "AWAITING_HUMAN_REVIEW",
+      "exitCode": 0,
+      "ok": true
+    },
+    {
+      "id": "clipping-vi-paragraph",
+      "runId": "run_2026-07-22T04-00-36-711Z_e9c4ed4e",
+      "state": "AWAITING_HUMAN_REVIEW",
+      "exitCode": 0,
+      "ok": true
+    },
+    {
+      "id": "sticky-heading-occlusion",
+      "runId": "run_2026-07-22T04-00-48-162Z_7b35e013",
+      "state": "TARGET_FAILED",
+      "exitCode": 5,
+      "ok": false
+    },
+    {
+      "id": "grid-mincontent-overflow",
+      "runId": "run_2026-07-22T04-00-56-209Z_3f853349",
+      "state": "PATCH_REJECTED",
+      "exitCode": 4,
+      "ok": false
+    }
+  ],
+  "reproRoot": "D:\\Hoc\\MyProjects\\ReproSight\\.reprosight",
+  "note": "Mock provider e2e. Failures are not hidden."
+}
