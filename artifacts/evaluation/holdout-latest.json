@@ -1,0 +1,36 @@
+{
+  "status": "blocked",
+  "evaluationId": "holdout-real-2026-07-22T05-10-09-138Z-2eff98f7",
+  "reason": "Missing OPENAI_API_KEY (value not logged). Mock provider is not a substitute for this gate.",
+  "command": [
+    "set OPENAI_API_KEY=***",
+    "set REPROSIGHT_MODEL_BASE_URL=https://api.openai.com/v1",
+    "set REPROSIGHT_MODEL_NAME=gpt-4o-mini",
+    "npm run evaluation:holdout-real"
+  ],
+  "manifest": {
+    "evaluationId": "holdout-real-2026-07-22T05-10-09-138Z-2eff98f7",
+    "date": "2026-07-22T05:10:09.143Z",
+    "gitCommit": "b6162a0ba3090e3b370baa198c1df8a1434b381e",
+    "providerType": "openai-compatible",
+    "modelName": "gpt-4o-mini",
+    "baseUrlHost": "api.openai.com",
+    "temperature": 0,
+    "maxOutputTokens": 2048,
+    "promptVersion": "diagnosis-prompt-v1",
+    "candidateLimit": 15,
+    "cases": [
+      "holdout-btn-clip-vi",
+      "holdout-cascade-shift",
+      "holdout-flex-minwidth",
+      "holdout-grid-token",
+      "holdout-sticky-docs",
+      "holdout-support-widget"
+    ],
+    "retryPolicy": {
+      "providerFailureRetries": 0,
+      "modelResultRetries": 0
+    },
+    "note": "Frozen official holdout evaluation. Answer keys are not model inputs."
+  }
+}

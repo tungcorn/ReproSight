@@ -1,0 +1,12 @@
+--- a/styles.css
++++ b/styles.css
+@@ -32,9 +32,6 @@
+ .hero {
+   padding: 48px 24px;
+   background: #111827;
+-  /* buggy override of shared .container max-width */
+-  max-width: none;
+-  min-width: 1600px;
+ }
+
+ .hero h1 {

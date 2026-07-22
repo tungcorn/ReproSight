@@ -1,0 +1,21 @@
+# Flagship pipeline demonstration (mock provider — not model accuracy)
+
+cd D:\Hoc\MyProjects\ReproSight
+npm ci
+npx playwright install chromium
+npm run build
+
+node packages/cli/dist/index.js run examples/issues/container-stretch.json ^
+  --config examples/configs/container-stretch.config.json ^
+  --provider mock
+
+# Open self-contained report from the printed run id:
+# .reprosight/runs/<run-id>/report/index.html
+
+# Dashboard (optional):
+npm run dev -w @reprosight/dashboard
+# http://127.0.0.1:5173/run/<run-id>
+
+# Official holdout real-provider evaluation (separate from this demo):
+# set OPENAI_API_KEY=***
+# npm run evaluation:holdout-real
