@@ -1,9 +1,0 @@
-
-npm-install exit=0 sec=3.2
-typecheck exit=0 sec=13.6
-lint exit=0 sec=5.8
-test exit=0 sec=6.8
-build exit=0 sec=10.4
-detectors exit=0 sec=38.8
-mock-matrix exit=0 sec=80.2
-e2e-mock exit=0 sec=69.6

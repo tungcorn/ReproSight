@@ -13,7 +13,7 @@ ReproSight does not merely suggest a fix. It produces evidence showing whether t
 Self-contained report: [artifacts/demo/report-container-stretch.html](artifacts/demo/report-container-stretch.html)
 
 **Demo media:** WebM **not recorded** (no capture tool; file not fabricated).  
-Storyboard + transcript: [artifacts/demo/storyboard/](artifacts/demo/storyboard/) · [transcript](artifacts/demo/reprosight-flagship-demo-transcript.md)
+Walkthrough: [transcript](artifacts/demo/reprosight-flagship-demo-transcript.md) · [commands](artifacts/demo/reprosight-flagship-demo-commands.txt)
 
 Label for that demonstration:  
 **Deterministic mock provider — pipeline demonstration, not model accuracy**
@@ -73,7 +73,7 @@ Holdout set includes English + Vietnamese, mobile/tablet/desktop, multi-rule cas
 
 ## Success vs failure stories
 
-- **Success (mock pipeline demo):** container-stretch → Fixed / VERIFIED / human review required (storyboard).
+- **Success (mock pipeline demo):** container-stretch → Fixed / VERIFIED / human review required (demo PNGs + report above).
 - **Failure/abstention (real model):** not available until credentials exist; protocol + abstention-designed holdout documented in [artifacts/evaluation/holdout-failure-story.md](artifacts/evaluation/holdout-failure-story.md).
 
 ## Quick start

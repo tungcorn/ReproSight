@@ -32,4 +32,11 @@ eslint-report.json
 
 # Keep large video dumps out of git by default
 artifacts/demo/*.webm
+artifacts/demo/storyboard/
 artifacts/audit/*.log
+artifacts/audit/baseline-summary.txt
+artifacts/audit/dashboard-check.json
+artifacts/audit/initial-audit.md
+# Timestamped evaluation dumps (keep holdout-latest.* only)
+artifacts/evaluation/holdout/holdout-real-*/
+artifacts/evaluation/real-provider.json
