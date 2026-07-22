@@ -1,0 +1,25 @@
+body {
+  margin: 0;
+  font-family: system-ui, sans-serif;
+  background: #0f172a;
+  color: #e2e8f0;
+}
+.toolbar {
+  display: flex;
+  gap: 12px;
+  padding: 16px;
+  width: 100%;
+  box-sizing: border-box;
+}
+.chip {
+  flex: 1 1 0;
+  border: 1px solid #334155;
+  border-radius: 999px;
+  padding: 10px 14px;
+  background: #1e293b;
+  white-space: nowrap;
+}
+.long {
+  /* default min-width:auto prevents shrinking; causes page overflow on mobile */
+  min-width: auto;
+}

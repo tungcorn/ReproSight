@@ -1,0 +1,5 @@
+{
+  "name": "holdout-btn-clip-vi",
+  "private": true,
+  "scripts": { "start": "npx --yes serve -l 4282 ." }
+}

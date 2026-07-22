@@ -1,0 +1,26 @@
+body {
+  margin: 0;
+  font-family: system-ui, sans-serif;
+  background: #0b1220;
+  color: #e5e7eb;
+}
+.docs-bar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  padding: 18px 20px;
+  background: #111827;
+  border-bottom: 1px solid #334155;
+}
+.pad {
+  height: 140px;
+}
+.pad.tall {
+  height: 1400px;
+}
+#api-ref {
+  margin: 0;
+  padding: 10px 20px;
+  background: #1e293b;
+  /* intentionally missing scroll-margin-top */
+}

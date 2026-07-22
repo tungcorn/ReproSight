@@ -1,0 +1,5 @@
+{
+  "name": "holdout-support-widget",
+  "private": true,
+  "scripts": { "start": "npx --yes serve -l 4283 ." }
+}

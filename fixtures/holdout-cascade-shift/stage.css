@@ -1,0 +1,26 @@
+body {
+  margin: 0;
+  font-family: system-ui, sans-serif;
+  background: #0b1220;
+  color: #e5e7eb;
+}
+.stage {
+  max-width: 720px;
+  margin: 40px auto;
+  padding: 16px;
+}
+.card {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 20px;
+  border-radius: 12px;
+  background: #1e293b;
+  border: 1px solid #334155;
+}
+/* ambiguous cascade: both width and transform contribute */
+.card {
+  width: 900px;
+}
+#shift-card {
+  transform: translateX(80px);
+}

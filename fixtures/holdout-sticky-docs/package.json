@@ -1,0 +1,5 @@
+{
+  "name": "holdout-sticky-docs",
+  "private": true,
+  "scripts": { "start": "npx --yes serve -l 4284 ." }
+}

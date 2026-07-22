@@ -1,0 +1,5 @@
+{
+  "name": "holdout-flex-minwidth",
+  "private": true,
+  "scripts": { "start": "npx --yes serve -l 4281 ." }
+}
