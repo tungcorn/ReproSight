@@ -1,12 +1,24 @@
 import path from "node:path";
 import { minimatch } from "minimatch";
 
+/**
+ * Reject absolute and traversal paths in a platform-independent way.
+ * Windows drive paths (C:\...) must be rejected even when running on Linux CI.
+ */
 export function isAbsoluteOrTraversal(filePath: string): boolean {
-  if (path.isAbsolute(filePath)) return true;
+  if (!filePath) return true;
   if (filePath.includes("\0")) return true;
+  if (path.isAbsolute(filePath)) return true;
+  if (path.win32.isAbsolute(filePath) || path.posix.isAbsolute(filePath)) {
+    return true;
+  }
+
   const normalized = path.posix.normalize(filePath.replace(/\\/g, "/"));
   if (normalized.startsWith("../") || normalized === "..") return true;
   if (normalized.startsWith("/")) return true;
+  // Windows drive / UNC after slash normalization (e.g. C:/Windows, //server/share)
+  if (/^[A-Za-z]:(\/|$)/.test(normalized)) return true;
+  if (normalized.startsWith("//")) return true;
   return false;
 }
 

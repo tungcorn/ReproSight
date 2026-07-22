@@ -8,8 +8,11 @@ import {
 describe("path safety", () => {
   it("detects traversal and absolute paths", () => {
     expect(isAbsoluteOrTraversal("../etc/passwd")).toBe(true);
-    expect(isAbsoluteOrTraversal("C:\\\\Windows\\\\system32")).toBe(true);
+    expect(isAbsoluteOrTraversal("C:\\Windows\\system32")).toBe(true);
+    expect(isAbsoluteOrTraversal("C:/Windows/system32")).toBe(true);
+    expect(isAbsoluteOrTraversal("/etc/passwd")).toBe(true);
     expect(isAbsoluteOrTraversal("src/styles.css")).toBe(false);
+    expect(isAbsoluteOrTraversal("css/style.css")).toBe(false);
   });
 
   it("matches allowed globs", () => {
