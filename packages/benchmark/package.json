@@ -1,0 +1,25 @@
+{
+  "name": "@reprosight/benchmark",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "lint": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run --passWithNoTests",
+    "benchmark:detectors": "tsx src/run-detectors-bench.ts",
+    "e2e:mock": "tsx src/run-e2e-mock.ts"
+  },
+  "dependencies": {
+    "@reprosight/core": "0.1.0",
+    "execa": "^9.5.2",
+    "playwright": "^1.50.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.4",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.3",
+    "vitest": "^3.0.5"
+  }
+}
