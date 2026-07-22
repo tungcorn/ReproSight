@@ -1,7 +1,7 @@
 {
   "total": 12,
-  "reproductionSuccessRate": 0.9166666666666666,
-  "detectorHitRate": 0.9166666666666666,
+  "reproductionSuccessRate": 1,
+  "detectorHitRate": 1,
   "localizationCases": 12,
   "sourceLocalizationTop1": 0.75,
   "sourceLocalizationTop3": 0.9166666666666666,
@@ -13,7 +13,10 @@
       "expectedDetectorHit": true,
       "top1": true,
       "top3": true,
-      "failures": [],
+      "failures": [
+        "Horizontal overflow detected (delta=160, offenders=2)",
+        "Selector #hero extends beyond viewport"
+      ],
       "notes": []
     },
     {
@@ -56,11 +59,13 @@
     {
       "id": "sticky-heading-occlusion",
       "detector": "stickyOcclusion",
-      "reproduced": false,
-      "expectedDetectorHit": false,
+      "reproduced": true,
+      "expectedDetectorHit": true,
       "top1": true,
       "top3": true,
-      "failures": [],
+      "failures": [
+        "Sticky occlusion on #section"
+      ],
       "notes": []
     },
     {

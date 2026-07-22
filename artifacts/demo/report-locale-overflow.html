@@ -1,0 +1,473 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>ReproSight Report — run_2026-07-22T04-08-07-366Z_466ad684</title>
+<style>
+  :root { color-scheme: light dark; --bg:#0b1220; --card:#121a2b; --text:#e5eefc; --muted:#9fb0c7; --accent:#38bdf8; --ok:#34d399; --bad:#f87171; --warn:#fbbf24; --border:#243247; }
+  body { margin:0; font:14px/1.5 ui-sans-serif,system-ui,Segoe UI,Roboto,Helvetica,Arial; background:var(--bg); color:var(--text); }
+  header { padding:24px 28px; border-bottom:1px solid var(--border); background:linear-gradient(180deg,#121a2b,#0b1220); }
+  h1 { margin:0 0 6px; font-size:22px; }
+  h2 { margin:28px 0 12px; font-size:16px; color:var(--accent); }
+  .meta { color:var(--muted); display:flex; flex-wrap:wrap; gap:12px 18px; }
+  main { padding:20px 28px 60px; max-width:1100px; }
+  .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:16px; }
+  .card { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:14px; }
+  .badge { display:inline-block; padding:2px 8px; border-radius:999px; font-size:12px; border:1px solid var(--border); }
+  .ok { color:var(--ok); } .bad { color:var(--bad); } .warn { color:var(--warn); }
+  img { max-width:100%; border-radius:8px; border:1px solid var(--border); background:#000; }
+  table { width:100%; border-collapse:collapse; }
+  th, td { text-align:left; padding:8px; border-bottom:1px solid var(--border); vertical-align:top; }
+  pre { background:#0a101b; border:1px solid var(--border); border-radius:8px; padding:12px; overflow:auto; }
+  code { font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; font-size:12px; }
+  .kv { display:grid; grid-template-columns:160px 1fr; gap:6px 10px; }
+  .kv div:nth-child(odd) { color:var(--muted); }
+  footer { margin-top:36px; color:var(--muted); font-size:12px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>ReproSight Evidence Report</h1>
+  <div class="meta">
+    <span>Run <code>run_2026-07-22T04-08-07-366Z_466ad684</code></span>
+    <span>Issue <code>locale-overflow-vi-768</code></span>
+    <span>Project <code>locale-overflow</code></span>
+    <span>State <span class="badge">AWAITING_HUMAN_REVIEW</span></span>
+    <span>Verdict <span class="badge">AWAITING_HUMAN_REVIEW</span></span>
+    <span>Human <span class="badge">pending</span></span>
+  </div>
+</header>
+<main>
+  <h2>1. Summary</h2>
+  <div class="card">
+    <div class="kv">
+      <div>Title</div><div>Vietnamese About highlights overflow at tablet width</div>
+      <div>Description</div><div>At 768px in Vietnamese, the highlight rows extend outside the viewport because white-space:nowrap and a late grid override raise min-content width.</div>
+      <div>Route / state</div><div><code>/</code> · 768×1024 · vi · dark</div>
+      <div>Base ref</div><div><code>HEAD</code></div>
+      <div>Provider</div><div>mock</div>
+      <div>Worktree</div><div><code>D:\Hoc\MyProjects\ReproSight\.reprosight\worktrees\run_2026-07-22T04-08-07-366Z_466ad684</code></div>
+      <div>Original checkout hash</div><div><code>e465e0753b8267f14183610c3069128c3287ecb75c043c3b165bbd5ee51f5524</code></div>
+    </div>
+  </div>
+
+  <h2>2. Reproduction</h2>
+  <div class="grid">
+    <div class="card">
+      <strong>Before</strong>
+      <div><img src="locale-overflow-before.png" alt="before"/></div>
+    </div>
+    <div class="card">
+      <strong>Before annotated</strong>
+      <div><img src="locale-overflow-annotated.png" alt="before annotated"/></div>
+    </div>
+  </div>
+  <div class="card" style="margin-top:12px">
+    <strong>Document metrics</strong>
+    <pre><code>{
+  &quot;clientWidth&quot;: 768,
+  &quot;scrollWidth&quot;: 888,
+  &quot;bodyClientWidth&quot;: 768,
+  &quot;bodyScrollWidth&quot;: 888,
+  &quot;clientHeight&quot;: 1024,
+  &quot;scrollHeight&quot;: 1024
+}</code></pre>
+    <strong>Detector findings</strong>
+    <pre><code>{
+  &quot;overflow&quot;: [
+    {
+      &quot;id&quot;: &quot;overflow-1&quot;,
+      &quot;kind&quot;: &quot;horizontalOverflow&quot;,
+      &quot;selector&quot;: &quot;html &gt; body &gt; section.about.container &gt; ul.about__highlights &gt; li&quot;,
+      &quot;domPath&quot;: &quot;html &gt; body &gt; section.about.container &gt; ul.about__highlights &gt; li&quot;,
+      &quot;rect&quot;: {
+        &quot;x&quot;: 608,
+        &quot;y&quot;: 140.8125,
+        &quot;width&quot;: 280,
+        &quot;height&quot;: 74
+      },
+      &quot;parentRect&quot;: {
+        &quot;x&quot;: 24,
+        &quot;y&quot;: 140.8125,
+        &quot;width&quot;: 720,
+        &quot;height&quot;: 74
+      },
+      &quot;overflowAmount&quot;: 120,
+      &quot;position&quot;: &quot;static&quot;,
+      &quot;transform&quot;: &quot;none&quot;,
+      &quot;width&quot;: &quot;254px&quot;,
+      &quot;minWidth&quot;: &quot;auto&quot;,
+      &quot;maxWidth&quot;: &quot;none&quot;,
+      &quot;whiteSpace&quot;: &quot;normal&quot;,
+      &quot;flexOrGrid&quot;: &quot;list-item|flex:0 1 auto|basis:auto&quot;,
+      &quot;ignored&quot;: false,
+      &quot;decorativeLikely&quot;: false
+    },
+    {
+      &quot;id&quot;: &quot;overflow-2&quot;,
+      &quot;kind&quot;: &quot;horizontalOverflow&quot;,
+      &quot;selector&quot;: &quot;html &gt; body &gt; section.about.container &gt; ul.about__highlights &gt; li &gt; span&quot;,
+      &quot;domPath&quot;: &quot;html &gt; body &gt; section.about.container &gt; ul.about__highlights &gt; li &gt; span&quot;,
+      &quot;rect&quot;: {
+        &quot;x&quot;: 621,
+        &quot;y&quot;: 180.8125,
+        &quot;width&quot;: 254,
+        &quot;height&quot;: 21
+      },
+      &quot;parentRect&quot;: {
+        &quot;x&quot;: 608,
+        &quot;y&quot;: 140.8125,
+        &quot;width&quot;: 280,
+        &quot;height&quot;: 74
+      },
+      &quot;overflowAmount&quot;: 107,
+      &quot;position&quot;: &quot;static&quot;,
+      &quot;transform&quot;: &quot;none&quot;,
+      &quot;width&quot;: &quot;254px&quot;,
+      &quot;minWidth&quot;: &quot;0px&quot;,
+      &quot;maxWidth&quot;: &quot;none&quot;,
+      &quot;whiteSpace&quot;: &quot;normal&quot;,
+      &quot;flexOrGrid&quot;: &quot;block|flex:0 1 auto|basis:auto&quot;,
+      &quot;ignored&quot;: false,
+      &quot;decorativeLikely&quot;: false
+    },
+    {
+      &quot;id&quot;: &quot;overflow-3&quot;,
+      &quot;kind&quot;: &quot;horizontalOverflow&quot;,
+      &quot;selector&quot;: &quot;html &gt; body &gt; section.about.container &gt; ul.about__highlights &gt; li &gt; strong&quot;,
+      &quot;domPath&quot;: &quot;html &gt; body &gt; section.about.container &gt; ul.about__highlights &gt; li &gt; strong&quot;,
+      &quot;rect&quot;: {
+        &quot;x&quot;: 621,
+        &quot;y&quot;: 153.8125,
+        &quot;width&quot;: 193.796875,
+        &quot;height&quot;: 21
+      },
+      &quot;parentRect&quot;: {
+        &quot;x&quot;: 608,
+        &quot;y&quot;: 140.8125,
+        &quot;width&quot;: 280,
+        &quot;height&quot;: 74
+      },
+      &quot;overflowAmount&quot;: 46.796875,
+      &quot;position&quot;: &quot;static&quot;,
+      &quot;transform&quot;: &quot;none&quot;,
+      &quot;width&quot;: &quot;193.797px&quot;,
+      &quot;minWidth&quot;: &quot;0px&quot;,
+      &quot;maxWidth&quot;: &quot;none&quot;,
+      &quot;whiteSpace&quot;: &quot;nowrap&quot;,
+      &quot;flexOrGrid&quot;: &quot;inline-block|flex:0 1 auto|basis:auto&quot;,
+      &quot;ignored&quot;: false,
+      &quot;decorativeLikely&quot;: false
+    }
+  ],
+  &quot;overlap&quot;: [],
+  &quot;clipping&quot;: [],
+  &quot;sticky&quot;: [],
+  &quot;axe&quot;: {
+    &quot;violations&quot;: [
+      {
+        &quot;id&quot;: &quot;landmark-one-main&quot;,
+        &quot;impact&quot;: &quot;moderate&quot;,
+        &quot;description&quot;: &quot;Ensure the document has a main landmark&quot;,
+        &quot;help&quot;: &quot;Document should have one main landmark&quot;,
+        &quot;helpUrl&quot;: &quot;https://dequeuniversity.com/rules/axe/4.12/landmark-one-main?application=playwright&quot;,
+        &quot;nodes&quot;: 1
+      },
+      {
+        &quot;id&quot;: &quot;page-has-heading-one&quot;,
+        &quot;impact&quot;: &quot;moderate&quot;,
+        &quot;description&quot;: &quot;Ensure that the page, or at least one of its frames contains a level-one heading&quot;,
+        &quot;help&quot;: &quot;Page should contain a level-one heading&quot;,
+        &quot;helpUrl&quot;: &quot;https://dequeuniversity.com/rules/axe/4.12/page-has-heading-one?application=playwright&quot;,
+        &quot;nodes&quot;: 1
+      },
+      {
+        &quot;id&quot;: &quot;region&quot;,
+        &quot;impact&quot;: &quot;moderate&quot;,
+        &quot;description&quot;: &quot;Ensure all page content is contained by landmarks&quot;,
+        &quot;help&quot;: &quot;All page content should be contained by landmarks&quot;,
+        &quot;helpUrl&quot;: &quot;https://dequeuniversity.com/rules/axe/4.12/region?application=playwright&quot;,
+        &quot;nodes&quot;: 1
+      }
+    ],
+    &quot;incomplete&quot;: 1,
+    &quot;passes&quot;: 17,
+    &quot;note&quot;: &quot;Automated axe findings are not a complete manual accessibility audit.&quot;
+  }
+}</code></pre>
+  </div>
+
+  <h2>3. Root cause & source candidates</h2>
+  <div class="card">
+    <p>Vietnamese About highlight labels overflow at 768px due to nowrap and a desktop grid override winning at tablet width.</p>
+    <p>Confidence: <strong>0.91</strong></p>
+    <table>
+      <thead><tr><th>Rank</th><th>File</th><th>Line</th><th>Selector</th><th>Property</th><th>Value</th><th>Reason</th></tr></thead>
+      <tbody>
+      
+        <tr>
+          <td>1</td>
+          <td><code>unresolved</code></td>
+          <td>47</td>
+          <td><code>.about__highlights strong</code></td>
+          <td><code>white-space</code></td>
+          <td><code>nowrap</code></td>
+          <td>Matched rule .about__highlights strong sets white-space:nowrap; Issue expected culprit selector</td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td><code>styles.css</code></td>
+          <td>—</td>
+          <td><code>.about__highlights</code></td>
+          <td><code>grid-template-columns</code></td>
+          <td><code>1fr</code></td>
+          <td>Collected from document.styleSheets</td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td><code>styles.css</code></td>
+          <td>—</td>
+          <td><code>.about__highlights</code></td>
+          <td><code>grid-template-columns</code></td>
+          <td><code>280px 280px 280px</code></td>
+          <td>Collected from document.styleSheets</td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td><code>styles.css</code></td>
+          <td>—</td>
+          <td><code>.about__highlights strong</code></td>
+          <td><code>display</code></td>
+          <td><code>inline-block</code></td>
+          <td>Issue expected culprit selector</td>
+        </tr>
+        <tr>
+          <td>5</td>
+          <td><code>styles.css</code></td>
+          <td>—</td>
+          <td><code>.about__highlights strong</code></td>
+          <td><code>white-space-collapse</code></td>
+          <td><code>collapse</code></td>
+          <td>Issue expected culprit selector</td>
+        </tr>
+        <tr>
+          <td>6</td>
+          <td><code>styles.css</code></td>
+          <td>—</td>
+          <td><code>.about__highlights strong</code></td>
+          <td><code>text-wrap-mode</code></td>
+          <td><code>nowrap</code></td>
+          <td>Issue expected culprit selector</td>
+        </tr>
+        <tr>
+          <td>7</td>
+          <td><code>styles.css</code></td>
+          <td>—</td>
+          <td><code>.about__highlights strong</code></td>
+          <td><code>font-weight</code></td>
+          <td><code>700</code></td>
+          <td>Issue expected culprit selector</td>
+        </tr>
+        <tr>
+          <td>8</td>
+          <td><code>styles.css</code></td>
+          <td>—</td>
+          <td><code>.about__highlights</code></td>
+          <td><code>grid-template-columns</code></td>
+          <td><code>1fr 1fr</code></td>
+          <td>Collected from document.styleSheets</td>
+        </tr>
+        <tr>
+          <td>9</td>
+          <td><code>unresolved</code></td>
+          <td>47</td>
+          <td><code>.about__highlights strong</code></td>
+          <td><code>white-space</code></td>
+          <td><code>nowrap</code></td>
+          <td>Matched rule .about__highlights strong sets white-space:nowrap; Horizontal overflow 120.0px</td>
+        </tr>
+        <tr>
+          <td>10</td>
+          <td><code>styles.css</code></td>
+          <td>—</td>
+          <td><code>.container</code></td>
+          <td><code>max-width</code></td>
+          <td><code>960px</code></td>
+          <td>Collected from document.styleSheets</td>
+        </tr>
+        <tr>
+          <td>11</td>
+          <td><code>styles.css</code></td>
+          <td>—</td>
+          <td><code>.about__highlights li</code></td>
+          <td><code>border-top-width</code></td>
+          <td><code>1px</code></td>
+          <td>Collected from document.styleSheets</td>
+        </tr>
+        <tr>
+          <td>12</td>
+          <td><code>styles.css</code></td>
+          <td>—</td>
+          <td><code>.about__highlights li</code></td>
+          <td><code>border-right-width</code></td>
+          <td><code>1px</code></td>
+          <td>Collected from document.styleSheets</td>
+        </tr>
+        <tr>
+          <td>13</td>
+          <td><code>styles.css</code></td>
+          <td>—</td>
+          <td><code>.about__highlights li</code></td>
+          <td><code>border-bottom-width</code></td>
+          <td><code>1px</code></td>
+          <td>Collected from document.styleSheets</td>
+        </tr>
+        <tr>
+          <td>14</td>
+          <td><code>styles.css</code></td>
+          <td>—</td>
+          <td><code>.about__highlights li</code></td>
+          <td><code>border-left-width</code></td>
+          <td><code>1px</code></td>
+          <td>Collected from document.styleSheets</td>
+        </tr>
+        <tr>
+          <td>15</td>
+          <td><code>styles.css</code></td>
+          <td>—</td>
+          <td><code>.about__highlights li</code></td>
+          <td><code>border-image-width</code></td>
+          <td><code>initial</code></td>
+          <td>Collected from document.styleSheets</td>
+        </tr>
+      </tbody>
+    </table>
+    <p class="warn">Some authored sources could not be resolved to repository paths.</p>
+  </div>
+
+  <h2>4. Patch</h2>
+  <div class="card">
+    <p>Allow wrapping on highlight labels and remove the conflicting late grid override.</p>
+    <p>Policy: <span class="ok">accepted</span>
+    </p>
+    <p>Files: <code>styles.css</code>
+    · +1/-1</p>
+    <pre><code>--- a/styles.css
++++ b/styles.css
+@@ -46,7 +46,7 @@
+
+ .about__highlights strong {
+   display: inline-block;
+-  white-space: nowrap;
++  white-space: normal;
+   font-weight: 700;
+ }
+
+@@ -62,7 +62,3 @@
+     grid-template-columns: 1fr 1fr;
+   }
+ }
+-
+-/* buggy late desktop override without min-width media */
+-.about__highlights {
+-  grid-template-columns: 280px 280px 280px;
+-}
+</code></pre>
+    
+  </div>
+
+  <h2>5. Verification</h2>
+  <div class="grid">
+    <div class="card">
+      <strong>After</strong>
+      <div><img src="locale-overflow-after.png" alt="after"/></div>
+    </div>
+    <div class="card">
+      <strong>Diff</strong>
+      <div><img src="locale-overflow-diff.png" alt="diff"/></div>
+    </div>
+  </div>
+  <div class="card" style="margin-top:12px">
+    <div class="kv">
+      <div>Target verdict</div><div class="ok">Fixed</div>
+      <div>Target failures</div><div>none</div>
+      <div>Overall</div><div>VERIFIED</div>
+      <div>Axe before→after</div><div>3 → 3</div>
+      <div>New axe</div><div>none</div>
+      <div>New console errors</div><div>none</div>
+      <div>Screenshot note</div><div>Screenshots from different environments are not exact equivalents.</div>
+    </div>
+    <h3>Regression matrix</h3>
+    <table>
+      <thead><tr><th>State</th><th>Viewport</th><th>Locale</th><th>Theme</th><th>Pass</th><th>Failures</th></tr></thead>
+      <tbody>
+      
+        <tr>
+          <td>original</td>
+          <td>768×1024</td>
+          <td>vi</td>
+          <td>dark</td>
+          <td class="ok">pass</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>desktop-en-dark</td>
+          <td>1440×900</td>
+          <td>en</td>
+          <td>dark</td>
+          <td class="ok">pass</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>desktop-vi-dark</td>
+          <td>1440×900</td>
+          <td>vi</td>
+          <td>dark</td>
+          <td class="ok">pass</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>tablet-en-dark</td>
+          <td>768×1024</td>
+          <td>en</td>
+          <td>dark</td>
+          <td class="ok">pass</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>mobile-en-dark</td>
+          <td>390×844</td>
+          <td>en</td>
+          <td>dark</td>
+          <td class="ok">pass</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>mobile-vi-dark</td>
+          <td>390×844</td>
+          <td>vi</td>
+          <td>dark</td>
+          <td class="ok">pass</td>
+          <td></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>6. Decision</h2>
+  <div class="card">
+    <p>Human review is required. Approval updates ReproSight metadata and allows patch export only. It does not commit, merge, or push the target repository.</p>
+    <pre><code>reprosight export-patch run_2026-07-22T04-08-07-366Z_466ad684
+reprosight approve run_2026-07-22T04-08-07-366Z_466ad684
+reprosight reject run_2026-07-22T04-08-07-366Z_466ad684 --reason "..."
+reprosight clean run_2026-07-22T04-08-07-366Z_466ad684</code></pre>
+  </div>
+
+  <footer>
+    Generated by ReproSight · pipeline transitions: 14 ·
+    artifacts present: 20/23
+  </footer>
+</main>
+</body>
+</html>

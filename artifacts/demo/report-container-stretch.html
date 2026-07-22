@@ -1,0 +1,397 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>ReproSight Report — run_2026-07-22T04-07-57-183Z_73b7116f</title>
+<style>
+  :root { color-scheme: light dark; --bg:#0b1220; --card:#121a2b; --text:#e5eefc; --muted:#9fb0c7; --accent:#38bdf8; --ok:#34d399; --bad:#f87171; --warn:#fbbf24; --border:#243247; }
+  body { margin:0; font:14px/1.5 ui-sans-serif,system-ui,Segoe UI,Roboto,Helvetica,Arial; background:var(--bg); color:var(--text); }
+  header { padding:24px 28px; border-bottom:1px solid var(--border); background:linear-gradient(180deg,#121a2b,#0b1220); }
+  h1 { margin:0 0 6px; font-size:22px; }
+  h2 { margin:28px 0 12px; font-size:16px; color:var(--accent); }
+  .meta { color:var(--muted); display:flex; flex-wrap:wrap; gap:12px 18px; }
+  main { padding:20px 28px 60px; max-width:1100px; }
+  .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:16px; }
+  .card { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:14px; }
+  .badge { display:inline-block; padding:2px 8px; border-radius:999px; font-size:12px; border:1px solid var(--border); }
+  .ok { color:var(--ok); } .bad { color:var(--bad); } .warn { color:var(--warn); }
+  img { max-width:100%; border-radius:8px; border:1px solid var(--border); background:#000; }
+  table { width:100%; border-collapse:collapse; }
+  th, td { text-align:left; padding:8px; border-bottom:1px solid var(--border); vertical-align:top; }
+  pre { background:#0a101b; border:1px solid var(--border); border-radius:8px; padding:12px; overflow:auto; }
+  code { font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; font-size:12px; }
+  .kv { display:grid; grid-template-columns:160px 1fr; gap:6px 10px; }
+  .kv div:nth-child(odd) { color:var(--muted); }
+  footer { margin-top:36px; color:var(--muted); font-size:12px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>ReproSight Evidence Report</h1>
+  <div class="meta">
+    <span>Run <code>run_2026-07-22T04-07-57-183Z_73b7116f</code></span>
+    <span>Issue <code>container-stretch</code></span>
+    <span>Project <code>container-stretch</code></span>
+    <span>State <span class="badge">AWAITING_HUMAN_REVIEW</span></span>
+    <span>Verdict <span class="badge">AWAITING_HUMAN_REVIEW</span></span>
+    <span>Human <span class="badge">pending</span></span>
+  </div>
+</header>
+<main>
+  <h2>1. Summary</h2>
+  <div class="card">
+    <div class="kv">
+      <div>Title</div><div>Hero becomes edge-to-edge at desktop</div>
+      <div>Description</div><div>At 1440px, a Hero section that also has a .container class becomes edge-to-edge because a later .hero { max-width: 100%; } rule overrides the shared .container { max-width: 1080px; margin: 0 auto; } rule.</div>
+      <div>Route / state</div><div><code>/</code> · 1440×900 · en · dark</div>
+      <div>Base ref</div><div><code>HEAD</code></div>
+      <div>Provider</div><div>mock</div>
+      <div>Worktree</div><div><code>D:\Hoc\MyProjects\ReproSight\.reprosight\worktrees\run_2026-07-22T04-07-57-183Z_73b7116f</code></div>
+      <div>Original checkout hash</div><div><code>4bc7f7fe3dfbc87b87c04c0210c1d5934a54af3b606568f9fd82aa46447ed059</code></div>
+    </div>
+  </div>
+
+  <h2>2. Reproduction</h2>
+  <div class="grid">
+    <div class="card">
+      <strong>Before</strong>
+      <div><img src="container-stretch-before.png" alt="before"/></div>
+    </div>
+    <div class="card">
+      <strong>Before annotated</strong>
+      <div><img src="container-stretch-annotated.png" alt="before annotated"/></div>
+    </div>
+  </div>
+  <div class="card" style="margin-top:12px">
+    <strong>Document metrics</strong>
+    <pre><code>{
+  &quot;clientWidth&quot;: 1440,
+  &quot;scrollWidth&quot;: 1600,
+  &quot;bodyClientWidth&quot;: 1440,
+  &quot;bodyScrollWidth&quot;: 1600,
+  &quot;clientHeight&quot;: 900,
+  &quot;scrollHeight&quot;: 900
+}</code></pre>
+    <strong>Detector findings</strong>
+    <pre><code>{
+  &quot;overflow&quot;: [
+    {
+      &quot;id&quot;: &quot;overflow-1&quot;,
+      &quot;kind&quot;: &quot;horizontalOverflow&quot;,
+      &quot;selector&quot;: &quot;#hero&quot;,
+      &quot;domPath&quot;: &quot;#hero&quot;,
+      &quot;rect&quot;: {
+        &quot;x&quot;: 0,
+        &quot;y&quot;: 54,
+        &quot;width&quot;: 1600,
+        &quot;height&quot;: 274
+      },
+      &quot;parentRect&quot;: {
+        &quot;x&quot;: 0,
+        &quot;y&quot;: 0,
+        &quot;width&quot;: 1440,
+        &quot;height&quot;: 493
+      },
+      &quot;overflowAmount&quot;: 160,
+      &quot;position&quot;: &quot;static&quot;,
+      &quot;transform&quot;: &quot;none&quot;,
+      &quot;width&quot;: &quot;1600px&quot;,
+      &quot;minWidth&quot;: &quot;1600px&quot;,
+      &quot;maxWidth&quot;: &quot;none&quot;,
+      &quot;whiteSpace&quot;: &quot;normal&quot;,
+      &quot;flexOrGrid&quot;: &quot;block|flex:0 1 auto|basis:auto&quot;,
+      &quot;ignored&quot;: false,
+      &quot;decorativeLikely&quot;: false
+    },
+    {
+      &quot;id&quot;: &quot;overflow-2&quot;,
+      &quot;kind&quot;: &quot;horizontalOverflow&quot;,
+      &quot;selector&quot;: &quot;html &gt; body &gt; section.hero.container &gt; h1&quot;,
+      &quot;domPath&quot;: &quot;html &gt; body &gt; section.hero.container &gt; h1&quot;,
+      &quot;rect&quot;: {
+        &quot;x&quot;: 24,
+        &quot;y&quot;: 102,
+        &quot;width&quot;: 1552,
+        &quot;height&quot;: 53
+      },
+      &quot;parentRect&quot;: {
+        &quot;x&quot;: 0,
+        &quot;y&quot;: 54,
+        &quot;width&quot;: 1600,
+        &quot;height&quot;: 274
+      },
+      &quot;overflowAmount&quot;: 136,
+      &quot;position&quot;: &quot;static&quot;,
+      &quot;transform&quot;: &quot;none&quot;,
+      &quot;width&quot;: &quot;1552px&quot;,
+      &quot;minWidth&quot;: &quot;0px&quot;,
+      &quot;maxWidth&quot;: &quot;none&quot;,
+      &quot;whiteSpace&quot;: &quot;normal&quot;,
+      &quot;flexOrGrid&quot;: &quot;block|flex:0 1 auto|basis:auto&quot;,
+      &quot;ignored&quot;: false,
+      &quot;decorativeLikely&quot;: false
+    }
+  ],
+  &quot;overlap&quot;: [],
+  &quot;clipping&quot;: [],
+  &quot;sticky&quot;: [],
+  &quot;axe&quot;: {
+    &quot;violations&quot;: [
+      {
+        &quot;id&quot;: &quot;region&quot;,
+        &quot;impact&quot;: &quot;moderate&quot;,
+        &quot;description&quot;: &quot;Ensure all page content is contained by landmarks&quot;,
+        &quot;help&quot;: &quot;All page content should be contained by landmarks&quot;,
+        &quot;helpUrl&quot;: &quot;https://dequeuniversity.com/rules/axe/4.12/region?application=playwright&quot;,
+        &quot;nodes&quot;: 2
+      }
+    ],
+    &quot;incomplete&quot;: 0,
+    &quot;passes&quot;: 19,
+    &quot;note&quot;: &quot;Automated axe findings are not a complete manual accessibility audit.&quot;
+  }
+}</code></pre>
+  </div>
+
+  <h2>3. Root cause & source candidates</h2>
+  <div class="card">
+    <p>Hero section stretches because .hero overrides shared .container with max-width:none and min-width:1600px.</p>
+    <p>Confidence: <strong>0.93</strong></p>
+    <table>
+      <thead><tr><th>Rank</th><th>File</th><th>Line</th><th>Selector</th><th>Property</th><th>Value</th><th>Reason</th></tr></thead>
+      <tbody>
+      
+        <tr>
+          <td>1</td>
+          <td><code>styles.css</code></td>
+          <td>—</td>
+          <td><code>.hero</code></td>
+          <td><code>max-width</code></td>
+          <td><code>none</code></td>
+          <td>Horizontal overflow 160.0px</td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td><code>styles.css</code></td>
+          <td>—</td>
+          <td><code>.hero</code></td>
+          <td><code>min-width</code></td>
+          <td><code>1600px</code></td>
+          <td>Horizontal overflow 160.0px</td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td><code>styles.css</code></td>
+          <td>—</td>
+          <td><code>.hero</code></td>
+          <td><code>padding-top</code></td>
+          <td><code>48px</code></td>
+          <td>Horizontal overflow 160.0px</td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td><code>styles.css</code></td>
+          <td>—</td>
+          <td><code>.hero</code></td>
+          <td><code>padding-right</code></td>
+          <td><code>24px</code></td>
+          <td>Horizontal overflow 160.0px</td>
+        </tr>
+        <tr>
+          <td>5</td>
+          <td><code>styles.css</code></td>
+          <td>—</td>
+          <td><code>.hero</code></td>
+          <td><code>padding-bottom</code></td>
+          <td><code>48px</code></td>
+          <td>Horizontal overflow 160.0px</td>
+        </tr>
+        <tr>
+          <td>6</td>
+          <td><code>styles.css</code></td>
+          <td>—</td>
+          <td><code>.hero</code></td>
+          <td><code>padding-left</code></td>
+          <td><code>24px</code></td>
+          <td>Horizontal overflow 160.0px</td>
+        </tr>
+        <tr>
+          <td>7</td>
+          <td><code>styles.css</code></td>
+          <td>—</td>
+          <td><code>.hero</code></td>
+          <td><code>background-image</code></td>
+          <td><code>initial</code></td>
+          <td>Horizontal overflow 160.0px</td>
+        </tr>
+        <tr>
+          <td>8</td>
+          <td><code>styles.css</code></td>
+          <td>—</td>
+          <td><code>.hero</code></td>
+          <td><code>background-position-x</code></td>
+          <td><code>initial</code></td>
+          <td>Horizontal overflow 160.0px</td>
+        </tr>
+        <tr>
+          <td>9</td>
+          <td><code>styles.css</code></td>
+          <td>—</td>
+          <td><code>.hero</code></td>
+          <td><code>background-position-y</code></td>
+          <td><code>initial</code></td>
+          <td>Horizontal overflow 160.0px</td>
+        </tr>
+        <tr>
+          <td>10</td>
+          <td><code>styles.css</code></td>
+          <td>—</td>
+          <td><code>.hero</code></td>
+          <td><code>background-size</code></td>
+          <td><code>initial</code></td>
+          <td>Horizontal overflow 160.0px</td>
+        </tr>
+        <tr>
+          <td>11</td>
+          <td><code>styles.css</code></td>
+          <td>—</td>
+          <td><code>.hero</code></td>
+          <td><code>background-repeat</code></td>
+          <td><code>initial</code></td>
+          <td>Horizontal overflow 160.0px</td>
+        </tr>
+        <tr>
+          <td>12</td>
+          <td><code>styles.css</code></td>
+          <td>—</td>
+          <td><code>.hero</code></td>
+          <td><code>background-attachment</code></td>
+          <td><code>initial</code></td>
+          <td>Horizontal overflow 160.0px</td>
+        </tr>
+        <tr>
+          <td>13</td>
+          <td><code>styles.css</code></td>
+          <td>—</td>
+          <td><code>.hero</code></td>
+          <td><code>background-origin</code></td>
+          <td><code>initial</code></td>
+          <td>Horizontal overflow 160.0px</td>
+        </tr>
+        <tr>
+          <td>14</td>
+          <td><code>styles.css</code></td>
+          <td>—</td>
+          <td><code>.hero</code></td>
+          <td><code>background-clip</code></td>
+          <td><code>initial</code></td>
+          <td>Horizontal overflow 160.0px</td>
+        </tr>
+        <tr>
+          <td>15</td>
+          <td><code>styles.css</code></td>
+          <td>—</td>
+          <td><code>.hero</code></td>
+          <td><code>background-color</code></td>
+          <td><code>rgb(17, 24, 39)</code></td>
+          <td>Horizontal overflow 160.0px</td>
+        </tr>
+      </tbody>
+    </table>
+    <p class="warn">Some authored sources could not be resolved to repository paths.</p>
+  </div>
+
+  <h2>4. Patch</h2>
+  <div class="card">
+    <p>Remove the erroneous max-width/min-width overrides on .hero so the shared container constraint applies again.</p>
+    <p>Policy: <span class="ok">accepted</span>
+    </p>
+    <p>Files: <code>styles.css</code>
+    · +0/-3</p>
+    <pre><code>--- a/styles.css
++++ b/styles.css
+@@ -32,9 +32,6 @@
+ .hero {
+   padding: 48px 24px;
+   background: #111827;
+-  /* buggy override of shared .container max-width */
+-  max-width: none;
+-  min-width: 1600px;
+ }
+
+ .hero h1 {
+</code></pre>
+    
+  </div>
+
+  <h2>5. Verification</h2>
+  <div class="grid">
+    <div class="card">
+      <strong>After</strong>
+      <div><img src="container-stretch-after.png" alt="after"/></div>
+    </div>
+    <div class="card">
+      <strong>Diff</strong>
+      <div><img src="container-stretch-diff.png" alt="diff"/></div>
+    </div>
+  </div>
+  <div class="card" style="margin-top:12px">
+    <div class="kv">
+      <div>Target verdict</div><div class="ok">Fixed</div>
+      <div>Target failures</div><div>none</div>
+      <div>Overall</div><div>VERIFIED</div>
+      <div>Axe before→after</div><div>1 → 1</div>
+      <div>New axe</div><div>none</div>
+      <div>New console errors</div><div>none</div>
+      <div>Screenshot note</div><div>Screenshots from different environments are not exact equivalents.</div>
+    </div>
+    <h3>Regression matrix</h3>
+    <table>
+      <thead><tr><th>State</th><th>Viewport</th><th>Locale</th><th>Theme</th><th>Pass</th><th>Failures</th></tr></thead>
+      <tbody>
+      
+        <tr>
+          <td>original</td>
+          <td>1440×900</td>
+          <td>en</td>
+          <td>dark</td>
+          <td class="ok">pass</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>tablet-en-dark</td>
+          <td>768×1024</td>
+          <td>en</td>
+          <td>dark</td>
+          <td class="ok">pass</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>mobile-en-dark</td>
+          <td>390×844</td>
+          <td>en</td>
+          <td>dark</td>
+          <td class="ok">pass</td>
+          <td></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>6. Decision</h2>
+  <div class="card">
+    <p>Human review is required. Approval updates ReproSight metadata and allows patch export only. It does not commit, merge, or push the target repository.</p>
+    <pre><code>reprosight export-patch run_2026-07-22T04-07-57-183Z_73b7116f
+reprosight approve run_2026-07-22T04-07-57-183Z_73b7116f
+reprosight reject run_2026-07-22T04-07-57-183Z_73b7116f --reason "..."
+reprosight clean run_2026-07-22T04-07-57-183Z_73b7116f</code></pre>
+  </div>
+
+  <footer>
+    Generated by ReproSight · pipeline transitions: 14 ·
+    artifacts present: 20/23
+  </footer>
+</main>
+</body>
+</html>
