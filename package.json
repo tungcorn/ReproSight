@@ -11,7 +11,7 @@
   ],
   "scripts": {
     "build": "npm run build -w @reprosight/core && npm run build -w @reprosight/cli && npm run build -w @reprosight/benchmark && npm run build -w @reprosight/dashboard",
-    "typecheck": "npm run typecheck -w @reprosight/core && npm run typecheck -w @reprosight/cli && npm run typecheck -w @reprosight/benchmark && npm run typecheck -w @reprosight/dashboard",
+    "typecheck": "npm run build -w @reprosight/core && npm run typecheck -w @reprosight/cli && npm run typecheck -w @reprosight/benchmark && npm run typecheck -w @reprosight/dashboard && npm run typecheck -w @reprosight/core",
     "lint": "eslint packages apps --max-warnings 0",
     "test": "npm run test -w @reprosight/core && npm run test -w @reprosight/cli && npm run test -w @reprosight/benchmark",
     "benchmark:detectors": "npm run benchmark:detectors -w @reprosight/benchmark",
