@@ -6,10 +6,12 @@
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "typecheck": "tsc -p tsconfig.json --noEmit",
-    "lint": "tsc -p tsconfig.json --noEmit",
+    "lint": "eslint src --max-warnings 0",
     "test": "vitest run --passWithNoTests",
     "benchmark:detectors": "tsx src/run-detectors-bench.ts",
-    "e2e:mock": "tsx src/run-e2e-mock.ts"
+    "benchmark:localization": "tsx src/run-localization-analysis.ts",
+    "e2e:mock": "tsx src/run-e2e-mock.ts",
+    "evaluation:real-provider": "tsx src/run-real-provider-eval.ts"
   },
   "dependencies": {
     "@reprosight/core": "0.1.0",

@@ -54,7 +54,6 @@ export async function loadConfig(configPath: string): Promise<ReproSightConfig> 
     try {
       // Prefer tsx if available for TypeScript configs
       require.resolve("tsx/cjs");
-      // eslint-disable-next-line @typescript-eslint/no-require-imports
       require("tsx/cjs/api").register();
     } catch {
       // fall through to native import; may fail without loader

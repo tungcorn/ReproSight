@@ -157,9 +157,9 @@ async function collectForSelector(
       rule.media?.map((x) => x.text).filter(Boolean).join(", ") || null;
     const styleSheetId = rule.style.styleSheetId;
     let href: string | null = null;
-    let line: number | null =
+    const line: number | null =
       rule.style.range != null ? rule.style.range.startLine + 1 : null;
-    let lineEnd: number | null =
+    const lineEnd: number | null =
       rule.style.range != null ? rule.style.range.endLine + 1 : null;
 
     if (styleSheetId) {
@@ -383,7 +383,7 @@ async function indexPageStyles(
     const out: Array<Record<string, string | number | null>> = [];
     const sheets = Array.from(document.styleSheets);
     for (const sheet of sheets) {
-      let href = sheet.href;
+      const href = sheet.href;
       let rules: CSSRuleList | undefined;
       try {
         rules = sheet.cssRules;

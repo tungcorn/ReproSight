@@ -21,7 +21,7 @@ jobs:
         run: npx playwright install chromium --with-deps
       - name: Typecheck
         run: npm run typecheck
-      - name: Lint
+      - name: Lint (ESLint)
         run: npm run lint
       - name: Unit tests
         run: npm test
@@ -29,6 +29,8 @@ jobs:
         run: npm run build
       - name: Detector benchmark
         run: npm run benchmark:detectors
+      - name: Localization analysis
+        run: npm run benchmark:localization
       - name: E2E mock
         run: npm run e2e:mock
       - name: Upload artifacts on failure
