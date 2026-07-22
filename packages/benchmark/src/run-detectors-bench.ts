@@ -114,11 +114,17 @@ async function main() {
         } else if (c.detector === "textClipping") {
           expectedDetectorHit = evidence.textClipping.length > 0;
         } else if (c.detector === "stickyOcclusion") {
+          const stickyAssertion = issue.assertions.find(
+            (a: { type: string; selector?: string }) =>
+              a.type === "noStickyOcclusion",
+          );
+          const stickyAction = issue.actions.find(
+            (a: { type: string; selector?: string }) =>
+              a.type === "scrollIntoView",
+          );
           stickyDiagnostics = await collectStickyDiagnostics(
             session.page,
-            issue.assertions.find((a) => a.type === "noStickyOcclusion")
-              ?.selector ??
-              issue.actions.find((a) => a.type === "scrollIntoView")?.selector,
+            stickyAssertion?.selector ?? stickyAction?.selector,
           );
           expectedDetectorHit = evidence.stickyOcclusion.length > 0;
           if (!expectedDetectorHit) {

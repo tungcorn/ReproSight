@@ -6,9 +6,9 @@
   "primaryDetectorHits": 12,
   "failedPrimaryDetectors": [],
   "localizationCases": 12,
-  "sourceLocalizationTop1": 0.75,
-  "sourceLocalizationTop3": 0.9166666666666666,
-  "totalDurationMs": 35713,
+  "sourceLocalizationTop1": 0.6666666666666666,
+  "sourceLocalizationTop3": 1,
+  "totalDurationMs": 35833,
   "results": [
     {
       "id": "container-stretch",
@@ -22,7 +22,7 @@
         "Selector #hero extends beyond viewport"
       ],
       "notes": [],
-      "durationMs": 2779
+      "durationMs": 3968
     },
     {
       "id": "locale-overflow-vi-768",
@@ -36,7 +36,7 @@
         "Selector #about extends beyond viewport"
       ],
       "notes": [],
-      "durationMs": 2801
+      "durationMs": 3081
     },
     {
       "id": "overlap-cta-badge",
@@ -49,7 +49,7 @@
         "Overlap between #cta and #badge"
       ],
       "notes": [],
-      "durationMs": 2651
+      "durationMs": 2353
     },
     {
       "id": "clipping-vi-paragraph",
@@ -62,14 +62,14 @@
         "Text clipping detected (1)"
       ],
       "notes": [],
-      "durationMs": 3035
+      "durationMs": 2820
     },
     {
       "id": "sticky-heading-occlusion",
       "detector": "stickyOcclusion",
       "reproduced": true,
       "expectedDetectorHit": true,
-      "top1": true,
+      "top1": false,
       "top3": true,
       "failures": [
         "Sticky occlusion on #section"
@@ -77,7 +77,7 @@
       "notes": [
         "stickyDiagnostics={\"viewport\":{\"width\":1440,\"height\":900},\"scrollX\":0,\"scrollY\":174,\"headerRect\":{\"x\":0,\"y\":0,\"width\":1440,\"height\":54},\"targetRect\":{\"x\":0,\"y\":0,\"width\":1440,\"height\":48},\"intersection\":{\"x\":0,\"y\":0,\"width\":1440,\"height\":48},\"scrollMarginTop\":\"0px\",\"stabilizationFrames\":3,\"detectorVerdict\":\"occluded\"}"
       ],
-      "durationMs": 2980,
+      "durationMs": 2893,
       "stickyDiagnostics": {
         "viewport": {
           "width": 1440,
@@ -117,7 +117,7 @@
       "top3": true,
       "failures": [],
       "notes": [],
-      "durationMs": 2868
+      "durationMs": 2711
     },
     {
       "id": "grid-mincontent-overflow",
@@ -125,12 +125,12 @@
       "reproduced": true,
       "expectedDetectorHit": true,
       "top1": false,
-      "top3": false,
+      "top3": true,
       "failures": [
         "Horizontal overflow detected (delta=154, offenders=3)"
       ],
       "notes": [],
-      "durationMs": 2600
+      "durationMs": 2733
     },
     {
       "id": "mobile-nav-overflow",
@@ -143,7 +143,7 @@
         "Horizontal overflow detected (delta=188, offenders=2)"
       ],
       "notes": [],
-      "durationMs": 2590
+      "durationMs": 2336
     },
     {
       "id": "cards-overlap-breakpoint",
@@ -156,7 +156,7 @@
         "Overlap between #card-a and #card-b"
       ],
       "notes": [],
-      "durationMs": 2639
+      "durationMs": 2781
     },
     {
       "id": "fixed-badge-blocks-control",
@@ -169,7 +169,7 @@
         "Overlap between #save and #promo"
       ],
       "notes": [],
-      "durationMs": 2805
+      "durationMs": 2521
     },
     {
       "id": "desktop-container-maxwidth",
@@ -182,7 +182,7 @@
         "Horizontal overflow detected (delta=10, offenders=1)"
       ],
       "notes": [],
-      "durationMs": 2806
+      "durationMs": 2322
     },
     {
       "id": "focus-indicator-removed",
@@ -193,7 +193,7 @@
       "top3": true,
       "failures": [],
       "notes": [],
-      "durationMs": 2565
+      "durationMs": 2487
     }
   ],
   "note": "MVP fixture benchmark — not a scientific claim of broad validity. Primary detector gate requires 12/12 hits."

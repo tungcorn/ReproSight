@@ -262,18 +262,13 @@ async function main() {
             : [],
         };
 
+        const selectorIncludes = c.localization?.selectorIncludes;
         const top1 = candidates[0]
-          ? matchCandidate(
-              candidates[0],
-              expected,
-              c.localization.selectorIncludes,
-            )
+          ? matchCandidate(candidates[0], expected, selectorIncludes)
           : false;
         const top3 = candidates
           .slice(0, 3)
-          .some((cand) =>
-            matchCandidate(cand, expected, c.localization.selectorIncludes),
-          );
+          .some((cand) => matchCandidate(cand, expected, selectorIncludes));
         const { category, explanation } = categorize(
           expected,
           candidates,
