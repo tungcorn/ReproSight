@@ -1,12 +1,10 @@
 # ReproSight — Evidence-driven AI Visual Repair
 
-**Visual defect → measured evidence → authored CSS rule → minimal patch → isolated worktree verification → regression proof → human review.**
+**Visual defect → deterministic evidence → authored CSS candidate → proposed patch → isolated verification → regression result → human review.**
 
 ReproSight does not merely suggest a fix. It produces evidence showing whether the fix worked.
 
-## Flagship proof: container stretch
-
-At 1440px, a Hero that also uses `.container` becomes edge-to-edge because a later `.hero` rule overrides the shared container max-width.
+## Flagship proof (container stretch)
 
 | Before | Annotated | After | Diff |
 | --- | --- | --- | --- |
@@ -14,30 +12,69 @@ At 1440px, a Hero that also uses `.container` becomes edge-to-edge because a lat
 
 Self-contained report: [artifacts/demo/report-container-stretch.html](artifacts/demo/report-container-stretch.html)
 
-Second flagship (Vietnamese tablet overflow): [artifacts/demo/report-locale-overflow.html](artifacts/demo/report-locale-overflow.html)
+**Demo media:** WebM **not recorded** (no capture tool; file not fabricated).  
+Storyboard + transcript: [artifacts/demo/storyboard/](artifacts/demo/storyboard/) · [transcript](artifacts/demo/reprosight-flagship-demo-transcript.md)
 
-## Why screenshot diff alone is insufficient
+Label for that demonstration:  
+**Deterministic mock provider — pipeline demonstration, not model accuracy**
 
-- Diffs do not name the offending DOM node or authored CSS rule
-- Intentional redesign vs breakage is ambiguous
-- Locale/theme/viewport matrices explode baselines
-- A green pixel match is not a geometric proof that overflow/occlusion is gone
+## Four separate evaluation categories
 
-## Architecture (one pipeline)
+Never combined into one success rate.
 
+### 1) Deterministic detector benchmark
+
+- **12/12** primary detectors
+- Ten consecutive full runs previously recorded (`artifacts/audit/detector-10x.txt`)
+- Command: `npm run benchmark:detectors`
+
+### 2) Deterministic source-localization benchmark
+
+From `artifacts/benchmark/localization-analysis.json`:
+
+| Metric | Value |
+| --- | ---: |
+| Cases | 12 |
+| Top-1 | **83.3%** |
+| Top-3 | **100%** |
+
+Known misses: `ambiguous-cascade` ×2 (not hidden).
+
+### 3) Mock orchestration benchmark
+
+Label: **Orchestration and verification success with deterministic mock provider**
+
+- **6/6** pipeline cases → `AWAITING_HUMAN_REVIEW`
+- Worktree-only apply · original checkout unchanged · regressions clean
+- Commands: `npm run e2e:mock`, `npm run evaluation:mock-matrix`
+
+**Not AI repair accuracy.**
+
+### 4) Real-provider repair evaluation (frozen holdout)
+
+| Field | Value |
+| --- | --- |
+| Holdout cases | **6** new fixtures (not used to tune mock patches / scoring demos) |
+| Deterministic holdout validation | **6/6** (`npm run evaluation:holdout-validate`) |
+| Official real-provider run | **BLOCKED** — no `OPENAI_API_KEY` |
+| Mock substitution | **Forbidden** for this gate |
+
+Frozen protocol: [evaluation/holdout/protocol.md](evaluation/holdout/protocol.md)  
+Latest status: [artifacts/evaluation/holdout-latest.md](artifacts/evaluation/holdout-latest.md)
+
+```bat
+set OPENAI_API_KEY=***
+set REPROSIGHT_MODEL_BASE_URL=https://api.openai.com/v1
+set REPROSIGHT_MODEL_NAME=gpt-4o-mini
+npm run evaluation:holdout-real
 ```
-Issue JSON
-  → deterministic Chromium reproduction
-  → detectors + CDP source localization
-  → model diagnosis (mock in CI; OpenAI-compatible optional)
-  → patch policy
-  → linked Git worktree only
-  → target + regression verification
-  → HTML report / dashboard review
-  → AWAITING_HUMAN_REVIEW
-```
 
-See [docs/architecture.md](docs/architecture.md).
+Holdout set includes English + Vietnamese, mobile/tablet/desktop, multi-rule cascade, and an abstention-acceptable case (`holdout-cascade-shift`).
+
+## Success vs failure stories
+
+- **Success (mock pipeline demo):** container-stretch → Fixed / VERIFIED / human review required (storyboard).
+- **Failure/abstention (real model):** not available until credentials exist; protocol + abstention-designed holdout documented in [artifacts/evaluation/holdout-failure-story.md](artifacts/evaluation/holdout-failure-story.md).
 
 ## Quick start
 
@@ -49,99 +86,35 @@ npm run lint
 npm test
 npm run build
 npm run benchmark:detectors
-npm run benchmark:localization
-npm run e2e:mock
 npm run evaluation:mock-matrix
-npm run evaluation:real-provider   # blocked without OPENAI_API_KEY
-```
-
-### Flagship CLI (mock provider)
-
-```bash
-node packages/cli/dist/index.js run examples/issues/container-stretch.json \
-  --config examples/configs/container-stretch.config.json \
-  --provider mock
+npm run e2e:mock
+npm run evaluation:holdout-validate
+npm run evaluation:holdout-real
 ```
 
 ### Dashboard
 
 ```bash
 npm run dev -w @reprosight/dashboard
-# http://127.0.0.1:5173
-# deep link: /run/<run-id>
-# artifact root: <workspace>/.reprosight/runs (Vite middleware, no manual copy)
+# http://127.0.0.1:5173  ·  /run/<run-id>
+# serves .reprosight/runs without manual copy
 ```
-
-## Verified evaluation results (this repository)
-
-Four categories are **never** merged into one success rate.
-
-### 1) Deterministic detector benchmark
-
-- **12/12** expected primary detectors hit
-- **10 consecutive full runs passed** (see `artifacts/audit/detector-10x.txt`)
-- Command: `npm run benchmark:detectors`
-
-### 2) Deterministic source localization
-
-From `artifacts/benchmark/localization-analysis.json`:
-
-| Metric | Value |
-| --- | ---: |
-| Cases | 12 |
-| Top-1 | **83.3%** (10/12) |
-| Top-3 | **100%** (12/12) |
-
-Failure categories:
-
-- `correct`: 10
-- `ambiguous-cascade`: 2 (`locale-overflow-vi-768`, `mobile-nav-overflow`)
-
-### 3) Mock orchestration benchmark
-
-Label: **Orchestration and verification success with deterministic mock provider**  
-(Not real-model repair accuracy.)
-
-- **6/6** clean-room cases → `AWAITING_HUMAN_REVIEW`
-- Worktree-only apply, original checkout hash unchanged, regressions clean, no new axe/console
-- Commands: `npm run e2e:mock`, `npm run evaluation:mock-matrix`
-
-### 4) Real-provider repair evaluation
-
-Status: **blocked** — no `OPENAI_API_KEY` in this environment (value never logged).
-
-```bat
-set OPENAI_API_KEY=***
-set REPROSIGHT_MODEL_BASE_URL=https://api.openai.com/v1
-set REPROSIGHT_MODEL_NAME=gpt-4o-mini
-npm run evaluation:real-provider
-```
-
-Artifact: `artifacts/evaluation/real-provider.json`
 
 ## Safety model
 
-- Issue actions are a fixed allow-list (no arbitrary JS)
-- Page/repo content is untrusted data to the model
-- Secrets redacted from console/network evidence
-- Patch policy: relative paths, globs, size limits; forbid global `overflow-x: hidden` on html/body
-- Target checkout must be clean; repairs only in `.reprosight/worktrees/<run-id>/`
-- Human approval updates ReproSight metadata / export only — never commit/merge/push the target
+- Fixed issue action allow-list (no arbitrary JS)
+- Untrusted page/repo content for the model
+- Secret redaction · patch path policy · isolated Git worktrees only
+- Human approval never commits/merges/pushes the target
 
 ## Honest limitations
 
-- MVP fixture set — **not** a broad scientific benchmark
-- Automated axe checks are partial (not a full WCAG audit)
-- Pixel diffs are environment-sensitive
-- Localization top-1 is not 100% (ambiguous cascade remains)
-- Real-model accuracy is unmeasured until a provider key is available
-- Trace zip capture is optional and may be absent
-- Demo video: not recorded in-repo (see [docs/demo-script.md](docs/demo-script.md) for the walkthrough)
-
-## Documentation
-
-- [Research](docs/research.md) · [Architecture](docs/architecture.md) · [Evaluation](docs/evaluation.md)
-- [Threat model](docs/threat-model.md) · [Limitations](docs/limitations.md) · [Demo script](docs/demo-script.md)
+- MVP fixtures ≠ scientific benchmark
+- Localization top-1 is not 100%
+- Axe is partial; pixel diffs are environment-sensitive
+- Real-model accuracy unmeasured without provider credentials
+- Demo WebM missing (storyboard only)
+- No claim of general autonomous production repair
 
 ## License
 
