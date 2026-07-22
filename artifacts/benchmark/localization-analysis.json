@@ -1,0 +1,818 @@
+{
+  "total": 12,
+  "top1Rate": 0.8333333333333334,
+  "top3Rate": 1,
+  "byCategory": {
+    "correct": 10,
+    "ambiguous-cascade": 2
+  },
+  "byDetector": {
+    "horizontalOverflow": {
+      "n": 5,
+      "top1": 3,
+      "top3": 5
+    },
+    "overlap": {
+      "n": 3,
+      "top1": 3,
+      "top3": 3
+    },
+    "textClipping": {
+      "n": 1,
+      "top1": 1,
+      "top3": 1
+    },
+    "stickyOcclusion": {
+      "n": 1,
+      "top1": 1,
+      "top3": 1
+    },
+    "accessibility": {
+      "n": 2,
+      "top1": 2,
+      "top3": 2
+    }
+  },
+  "byDifficulty": {
+    "medium": {
+      "n": 4,
+      "top1": 4,
+      "top3": 4
+    },
+    "hard": {
+      "n": 1,
+      "top1": 0,
+      "top3": 1
+    },
+    "easy": {
+      "n": 7,
+      "top1": 6,
+      "top3": 7
+    }
+  },
+  "cases": [
+    {
+      "caseId": "container-stretch",
+      "expected": {
+        "file": "styles.css",
+        "selector": ".hero",
+        "properties": [
+          "max-width"
+        ]
+      },
+      "topCandidates": [
+        {
+          "rank": 1,
+          "file": "styles.css",
+          "selector": ".hero",
+          "property": "max-width",
+          "value": "none",
+          "score": 216,
+          "reason": "overflow 160.0px"
+        },
+        {
+          "rank": 2,
+          "file": "styles.css",
+          "selector": ".hero",
+          "property": "min-width",
+          "value": "1600px",
+          "score": 171,
+          "reason": "overflow 160.0px"
+        },
+        {
+          "rank": 3,
+          "file": null,
+          "selector": ".hero",
+          "property": "max-width",
+          "value": "none",
+          "score": 126,
+          "reason": "Matched rule .hero sets max-width:none; issue expected culprit"
+        },
+        {
+          "rank": 4,
+          "file": null,
+          "selector": ".hero",
+          "property": "max-width",
+          "value": "none",
+          "score": 126,
+          "reason": "Matched rule .hero sets max-width:none; issue expected culprit"
+        },
+        {
+          "rank": 5,
+          "file": "styles.css",
+          "selector": ".hero h1",
+          "property": "margin-top",
+          "value": "0px",
+          "score": 122,
+          "reason": "overflow 160.0px"
+        }
+      ],
+      "top1": true,
+      "top3": true,
+      "failureCategory": "correct",
+      "explanation": "Expected source candidate ranked #1.",
+      "detector": "horizontalOverflow",
+      "difficulty": "medium"
+    },
+    {
+      "caseId": "locale-overflow-vi-768",
+      "expected": {
+        "file": "styles.css",
+        "selector": ".about__highlights strong",
+        "properties": [
+          "white-space"
+        ]
+      },
+      "topCandidates": [
+        {
+          "rank": 1,
+          "file": null,
+          "selector": ".about__highlights strong",
+          "property": "white-space",
+          "value": "nowrap",
+          "score": 127,
+          "reason": "Matched rule .about__highlights strong sets white-space:nowrap; issue expected culprit"
+        },
+        {
+          "rank": 2,
+          "file": "styles.css",
+          "selector": ".about__highlights",
+          "property": "grid-template-columns",
+          "value": "280px 280px 280px",
+          "score": 124,
+          "reason": "Collected from document.styleSheets"
+        },
+        {
+          "rank": 3,
+          "file": "styles.css",
+          "selector": ".about__highlights",
+          "property": "grid-template-columns",
+          "value": "1fr",
+          "score": 104,
+          "reason": "Collected from document.styleSheets"
+        },
+        {
+          "rank": 4,
+          "file": "styles.css",
+          "selector": ".about__highlights strong",
+          "property": "display",
+          "value": "inline-block",
+          "score": 102,
+          "reason": "issue expected culprit"
+        },
+        {
+          "rank": 5,
+          "file": "styles.css",
+          "selector": ".about__highlights strong",
+          "property": "white-space-collapse",
+          "value": "collapse",
+          "score": 102,
+          "reason": "issue expected culprit"
+        }
+      ],
+      "top1": false,
+      "top3": true,
+      "failureCategory": "ambiguous-cascade",
+      "explanation": "Expected rule is in top-3 but not top-1 due to competing cascade candidates.",
+      "detector": "horizontalOverflow",
+      "difficulty": "hard"
+    },
+    {
+      "caseId": "overlap-cta-badge",
+      "expected": {
+        "file": "styles.css",
+        "selector": "#badge",
+        "properties": [
+          "position"
+        ]
+      },
+      "topCandidates": [
+        {
+          "rank": 1,
+          "file": "styles.css",
+          "selector": ".badge",
+          "property": "position",
+          "value": "absolute",
+          "score": 190,
+          "reason": "overlap B"
+        },
+        {
+          "rank": 2,
+          "file": "styles.css",
+          "selector": ".badge",
+          "property": "z-index",
+          "value": "5",
+          "score": 158,
+          "reason": "overlap B"
+        },
+        {
+          "rank": 3,
+          "file": "styles.css",
+          "selector": ".badge",
+          "property": "left",
+          "value": "90px",
+          "score": 148,
+          "reason": "overlap B"
+        },
+        {
+          "rank": 4,
+          "file": "styles.css",
+          "selector": ".badge",
+          "property": "top",
+          "value": "30px",
+          "score": 148,
+          "reason": "overlap B"
+        },
+        {
+          "rank": 5,
+          "file": "styles.css",
+          "selector": ".cta",
+          "property": "position",
+          "value": "absolute",
+          "score": 140,
+          "reason": "overlap A"
+        }
+      ],
+      "top1": true,
+      "top3": true,
+      "failureCategory": "correct",
+      "explanation": "Expected source candidate ranked #1.",
+      "detector": "overlap",
+      "difficulty": "easy"
+    },
+    {
+      "caseId": "clipping-vi-paragraph",
+      "expected": {
+        "file": "styles.css",
+        "selector": "#clip",
+        "properties": [
+          "overflow"
+        ]
+      },
+      "topCandidates": [
+        {
+          "rank": 1,
+          "file": "styles.css",
+          "selector": ".clip",
+          "property": "height",
+          "value": "48px",
+          "score": 148,
+          "reason": "clipping"
+        },
+        {
+          "rank": 2,
+          "file": "styles.css",
+          "selector": ".clip",
+          "property": "width",
+          "value": "280px",
+          "score": 136,
+          "reason": "clipping"
+        },
+        {
+          "rank": 3,
+          "file": "styles.css",
+          "selector": ".label",
+          "property": "text-overflow",
+          "value": "clip",
+          "score": 128,
+          "reason": "clipping"
+        },
+        {
+          "rank": 4,
+          "file": "styles.css",
+          "selector": ".clip",
+          "property": "overflow-x",
+          "value": "hidden",
+          "score": 126,
+          "reason": "clipping"
+        },
+        {
+          "rank": 5,
+          "file": "styles.css",
+          "selector": ".clip",
+          "property": "overflow-y",
+          "value": "hidden",
+          "score": 126,
+          "reason": "clipping"
+        }
+      ],
+      "top1": true,
+      "top3": true,
+      "failureCategory": "correct",
+      "explanation": "Expected source candidate ranked #1.",
+      "detector": "textClipping",
+      "difficulty": "easy"
+    },
+    {
+      "caseId": "sticky-heading-occlusion",
+      "expected": {
+        "file": "styles.css",
+        "selector": "#section",
+        "properties": [
+          "scroll-margin-top"
+        ]
+      },
+      "topCandidates": [
+        {
+          "rank": 1,
+          "file": "styles.css",
+          "selector": "#section",
+          "property": "margin-top",
+          "value": "0px",
+          "score": 118,
+          "reason": "sticky"
+        },
+        {
+          "rank": 2,
+          "file": "styles.css",
+          "selector": "#section",
+          "property": "margin-right",
+          "value": "0px",
+          "score": 118,
+          "reason": "sticky"
+        },
+        {
+          "rank": 3,
+          "file": "styles.css",
+          "selector": "#section",
+          "property": "margin-bottom",
+          "value": "0px",
+          "score": 118,
+          "reason": "sticky"
+        },
+        {
+          "rank": 4,
+          "file": "styles.css",
+          "selector": "#section",
+          "property": "margin-left",
+          "value": "0px",
+          "score": 118,
+          "reason": "sticky"
+        },
+        {
+          "rank": 5,
+          "file": "styles.css",
+          "selector": "#section",
+          "property": "padding-top",
+          "value": "8px",
+          "score": 118,
+          "reason": "sticky"
+        }
+      ],
+      "top1": true,
+      "top3": true,
+      "failureCategory": "correct",
+      "explanation": "Expected source candidate ranked #1.",
+      "detector": "stickyOcclusion",
+      "difficulty": "medium"
+    },
+    {
+      "caseId": "contrast-light",
+      "expected": {
+        "file": "styles.css",
+        "selector": "ghost",
+        "properties": [
+          "color"
+        ]
+      },
+      "topCandidates": [
+        {
+          "rank": 1,
+          "file": "styles.css",
+          "selector": ".ghost",
+          "property": "border-top-width",
+          "value": "0px",
+          "score": 86,
+          "reason": "Collected from document.styleSheets"
+        },
+        {
+          "rank": 2,
+          "file": "styles.css",
+          "selector": ".ghost",
+          "property": "border-right-width",
+          "value": "0px",
+          "score": 86,
+          "reason": "Collected from document.styleSheets"
+        },
+        {
+          "rank": 3,
+          "file": "styles.css",
+          "selector": ".ghost",
+          "property": "border-bottom-width",
+          "value": "0px",
+          "score": 86,
+          "reason": "Collected from document.styleSheets"
+        },
+        {
+          "rank": 4,
+          "file": "styles.css",
+          "selector": ".ghost",
+          "property": "border-left-width",
+          "value": "0px",
+          "score": 86,
+          "reason": "Collected from document.styleSheets"
+        },
+        {
+          "rank": 5,
+          "file": "styles.css",
+          "selector": ".ghost",
+          "property": "border-image-width",
+          "value": "initial",
+          "score": 86,
+          "reason": "Collected from document.styleSheets"
+        }
+      ],
+      "top1": true,
+      "top3": true,
+      "failureCategory": "correct",
+      "explanation": "Expected source candidate ranked #1.",
+      "detector": "accessibility",
+      "difficulty": "easy"
+    },
+    {
+      "caseId": "grid-mincontent-overflow",
+      "expected": {
+        "file": "styles.css",
+        "selector": "#long",
+        "properties": [
+          "white-space"
+        ]
+      },
+      "topCandidates": [
+        {
+          "rank": 1,
+          "file": "styles.css",
+          "selector": ".long",
+          "property": "white-space-collapse",
+          "value": "collapse",
+          "score": 118,
+          "reason": "overflow 82.3px"
+        },
+        {
+          "rank": 2,
+          "file": "styles.css",
+          "selector": ".long",
+          "property": "text-wrap-mode",
+          "value": "nowrap",
+          "score": 118,
+          "reason": "overflow 82.3px"
+        },
+        {
+          "rank": 3,
+          "file": null,
+          "selector": ".long",
+          "property": "white-space",
+          "value": "nowrap",
+          "score": 113,
+          "reason": "Matched rule .long sets white-space:nowrap; issue expected culprit"
+        },
+        {
+          "rank": 4,
+          "file": "styles.css",
+          "selector": ".grid",
+          "property": "grid-template-columns",
+          "value": "1fr 1fr 1fr",
+          "score": 104,
+          "reason": "Collected from document.styleSheets"
+        },
+        {
+          "rank": 5,
+          "file": "styles.css",
+          "selector": ".grid",
+          "property": "width",
+          "value": "100%",
+          "score": 86,
+          "reason": "Collected from document.styleSheets"
+        }
+      ],
+      "top1": true,
+      "top3": true,
+      "failureCategory": "correct",
+      "explanation": "Expected source candidate ranked #1.",
+      "detector": "horizontalOverflow",
+      "difficulty": "medium"
+    },
+    {
+      "caseId": "mobile-nav-overflow",
+      "expected": {
+        "file": "styles.css",
+        "selector": "#nav",
+        "properties": [
+          "white-space"
+        ]
+      },
+      "topCandidates": [
+        {
+          "rank": 1,
+          "file": null,
+          "selector": ".nav",
+          "property": "white-space",
+          "value": "nowrap",
+          "score": 123,
+          "reason": "Matched rule .nav sets white-space:nowrap; issue expected culprit"
+        },
+        {
+          "rank": 2,
+          "file": null,
+          "selector": ".nav",
+          "property": "white-space",
+          "value": "nowrap",
+          "score": 113,
+          "reason": "Matched rule .nav sets white-space:nowrap; issue expected culprit"
+        },
+        {
+          "rank": 3,
+          "file": "styles.css",
+          "selector": ".nav a",
+          "property": "color",
+          "value": "rgb(56, 189, 248)",
+          "score": 108,
+          "reason": "issue expected culprit"
+        },
+        {
+          "rank": 4,
+          "file": "styles.css",
+          "selector": ".nav a",
+          "property": "text-decoration-line",
+          "value": "none",
+          "score": 102,
+          "reason": "issue expected culprit"
+        },
+        {
+          "rank": 5,
+          "file": "styles.css",
+          "selector": ".nav a",
+          "property": "text-decoration-thickness",
+          "value": "initial",
+          "score": 102,
+          "reason": "issue expected culprit"
+        }
+      ],
+      "top1": false,
+      "top3": true,
+      "failureCategory": "ambiguous-cascade",
+      "explanation": "Expected rule is in top-3 but not top-1 due to competing cascade candidates.",
+      "detector": "horizontalOverflow",
+      "difficulty": "easy"
+    },
+    {
+      "caseId": "cards-overlap-breakpoint",
+      "expected": {
+        "file": "styles.css",
+        "selector": "#card-b",
+        "properties": [
+          "left"
+        ]
+      },
+      "topCandidates": [
+        {
+          "rank": 1,
+          "file": "styles.css",
+          "selector": "#card-b",
+          "property": "left",
+          "value": "300px",
+          "score": 178,
+          "reason": "overlap B"
+        },
+        {
+          "rank": 2,
+          "file": "styles.css",
+          "selector": "#card-b",
+          "property": "z-index",
+          "value": "2",
+          "score": 158,
+          "reason": "overlap B"
+        },
+        {
+          "rank": 3,
+          "file": "styles.css",
+          "selector": "#card-b",
+          "property": "top",
+          "value": "40px",
+          "score": 148,
+          "reason": "overlap B"
+        },
+        {
+          "rank": 4,
+          "file": "styles.css",
+          "selector": "#card-a",
+          "property": "z-index",
+          "value": "1",
+          "score": 138,
+          "reason": "overlap A"
+        },
+        {
+          "rank": 5,
+          "file": "styles.css",
+          "selector": "#card-a",
+          "property": "left",
+          "value": "20px",
+          "score": 128,
+          "reason": "overlap A"
+        }
+      ],
+      "top1": true,
+      "top3": true,
+      "failureCategory": "correct",
+      "explanation": "Expected source candidate ranked #1.",
+      "detector": "overlap",
+      "difficulty": "medium"
+    },
+    {
+      "caseId": "fixed-badge-blocks-control",
+      "expected": {
+        "file": "styles.css",
+        "selector": "#promo",
+        "properties": [
+          "z-index"
+        ]
+      },
+      "topCandidates": [
+        {
+          "rank": 1,
+          "file": "styles.css",
+          "selector": ".promo",
+          "property": "z-index",
+          "value": "5",
+          "score": 188,
+          "reason": "overlap B"
+        },
+        {
+          "rank": 2,
+          "file": "styles.css",
+          "selector": ".promo",
+          "property": "position",
+          "value": "fixed",
+          "score": 160,
+          "reason": "overlap B"
+        },
+        {
+          "rank": 3,
+          "file": "styles.css",
+          "selector": ".save",
+          "property": "position",
+          "value": "fixed",
+          "score": 140,
+          "reason": "overlap A"
+        },
+        {
+          "rank": 4,
+          "file": "styles.css",
+          "selector": ".save",
+          "property": "z-index",
+          "value": "1",
+          "score": 138,
+          "reason": "overlap A"
+        },
+        {
+          "rank": 5,
+          "file": "styles.css",
+          "selector": ".promo",
+          "property": "width",
+          "value": "120px",
+          "score": 136,
+          "reason": "overlap B"
+        }
+      ],
+      "top1": true,
+      "top3": true,
+      "failureCategory": "correct",
+      "explanation": "Expected source candidate ranked #1.",
+      "detector": "overlap",
+      "difficulty": "easy"
+    },
+    {
+      "caseId": "desktop-container-maxwidth",
+      "expected": {
+        "file": "styles.css",
+        "selector": "#panel",
+        "properties": [
+          "max-width"
+        ]
+      },
+      "topCandidates": [
+        {
+          "rank": 1,
+          "file": "styles.css",
+          "selector": ".panel",
+          "property": "max-width",
+          "value": "100%",
+          "score": 216,
+          "reason": "overflow 10.0px"
+        },
+        {
+          "rank": 2,
+          "file": "styles.css",
+          "selector": ".panel",
+          "property": "width",
+          "value": "1400px",
+          "score": 166,
+          "reason": "overflow 10.0px"
+        },
+        {
+          "rank": 3,
+          "file": "styles.css",
+          "selector": ".panel",
+          "property": "border-top-width",
+          "value": "1px",
+          "score": 126,
+          "reason": "overflow 10.0px"
+        },
+        {
+          "rank": 4,
+          "file": "styles.css",
+          "selector": ".panel",
+          "property": "border-right-width",
+          "value": "1px",
+          "score": 126,
+          "reason": "overflow 10.0px"
+        },
+        {
+          "rank": 5,
+          "file": "styles.css",
+          "selector": ".panel",
+          "property": "border-bottom-width",
+          "value": "1px",
+          "score": 126,
+          "reason": "overflow 10.0px"
+        }
+      ],
+      "top1": true,
+      "top3": true,
+      "failureCategory": "correct",
+      "explanation": "Expected source candidate ranked #1.",
+      "detector": "horizontalOverflow",
+      "difficulty": "easy"
+    },
+    {
+      "caseId": "focus-indicator-removed",
+      "expected": {
+        "file": "styles.css",
+        "selector": "#focus-link",
+        "properties": [
+          "outline"
+        ]
+      },
+      "topCandidates": [
+        {
+          "rank": 1,
+          "file": "styles.css",
+          "selector": ".focus-link",
+          "property": "outline-width",
+          "value": "initial",
+          "score": 106,
+          "reason": "issue expected culprit"
+        },
+        {
+          "rank": 2,
+          "file": "styles.css",
+          "selector": ".focus-link",
+          "property": "color",
+          "value": "rgb(147, 197, 253)",
+          "score": 104,
+          "reason": "issue expected culprit"
+        },
+        {
+          "rank": 3,
+          "file": "styles.css",
+          "selector": ".focus-link:focus, .focus-link:focus-visible",
+          "property": "outline-width",
+          "value": "initial",
+          "score": 100,
+          "reason": "issue expected culprit"
+        },
+        {
+          "rank": 4,
+          "file": "styles.css",
+          "selector": ".focus-link",
+          "property": "outline-color",
+          "value": "initial",
+          "score": 98,
+          "reason": "issue expected culprit"
+        },
+        {
+          "rank": 5,
+          "file": "styles.css",
+          "selector": ".focus-link",
+          "property": "outline-style",
+          "value": "none",
+          "score": 98,
+          "reason": "issue expected culprit"
+        }
+      ],
+      "top1": true,
+      "top3": true,
+      "failureCategory": "correct",
+      "explanation": "Expected source candidate ranked #1.",
+      "detector": "accessibility",
+      "difficulty": "easy"
+    }
+  ],
+  "limitations": [
+    "Plain CSS and style tags only; CSS-in-JS runtime rewriting unsupported.",
+    "Stylesheet URL → repo path mapping depends on local static server paths.",
+    "Competing cascade rules can push the true culprit out of top-1 while remaining in top-3.",
+    "MVP fixture set is not a broad scientific benchmark."
+  ],
+  "note": "Deterministic source localization analysis. Not real-model accuracy."
+}
