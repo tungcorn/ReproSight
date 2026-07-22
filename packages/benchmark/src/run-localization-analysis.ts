@@ -10,7 +10,11 @@ import {
   type SourceCandidate,
 } from "@reprosight/core";
 import { BENCH_CASES } from "./cases.js";
-import { repoRoot, startFixtureServer } from "./fixture-server.js";
+import {
+  repoRoot,
+  startFixtureServer,
+  staticServeCommand,
+} from "./fixture-server.js";
 
 type FailureCategory =
   | "correct"
@@ -167,7 +171,7 @@ async function main() {
         },
         commands: {
           install: "npm ci",
-          start: `npx --yes serve -l ${c.port} .`,
+          start: staticServeCommand(c.port),
         },
         server: { readyUrl: server.url, timeoutMs: 30_000 },
         setup: {

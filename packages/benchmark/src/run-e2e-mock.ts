@@ -8,7 +8,7 @@ import {
   defaultReproRoot,
 } from "@reprosight/core";
 import { BENCH_CASES } from "./cases.js";
-import { repoRoot } from "./fixture-server.js";
+import { repoRoot, staticServeCommand } from "./fixture-server.js";
 
 async function ensureGitRepo(dir: string): Promise<void> {
   const gitDir = path.join(dir, ".git");
@@ -58,7 +58,7 @@ async function main() {
       },
       commands: {
         install: "node -e \"process.exit(0)\"",
-        start: `npx --yes serve -l ${c.port} .`,
+        start: staticServeCommand(c.port),
       },
       server: {
         readyUrl: `http://127.0.0.1:${c.port}`,

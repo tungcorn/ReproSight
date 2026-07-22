@@ -41,6 +41,34 @@ export async function waitForUrl(
   );
 }
 
+async function killProcessTree(pid: number): Promise<void> {
+  if (process.platform === "win32") {
+    await execa("taskkill", ["/pid", String(pid), "/T", "/F"], {
+      reject: false,
+    });
+    return;
+  }
+  try {
+    process.kill(-pid, "SIGTERM");
+  } catch {
+    try {
+      process.kill(pid, "SIGTERM");
+    } catch {
+      // ignore
+    }
+  }
+  await new Promise((r) => setTimeout(r, 400));
+  try {
+    process.kill(-pid, "SIGKILL");
+  } catch {
+    try {
+      process.kill(pid, "SIGKILL");
+    } catch {
+      // ignore
+    }
+  }
+}
+
 export async function startTargetProcess(opts: {
   config: ReproSightConfig;
   cwd?: string;
@@ -49,7 +77,11 @@ export async function startTargetProcess(opts: {
   const cwd = opts.cwd ?? path.resolve(opts.config.project.repoPath);
   if (opts.install) {
     const inst = splitCommand(opts.config.commands.install);
-    await execa(inst.file, inst.args, { cwd, stdio: "pipe" });
+    await execa(inst.file, inst.args, {
+      cwd,
+      stdio: "pipe",
+      timeout: 120_000,
+    });
   }
 
   const start = splitCommand(opts.config.commands.start);
@@ -57,6 +89,8 @@ export async function startTargetProcess(opts: {
     cwd,
     stdio: "pipe",
     reject: false,
+    // Detach process group on POSIX so we can kill the whole tree (npx children, etc.)
+    detached: process.platform !== "win32",
     env: {
       ...process.env,
       BROWSER: "none",
@@ -69,22 +103,12 @@ export async function startTargetProcess(opts: {
     if (stopped) return;
     stopped = true;
     if (child.pid) {
-      try {
-        if (process.platform === "win32") {
-          await execa("taskkill", ["/pid", String(child.pid), "/T", "/F"], {
-            reject: false,
-          });
-        } else {
-          child.kill("SIGTERM");
-        }
-      } catch {
-        // ignore
-      }
+      await killProcessTree(child.pid);
     }
     try {
       await Promise.race([
         child,
-        new Promise((r) => setTimeout(r, 3000)),
+        new Promise((r) => setTimeout(r, 2000)),
       ]);
     } catch {
       // ignore
@@ -104,13 +128,17 @@ export async function startTargetProcess(opts: {
 export async function runOptionalCommand(
   command: string | undefined,
   cwd: string,
-): Promise<{ ok: boolean; code: number | null; stdout: string; stderr: string } | null> {
+): Promise<
+  | { ok: boolean; code: number | null; stdout: string; stderr: string }
+  | null
+> {
   if (!command) return null;
   const { file, args } = splitCommand(command);
   const result = await execa(file, args, {
     cwd,
     reject: false,
     all: true,
+    timeout: 180_000,
   });
   return {
     ok: result.exitCode === 0,

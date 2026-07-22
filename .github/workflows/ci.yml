@@ -18,7 +18,7 @@ jobs:
       - name: Install
         run: npm ci
       - name: Install Playwright Chromium
-        run: npx playwright install chromium --with-deps
+        run: npx playwright install --with-deps chromium
       # @reprosight/core exports types from dist/; build it before dependent typechecks
       - name: Typecheck
         run: npm run typecheck
@@ -30,10 +30,13 @@ jobs:
         run: npm run build
       - name: Detector benchmark
         run: npm run benchmark:detectors
+        timeout-minutes: 10
       - name: Localization analysis
         run: npm run benchmark:localization
+        timeout-minutes: 10
       - name: E2E mock
         run: npm run e2e:mock
+        timeout-minutes: 15
       - name: Upload artifacts on failure
         if: failure()
         uses: actions/upload-artifact@v4

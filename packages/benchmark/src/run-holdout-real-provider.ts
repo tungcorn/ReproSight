@@ -9,7 +9,7 @@ import {
   hashCheckout,
   type DiagnosisOutput,
 } from "@reprosight/core";
-import { repoRoot } from "./fixture-server.js";
+import { repoRoot, staticServeCommand } from "./fixture-server.js";
 import { execa } from "execa";
 
 /**
@@ -282,7 +282,7 @@ async function main() {
         },
         commands: {
           install: 'node -e "process.exit(0)"',
-          start: `npx --yes serve -l ${key.port} .`,
+          start: staticServeCommand(key.port),
         },
         server: {
           readyUrl: `http://127.0.0.1:${key.port}`,

@@ -11,7 +11,11 @@ import {
   collectStickyDiagnostics,
 } from "@reprosight/core";
 import { BENCH_CASES } from "./cases.js";
-import { repoRoot, startFixtureServer } from "./fixture-server.js";
+import {
+  repoRoot,
+  startFixtureServer,
+  staticServeCommand,
+} from "./fixture-server.js";
 
 type CaseResult = {
   id: string;
@@ -32,10 +36,12 @@ async function main() {
 
   for (const c of BENCH_CASES) {
     const caseStarted = Date.now();
+    console.log(`[bench] starting ${c.id}…`);
     const server = await startFixtureServer({
       fixture: c.fixture,
       port: c.port,
     });
+    console.log(`[bench] server ready ${c.id} ${server.url}`);
     try {
       const config = parseConfig({
         project: {
@@ -44,8 +50,8 @@ async function main() {
           baseRef: "HEAD",
         },
         commands: {
-          install: "npm ci",
-          start: `npx --yes serve -l ${c.port} .`,
+          install: 'node -e "process.exit(0)"',
+          start: staticServeCommand(c.port),
         },
         server: {
           readyUrl: server.url,
@@ -206,7 +212,7 @@ async function main() {
           stickyDiagnostics,
         });
         console.log(
-          `${c.id}: reproduced=${specialReproduced || expectedDetectorHit} detectorHit=${expectedDetectorHit} top1=${top1} top3=${top3} durationMs=${durationMs}`,
+          `[bench] done ${c.id}: reproduced=${specialReproduced || expectedDetectorHit} detectorHit=${expectedDetectorHit} top1=${top1} top3=${top3} durationMs=${durationMs}`,
         );
       } finally {
         await session.close();

@@ -35,7 +35,7 @@ program
       },
       commands: {
         install: "npm ci",
-        start: "npx --yes serve -l 4173 .",
+        start: "node scripts/static-serve.mjs 4173 .",
         test: "npm test",
         build: "npm run build",
       },

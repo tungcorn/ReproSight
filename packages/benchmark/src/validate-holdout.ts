@@ -16,7 +16,11 @@ import {
   startTargetProcess,
   annotateScreenshot,
 } from "@reprosight/core";
-import { repoRoot, startFixtureServer } from "./fixture-server.js";
+import {
+  repoRoot,
+  startFixtureServer,
+  staticServeCommand,
+} from "./fixture-server.js";
 import { execa } from "execa";
 
 type AnswerKey = {
@@ -126,7 +130,7 @@ async function main() {
           },
           commands: {
             install: 'node -e "process.exit(0)"',
-            start: `npx --yes serve -l ${key.port} .`,
+            start: staticServeCommand(key.port),
           },
           server: {
             readyUrl: `http://127.0.0.1:${key.port}`,
@@ -245,7 +249,7 @@ async function main() {
               },
               commands: {
                 install: 'node -e "process.exit(0)"',
-                start: `npx --yes serve -l ${key.port + 100} .`,
+                start: staticServeCommand(key.port + 100),
               },
               server: {
                 readyUrl: `http://127.0.0.1:${key.port + 100}`,
