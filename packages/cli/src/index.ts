@@ -220,11 +220,14 @@ program
 
 program
   .command("serve")
-  .description("Print how to start the local dashboard")
+  .description("Start or document the local dashboard artifact server")
   .action(() => {
-    console.log("Start the dashboard with:");
+    console.log("Local dashboard (serves .reprosight/runs via Vite middleware):");
     console.log("  npm run dev -w @reprosight/dashboard");
-    console.log("Dashboard reads .reprosight/runs artifacts from the workspace root.");
+    console.log("Open http://127.0.0.1:5173");
+    console.log("Deep link: http://127.0.0.1:5173/run/<run-id>");
+    console.log("Artifact root: <workspace>/.reprosight/runs");
+    console.log("CLI HTML reports remain usable without the dashboard.");
   });
 
 program

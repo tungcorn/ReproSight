@@ -1,0 +1,76 @@
+{
+  "results": [
+    {
+      "file": "D:\\Hoc\\MyProjects\\ReproSight\\artifacts\\demo\\report-container-stretch.html",
+      "ok": true,
+      "pageErrors": [],
+      "consoleErrors": [],
+      "checks": {
+        "title": "ReproSight Report — run_2026-07-22T04-36-17-786Z_f280f892",
+        "imgCount": 5,
+        "imgsLoaded": 5,
+        "dataUriImages": 5,
+        "hasRootCause": true,
+        "hasPatch": true,
+        "hasRegression": true,
+        "hasHuman": true,
+        "hasDecision": true,
+        "hasTraceNote": true
+      }
+    },
+    {
+      "file": "D:\\Hoc\\MyProjects\\ReproSight\\artifacts\\demo\\report-locale-overflow.html",
+      "ok": true,
+      "pageErrors": [],
+      "consoleErrors": [],
+      "checks": {
+        "title": "ReproSight Report — run_2026-07-22T04-36-29-131Z_3c62adb3",
+        "imgCount": 5,
+        "imgsLoaded": 5,
+        "dataUriImages": 5,
+        "hasRootCause": true,
+        "hasPatch": true,
+        "hasRegression": true,
+        "hasHuman": true,
+        "hasDecision": true,
+        "hasTraceNote": true
+      }
+    },
+    {
+      "file": "D:\\Hoc\\MyProjects\\ReproSight\\.reprosight\\runs\\run_2026-07-22T04-36-17-786Z_f280f892\\report\\index.html",
+      "ok": true,
+      "pageErrors": [],
+      "consoleErrors": [],
+      "checks": {
+        "title": "ReproSight Report — run_2026-07-22T04-36-17-786Z_f280f892",
+        "imgCount": 5,
+        "imgsLoaded": 5,
+        "dataUriImages": 5,
+        "hasRootCause": true,
+        "hasPatch": true,
+        "hasRegression": true,
+        "hasHuman": true,
+        "hasDecision": true,
+        "hasTraceNote": true
+      }
+    },
+    {
+      "file": "D:\\Hoc\\MyProjects\\ReproSight\\.reprosight\\runs\\run_2026-07-22T04-36-29-131Z_3c62adb3\\report\\index.html",
+      "ok": true,
+      "pageErrors": [],
+      "consoleErrors": [],
+      "checks": {
+        "title": "ReproSight Report — run_2026-07-22T04-36-29-131Z_3c62adb3",
+        "imgCount": 5,
+        "imgsLoaded": 5,
+        "dataUriImages": 5,
+        "hasRootCause": true,
+        "hasPatch": true,
+        "hasRegression": true,
+        "hasHuman": true,
+        "hasDecision": true,
+        "hasTraceNote": true
+      }
+    }
+  ]
+}

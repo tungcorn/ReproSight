@@ -4,8 +4,9 @@ import type { EvidencePack } from "../evidence/types.js";
 import type { DiagnosisOutput } from "../diagnosis/types.js";
 import type { PatchValidationResult } from "../patcher/policy.js";
 import type { VerificationResult } from "../verifier/verify.js";
-import { writeAtomic } from "../store/fs.js";
+import { writeAtomic, pathExists } from "../store/fs.js";
 import path from "node:path";
+import fs from "node:fs/promises";
 
 function esc(s: string): string {
   return s
@@ -13,6 +14,40 @@ function esc(s: string): string {
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;");
+}
+
+function sanitizePathForShare(p: string | null | undefined): string {
+  if (!p) return "n/a";
+  // Prefer relative .reprosight segment for shareable reports
+  const norm = p.replace(/\\/g, "/");
+  const idx = norm.lastIndexOf("/.reprosight/");
+  if (idx >= 0) return norm.slice(idx + 1);
+  // Fall back to basename chain without drive roots
+  return norm.replace(/^[A-Za-z]:/, "").replace(/^\/+/, "");
+}
+
+async function imageDataUri(
+  runDir: string,
+  rel: string,
+): Promise<{ src: string; present: boolean }> {
+  const full = path.join(runDir, rel);
+  if (!(await pathExists(full))) {
+    return { src: "", present: false };
+  }
+  try {
+    const buf = await fs.readFile(full);
+    const b64 = buf.toString("base64");
+    return { src: `data:image/png;base64,${b64}`, present: true };
+  } catch {
+    return { src: "", present: false };
+  }
+}
+
+function imgTag(label: string, src: string, present: boolean): string {
+  if (!present || !src) {
+    return `<p class="warn">${esc(label)}: missing artifact (explicitly absent)</p>`;
+  }
+  return `<div><img src="${src}" alt="${esc(label)}"/></div>`;
 }
 
 export async function generateHtmlReport(opts: {
@@ -25,10 +60,28 @@ export async function generateHtmlReport(opts: {
   verification: VerificationResult | null;
   outPath: string;
 }): Promise<string> {
-  const { run, issue, evidence, diagnosis, patchValidation, patchDiff, verification } =
-    opts;
+  const {
+    run,
+    issue,
+    evidence,
+    diagnosis,
+    patchValidation,
+    patchDiff,
+    verification,
+  } = opts;
 
-  const artifact = (rel: string) => `../${rel.replace(/\\/g, "/")}`;
+  const runDir = run.rootDir;
+  const before = await imageDataUri(runDir, "artifacts/before.png");
+  const beforeAnn = await imageDataUri(
+    runDir,
+    "artifacts/before-annotated.png",
+  );
+  const after = await imageDataUri(runDir, "artifacts/after.png");
+  const afterAnn = await imageDataUri(runDir, "artifacts/after-annotated.png");
+  const diff = await imageDataUri(runDir, "artifacts/diff.png");
+
+  const traceBefore = run.artifacts.find((a) => a.id === "trace-before");
+  const traceAfter = run.artifacts.find((a) => a.id === "trace-after");
 
   const html = `<!doctype html>
 <html lang="en">
@@ -79,8 +132,9 @@ export async function generateHtmlReport(opts: {
       <div>Route / state</div><div><code>${esc(issue.route)}</code> · ${issue.state.viewport.width}×${issue.state.viewport.height} · ${esc(issue.state.locale)} · ${esc(issue.state.theme)}</div>
       <div>Base ref</div><div><code>${esc(run.baseRef)}</code></div>
       <div>Provider</div><div>${esc(run.provider)}</div>
-      <div>Worktree</div><div><code>${esc(run.worktreePath ?? "n/a")}</code></div>
+      <div>Worktree</div><div><code>${esc(sanitizePathForShare(run.worktreePath))}</code></div>
       <div>Original checkout hash</div><div><code>${esc(run.originalCheckoutHash ?? "n/a")}</code></div>
+      <div>Images</div><div>Embedded as data URIs when present (self-contained HTML)</div>
     </div>
   </div>
 
@@ -88,11 +142,11 @@ export async function generateHtmlReport(opts: {
   <div class="grid">
     <div class="card">
       <strong>Before</strong>
-      <div><img src="${artifact("artifacts/before.png")}" alt="before"/></div>
+      ${imgTag("before", before.src, before.present)}
     </div>
     <div class="card">
       <strong>Before annotated</strong>
-      <div><img src="${artifact("artifacts/before-annotated.png")}" alt="before annotated"/></div>
+      ${imgTag("before-annotated", beforeAnn.src, beforeAnn.present)}
     </div>
   </div>
   <div class="card" style="margin-top:12px">
@@ -106,9 +160,10 @@ export async function generateHtmlReport(opts: {
       sticky: evidence?.detectors.stickyOcclusion ?? [],
       axe: evidence?.detectors.accessibility ?? null,
     }, null, 2))}</code></pre>
+    <p class="muted">Trace before: ${traceBefore?.present ? esc(traceBefore.path) : "explicitly absent (optional in MVP)"} · Trace after: ${traceAfter?.present ? esc(traceAfter.path) : "explicitly absent (optional in MVP)"}</p>
   </div>
 
-  <h2>3. Root cause & source candidates</h2>
+  <h2>3. Root cause &amp; source candidates</h2>
   <div class="card">
     <p>${esc(diagnosis?.summary ?? "No diagnosis")}</p>
     <p>Confidence: <strong>${diagnosis?.rootCause.confidence ?? "n/a"}</strong></p>
@@ -116,7 +171,7 @@ export async function generateHtmlReport(opts: {
       <thead><tr><th>Rank</th><th>File</th><th>Line</th><th>Selector</th><th>Property</th><th>Value</th><th>Reason</th></tr></thead>
       <tbody>
       ${(evidence?.sourceCandidates ?? []).slice(0, 15).map((c) => `
-        <tr>
+        <tr id="candidate-${c.rank}">
           <td>${c.rank}</td>
           <td><code>${esc(c.file ?? "unresolved")}</code></td>
           <td>${c.line ?? "—"}</td>
@@ -127,7 +182,7 @@ export async function generateHtmlReport(opts: {
         </tr>`).join("")}
       </tbody>
     </table>
-    ${evidence?.sourceCandidates.some((c) => !c.file) ? `<p class="warn">Some authored sources could not be resolved to repository paths.</p>` : ""}
+    ${(evidence?.sourceCandidates ?? []).some((c) => !c.file) ? `<p class="warn">Some authored sources could not be resolved to repository paths.</p>` : ""}
   </div>
 
   <h2>4. Patch</h2>
@@ -145,11 +200,15 @@ export async function generateHtmlReport(opts: {
   <div class="grid">
     <div class="card">
       <strong>After</strong>
-      <div><img src="${artifact("artifacts/after.png")}" alt="after"/></div>
+      ${imgTag("after", after.src, after.present)}
+    </div>
+    <div class="card">
+      <strong>After annotated</strong>
+      ${imgTag("after-annotated", afterAnn.src, afterAnn.present)}
     </div>
     <div class="card">
       <strong>Diff</strong>
-      <div><img src="${artifact("artifacts/diff.png")}" alt="diff"/></div>
+      ${imgTag("diff", diff.src, diff.present)}
     </div>
   </div>
   <div class="card" style="margin-top:12px">

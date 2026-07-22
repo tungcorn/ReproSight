@@ -12,7 +12,8 @@
     "benchmark:localization": "tsx src/run-localization-analysis.ts",
     "e2e:mock": "tsx src/run-e2e-mock.ts",
     "evaluation:mock-matrix": "tsx src/run-mock-matrix.ts",
-    "evaluation:real-provider": "tsx src/run-real-provider-eval.ts"
+    "evaluation:real-provider": "tsx src/run-real-provider-eval.ts",
+    "check:report-integrity": "tsx src/check-report-integrity.ts"
   },
   "dependencies": {
     "@reprosight/core": "0.1.0",
