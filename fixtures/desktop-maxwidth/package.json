@@ -1,0 +1,5 @@
+{
+  "name": "fixture-desktop-maxwidth",
+  "private": true,
+  "scripts": { "start": "npx --yes serve -l 4183 ." }
+}

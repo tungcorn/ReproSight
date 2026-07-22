@@ -1,0 +1,25 @@
+{
+  "id": "container-stretch",
+  "title": "Hero becomes edge-to-edge at desktop",
+  "description": "At 1440px, a Hero section that also has a .container class becomes edge-to-edge because a later .hero { max-width: 100%; } rule overrides the shared .container { max-width: 1080px; margin: 0 auto; } rule.",
+  "route": "/",
+  "state": {
+    "viewport": { "width": 1440, "height": 900 },
+    "locale": "en",
+    "theme": "dark"
+  },
+  "actions": [],
+  "assertions": [
+    { "type": "noHorizontalOverflow" },
+    { "type": "selectorWithinViewport", "selector": "#hero" }
+  ],
+  "screenshot": null,
+  "region": null,
+  "expected": {
+    "detector": "horizontalOverflow",
+    "culpritSelector": ".hero",
+    "sourceFile": "styles.css",
+    "property": "max-width",
+    "difficulty": "medium"
+  }
+}

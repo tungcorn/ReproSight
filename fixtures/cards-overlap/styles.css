@@ -1,0 +1,31 @@
+body {
+  margin: 0;
+  font-family: system-ui, sans-serif;
+  background: #0b1220;
+  color: #e5e7eb;
+}
+.row {
+  position: relative;
+  width: 768px;
+  height: 220px;
+  margin: 40px auto;
+}
+.card {
+  position: absolute;
+  width: 420px;
+  height: 160px;
+  border-radius: 12px;
+  padding: 16px;
+  background: #1e293b;
+  border: 1px solid #334155;
+}
+#card-a {
+  left: 20px;
+  top: 20px;
+  z-index: 1;
+}
+#card-b {
+  left: 300px;
+  top: 40px;
+  z-index: 2;
+}

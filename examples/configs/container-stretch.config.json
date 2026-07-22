@@ -1,0 +1,48 @@
+{
+  "project": {
+    "name": "container-stretch",
+    "repoPath": "fixtures/container-stretch",
+    "baseRef": "HEAD"
+  },
+  "commands": {
+    "install": "node -e \"process.exit(0)\"",
+    "start": "npx --yes serve -l 4173 ."
+  },
+  "server": {
+    "readyUrl": "http://127.0.0.1:4173",
+    "timeoutMs": 60000
+  },
+  "browser": {
+    "name": "chromium",
+    "headless": true,
+    "colorScheme": "dark",
+    "deviceScaleFactor": 1
+  },
+  "routes": ["/"],
+  "states": {
+    "viewports": [
+      { "name": "desktop", "width": 1440, "height": 900 },
+      { "name": "tablet", "width": 768, "height": 1024 },
+      { "name": "mobile", "width": 390, "height": 844 }
+    ],
+    "locales": ["en"],
+    "themes": ["dark"]
+  },
+  "detectors": {
+    "horizontalOverflow": true,
+    "overlap": true,
+    "textClipping": true,
+    "stickyOcclusion": true,
+    "accessibility": true
+  },
+  "patchPolicy": {
+    "allowedGlobs": ["**/*.{css,html,js}"],
+    "deniedGlobs": [".env*", "**/node_modules/**", "**/.git/**"],
+    "maxFiles": 3,
+    "maxAddedLines": 120,
+    "maxDeletedLines": 120
+  },
+  "regressionMatrix": {
+    "includeAllConfiguredStates": true
+  }
+}

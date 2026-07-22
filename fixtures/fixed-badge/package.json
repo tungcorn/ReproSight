@@ -1,0 +1,5 @@
+{
+  "name": "fixture-fixed-badge",
+  "private": true,
+  "scripts": { "start": "npx --yes serve -l 4182 ." }
+}

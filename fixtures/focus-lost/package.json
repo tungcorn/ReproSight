@@ -1,0 +1,5 @@
+{
+  "name": "fixture-focus-lost",
+  "private": true,
+  "scripts": { "start": "npx --yes serve -l 4184 ." }
+}

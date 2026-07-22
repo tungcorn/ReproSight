@@ -1,0 +1,21 @@
+body {
+  margin: 40px;
+  font-family: system-ui, sans-serif;
+  background: #f8fafc;
+}
+.ghost {
+  background: #e2e8f0;
+  color: #cbd5e1;
+  border: 0;
+  padding: 10px 14px;
+}
+.link {
+  display: inline-block;
+  margin-left: 16px;
+  color: #94a3b8;
+  outline: none;
+}
+.link:focus {
+  outline: none;
+  box-shadow: none;
+}

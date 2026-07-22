@@ -1,0 +1,41 @@
+{
+  "project": {
+    "name": "locale-overflow",
+    "repoPath": "fixtures/locale-overflow",
+    "baseRef": "HEAD"
+  },
+  "commands": {
+    "install": "node -e \"process.exit(0)\"",
+    "start": "npx --yes serve -l 4174 ."
+  },
+  "server": {
+    "readyUrl": "http://127.0.0.1:4174",
+    "timeoutMs": 60000
+  },
+  "setup": {
+    "locale": {
+      "strategy": "selector",
+      "selector": "[data-language-toggle]"
+    },
+    "theme": {
+      "strategy": "selector",
+      "selector": "[data-theme-toggle]"
+    }
+  },
+  "states": {
+    "viewports": [
+      { "name": "desktop", "width": 1440, "height": 900 },
+      { "name": "tablet", "width": 768, "height": 1024 },
+      { "name": "mobile", "width": 390, "height": 844 }
+    ],
+    "locales": ["en", "vi"],
+    "themes": ["dark", "light"]
+  },
+  "patchPolicy": {
+    "allowedGlobs": ["**/*.{css,html,js}"],
+    "deniedGlobs": [".env*", "**/node_modules/**", "**/.git/**"],
+    "maxFiles": 3,
+    "maxAddedLines": 120,
+    "maxDeletedLines": 120
+  }
+}

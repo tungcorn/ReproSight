@@ -1,0 +1,18 @@
+body {
+  margin: 0;
+  font-family: system-ui, sans-serif;
+  background: #0b1220;
+  color: #e5e7eb;
+}
+.nav {
+  display: flex;
+  gap: 18px;
+  padding: 16px;
+  white-space: nowrap;
+  /* intentionally no wrap / no scroll — overflows on mobile width */
+}
+.nav a {
+  color: #38bdf8;
+  text-decoration: none;
+  font-weight: 600;
+}

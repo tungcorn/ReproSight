@@ -1,0 +1,28 @@
+{
+  "id": "locale-overflow-vi-768",
+  "title": "Vietnamese About highlights overflow at tablet width",
+  "description": "At 768px in Vietnamese, the highlight rows extend outside the viewport.",
+  "route": "/",
+  "state": {
+    "viewport": { "width": 768, "height": 1024 },
+    "locale": "vi",
+    "theme": "dark"
+  },
+  "actions": [
+    { "type": "click", "selector": "[data-language-toggle]" },
+    { "type": "scrollIntoView", "selector": "#about" }
+  ],
+  "assertions": [
+    { "type": "noHorizontalOverflow" },
+    { "type": "selectorWithinViewport", "selector": "#about" }
+  ],
+  "screenshot": null,
+  "region": null,
+  "expected": {
+    "detector": "horizontalOverflow",
+    "culpritSelector": ".about__highlights strong",
+    "sourceFile": "styles.css",
+    "property": "white-space",
+    "difficulty": "hard"
+  }
+}

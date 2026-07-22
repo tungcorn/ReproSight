@@ -1,0 +1,21 @@
+body {
+  margin: 0;
+  font-family: system-ui, sans-serif;
+  background: #0b1220;
+  color: #e5e7eb;
+}
+.container {
+  max-width: 960px;
+  margin: 0 auto;
+}
+.panel {
+  margin-top: 40px;
+  padding: 24px;
+  background: #111827;
+  border: 1px solid #334155;
+}
+/* accidental override */
+.panel {
+  max-width: 100%;
+  width: 1400px;
+}

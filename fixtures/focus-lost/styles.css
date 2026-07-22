@@ -1,0 +1,15 @@
+body {
+  margin: 24px;
+  font-family: system-ui, sans-serif;
+  background: #0b1220;
+  color: #e5e7eb;
+}
+.focus-link {
+  color: #93c5fd;
+  outline: none !important;
+}
+.focus-link:focus,
+.focus-link:focus-visible {
+  outline: none !important;
+  box-shadow: none !important;
+}

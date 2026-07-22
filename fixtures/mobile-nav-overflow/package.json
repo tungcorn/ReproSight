@@ -1,0 +1,5 @@
+{
+  "name": "fixture-mobile-nav-overflow",
+  "private": true,
+  "scripts": { "start": "npx --yes serve -l 4180 ." }
+}
