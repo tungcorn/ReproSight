@@ -1,4 +1,5 @@
 import { execa, type ResultPromise } from "execa";
+import fs from "node:fs";
 import path from "node:path";
 import type { ReproSightConfig } from "../config/schema.js";
 
@@ -15,6 +16,46 @@ function splitCommand(command: string): { file: string; args: string[] } {
   const file = parts[0] ?? command;
   const args = parts.slice(1);
   return { file, args };
+}
+
+/**
+ * Resolve relative script paths for start commands so the same config works
+ * from the original fixture directory and from a linked worktree.
+ *
+ * Example: `node ../../scripts/static-serve.mjs 4173 .`
+ * works from fixtures/foo but breaks under .reprosight/worktrees/<id>.
+ * Prefer an existing path under process.cwd()/scripts when needed.
+ */
+function resolveStartCommand(
+  command: string,
+  targetCwd: string,
+): { file: string; args: string[] } {
+  const { file, args } = splitCommand(command);
+  const resolvedArgs = args.map((arg) => {
+    if (!arg || arg === "." || arg.startsWith("-")) return arg;
+    if (path.isAbsolute(arg)) return arg;
+    // Only rewrite path-like args
+    if (!/[\\/]/.test(arg) && !/\.(mjs|cjs|js|ts)$/i.test(arg)) return arg;
+
+    const fromTarget = path.resolve(targetCwd, arg);
+    if (fs.existsSync(fromTarget)) return fromTarget;
+
+    const fromProcessCwd = path.resolve(process.cwd(), arg);
+    if (fs.existsSync(fromProcessCwd)) return fromProcessCwd;
+
+    // Known monorepo helper
+    if (/static-serve\.mjs$/i.test(arg)) {
+      const candidate = path.resolve(
+        process.cwd(),
+        "scripts",
+        "static-serve.mjs",
+      );
+      if (fs.existsSync(candidate)) return candidate;
+    }
+
+    return arg;
+  });
+  return { file, args: resolvedArgs };
 }
 
 export async function waitForUrl(
@@ -84,18 +125,26 @@ export async function startTargetProcess(opts: {
     });
   }
 
-  const start = splitCommand(opts.config.commands.start);
+  const start = resolveStartCommand(opts.config.commands.start, cwd);
   const child: ResultPromise = execa(start.file, start.args, {
     cwd,
     stdio: "pipe",
     reject: false,
-    // Detach process group on POSIX so we can kill the whole tree (npx children, etc.)
+    // Detach process group on POSIX so we can kill the whole tree
     detached: process.platform !== "win32",
     env: {
       ...process.env,
       BROWSER: "none",
       FORCE_COLOR: "0",
     },
+  });
+
+  const logs: string[] = [];
+  child.stdout?.on("data", (chunk: Buffer | string) => {
+    logs.push(String(chunk));
+  });
+  child.stderr?.on("data", (chunk: Buffer | string) => {
+    logs.push(String(chunk));
   });
 
   let stopped = false;
@@ -118,8 +167,14 @@ export async function startTargetProcess(opts: {
   try {
     await waitForUrl(opts.config.server.readyUrl, opts.config.server.timeoutMs);
   } catch (err) {
+    const detail = logs.join("").trim().slice(0, 800);
     await stop();
-    throw err;
+    const base = err instanceof Error ? err.message : String(err);
+    throw new Error(
+      detail
+        ? `${base}\nStart command: ${start.file} ${start.args.join(" ")}\nCwd: ${cwd}\nProcess output:\n${detail}`
+        : `${base}\nStart command: ${start.file} ${start.args.join(" ")}\nCwd: ${cwd}`,
+    );
   }
 
   return { stop, pid: child.pid, cwd };

@@ -6,7 +6,7 @@
   },
   "commands": {
     "install": "node -e \"process.exit(0)\"",
-    "start": "node ../../scripts/static-serve.mjs 4173 ."
+    "start": "node scripts/static-serve.mjs 4173 ."
   },
   "server": {
     "readyUrl": "http://127.0.0.1:4173",
