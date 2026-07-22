@@ -15,7 +15,8 @@
     "evaluation:real-provider": "tsx src/run-real-provider-eval.ts",
     "evaluation:holdout-validate": "tsx src/validate-holdout.ts",
     "evaluation:holdout-real": "tsx src/run-holdout-real-provider.ts",
-    "check:report-integrity": "tsx src/check-report-integrity.ts"
+    "check:report-integrity": "tsx src/check-report-integrity.ts",
+    "e2e:agent": "tsx src/run-agent-e2e.ts"
   },
   "dependencies": {
     "@reprosight/core": "0.1.0",

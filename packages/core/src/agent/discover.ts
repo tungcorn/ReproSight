@@ -4,6 +4,7 @@ import { execa } from "execa";
 import type { InferredField } from "./response.js";
 import { assertSafeRepoPath } from "./security.js";
 
+
 export type DiscoveryResult = {
   repository: {
     root: string;

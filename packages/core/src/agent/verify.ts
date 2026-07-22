@@ -59,7 +59,7 @@ export async function agentVerify(opts: {
   const originalHash =
     run.originalCheckoutHash ?? (await hashCheckout(config.project.repoPath));
 
-  let worktreePath = run.worktreePath;
+  const worktreePath = run.worktreePath;
   let unifiedDiff = "";
 
   if (opts.patchFile || opts.patchText) {

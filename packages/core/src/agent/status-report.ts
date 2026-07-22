@@ -90,9 +90,20 @@ export async function agentReport(opts: {
     const verification = await readJsonFile<Record<string, unknown>>(
       runStore.artifactPath(opts.runId, "verification.json"),
     ).catch(() => null);
+    const verificationOverall = verification?.overall;
     const humanReviewRequired =
       run.state === "AWAITING_HUMAN_REVIEW" ||
-      run.finalVerdict === "AWAITING_HUMAN_REVIEW";
+      run.finalVerdict === "AWAITING_HUMAN_REVIEW" ||
+      verificationOverall === "VERIFIED" ||
+      (Array.isArray(attempts) &&
+        attempts.some(
+          (a) =>
+            typeof a === "object" &&
+            a !== null &&
+            "verdict" in a &&
+            (a as { verdict?: string }).verdict ===
+              "TARGET_FIXED_REGRESSIONS_PASSED",
+        ));
     return agentOk(
       humanReviewRequired ? "HUMAN_REVIEW_REQUIRED" : "OK",
       {

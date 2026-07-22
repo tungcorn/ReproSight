@@ -199,10 +199,16 @@ export async function prepareAgentSession(opts: {
 
   // Screenshot pixel size is metadata only; do not assume equality with CSS viewport.
 
+  // Static fixtures often lack package-lock; never force `npm ci` there.
+  const hasLockfile =
+    fs.existsSync(path.join(repoPath, "package-lock.json")) ||
+    fs.existsSync(path.join(repoPath, "pnpm-lock.yaml")) ||
+    fs.existsSync(path.join(repoPath, "yarn.lock"));
   const install =
     request.projectHints?.installCommand ??
-    discovery.installCommandCandidates[0]?.command ??
-    "npm ci";
+    (hasLockfile
+      ? (discovery.installCommandCandidates[0]?.command ?? "npm ci")
+      : 'node -e "process.exit(0)"');
 
   const config: ReproSightConfig = parseConfig({
     project: {

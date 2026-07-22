@@ -1,8 +1,33 @@
 # ReproSight — Evidence-driven AI Visual Repair
 
-**Visual defect → deterministic evidence → authored CSS candidate → proposed patch → isolated verification → regression result → human review.**
+**Tell your coding agent about a UI defect. The agent operates ReproSight to reproduce it, repair it in an isolated workspace, and prove the repair through regression checks.**
 
-ReproSight does not merely suggest a fix. It produces evidence showing whether the fix worked.
+Coding agents can propose a UI repair. **ReproSight requires that repair to prove itself.**
+
+```text
+User → Coding agent (Claude Code / Codex / Cursor / …)
+          → reprosight agent contract/discover/run/workspace/verify
+          → evidence + isolated worktree + verdict
+          → human review still required
+```
+
+You (the human) do **not** need to write ReproSight JSON, pick ports/selectors, or run the CLI. Your coding agent does.
+
+### What you say
+
+> The checkout CTA is covered on mobile.  
+> Use ReproSight to fix it and verify the result.
+
+Copy-paste prompt: [docs/prompts/use-reprosight.md](docs/prompts/use-reprosight.md) · Agent guide: [AGENTS.md](AGENTS.md)
+
+### What the agent does internally
+
+`contract` → `discover` → `run` (reproduce + evidence) → `workspace` → edit → `verify` → `report`
+
+- External agent: reasoning + code edits  
+- ReproSight: deterministic browser evidence, CSS candidates, worktree isolation, patch policy, regressions  
+- Success only when verification is `TARGET_FIXED_REGRESSIONS_PASSED`  
+- Advanced JSON config/issue workflow remains available for power users  
 
 ## Flagship proof (container stretch)
 

@@ -68,13 +68,18 @@ export async function verifyRepair(opts: {
   beforeEvidence: EvidencePack;
   keepServer?: boolean;
 }): Promise<VerificationResult> {
+  const installCmd = opts.config.commands.install ?? "";
+  const needsInstall =
+    installCmd.length > 0 &&
+    !/process\.exit\(0\)/.test(installCmd) &&
+    !/^true\b/.test(installCmd.trim());
   const server = await startTargetProcess({
     config: {
       ...opts.config,
       project: { ...opts.config.project, repoPath: opts.worktreePath },
     },
     cwd: opts.worktreePath,
-    install: true,
+    install: needsInstall,
   });
 
   try {

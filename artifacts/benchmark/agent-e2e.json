@@ -1,0 +1,57 @@
+{
+  "total": 4,
+  "passed": 4,
+  "results": [
+    {
+      "id": "A-description-only-overflow",
+      "ok": true,
+      "notes": [],
+      "details": {
+        "runStatus": "REPRODUCED",
+        "evidenceStatus": "EVIDENCE_READY",
+        "verify": "TARGET_FIXED_REGRESSIONS_PASSED",
+        "verifyStatus": "HUMAN_REVIEW_REQUIRED",
+        "humanReviewRequired": true,
+        "originalUnchanged": true,
+        "contractCommands": 11
+      }
+    },
+    {
+      "id": "C-incorrect-first-repair",
+      "ok": true,
+      "notes": [],
+      "details": {
+        "attempt1": "TARGET_STILL_FAILING",
+        "attempt2": "TARGET_FIXED_REGRESSIONS_PASSED",
+        "originalUnchanged": true
+      }
+    },
+    {
+      "id": "E-agent-action-ambiguity",
+      "ok": true,
+      "notes": [
+        "prepareStatus=AGENT_ACTION_REQUIRED",
+        "discoverStarts=0",
+        "ambiguous=false"
+      ],
+      "details": {
+        "preparedStatus": "AGENT_ACTION_REQUIRED",
+        "code": "MISSING_START_COMMAND",
+        "candidates": []
+      }
+    },
+    {
+      "id": "B-screenshot-vague-overlap",
+      "ok": true,
+      "notes": [
+        "prepare=OK",
+        "run=NOT_REPRODUCED"
+      ],
+      "details": {
+        "runId": "run_2026-07-22T08-12-04-183Z_8a68bb62",
+        "acceptedNotReproduced": true
+      }
+    }
+  ],
+  "note": "External-agent simulation harness (no network model)."
+}
