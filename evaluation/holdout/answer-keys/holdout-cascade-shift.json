@@ -1,0 +1,69 @@
+{
+  "id": "holdout-cascade-shift",
+  "fixture": "holdout-cascade-shift",
+  "port": 4285,
+  "cssFile": "stage.css",
+  "difficulty": "hard",
+  "expectedDetector": "horizontalOverflow",
+  "expectedFile": "stage.css",
+  "acceptableSelectors": [
+    ".card",
+    "#shift-card"
+  ],
+  "expectedProperties": [
+    "width",
+    "transform"
+  ],
+  "abstentionAcceptable": true,
+  "notes": "Ambiguous cascade: both width:900px and translateX contribute. Abstention is acceptable if evidence is multi-factor without a single safe minimal patch.",
+  "referencePatch": "--- a/stage.css\n+++ b/stage.css\n@@ -17,10 +17,7 @@ body {\n   background: #1e293b;\n   border: 1px solid #334155;\n }\n-/* ambiguous cascade: both width and transform contribute */\n-.card {\n-  width: 900px;\n-}\n+/* ambiguous cascade fixed for reference patch */\n #shift-card {\n-  transform: translateX(80px);\n+  transform: none;\n }\n",
+  "regressionStates": [
+    {
+      "name": "desktop",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "locale": "en",
+      "theme": "dark"
+    },
+    {
+      "name": "tablet",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "locale": "en",
+      "theme": "dark"
+    },
+    {
+      "name": "mobile",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "locale": "en",
+      "theme": "dark"
+    }
+  ],
+  "issue": {
+    "id": "holdout-cascade-shift",
+    "title": "Card overflows due to late width and transform cascade",
+    "description": "A stage card overflows the viewport because a later width override and a translateX transform both push content outside the container.",
+    "route": "/",
+    "state": {
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "locale": "en",
+      "theme": "dark"
+    },
+    "actions": [],
+    "assertions": [
+      {
+        "type": "noHorizontalOverflow"
+      }
+    ]
+  }
+}

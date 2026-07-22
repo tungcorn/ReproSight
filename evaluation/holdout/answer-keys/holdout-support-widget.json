@@ -1,0 +1,65 @@
+{
+  "id": "holdout-support-widget",
+  "fixture": "holdout-support-widget",
+  "port": 4283,
+  "cssFile": "shell.css",
+  "difficulty": "easy",
+  "expectedDetector": "overlap",
+  "expectedFile": "shell.css",
+  "acceptableSelectors": [
+    "#help-bubble",
+    ".help-bubble",
+    "#checkout",
+    ".checkout"
+  ],
+  "expectedProperties": [
+    "bottom",
+    "right",
+    "z-index",
+    "position"
+  ],
+  "abstentionAcceptable": false,
+  "referencePatch": "--- a/shell.css\n+++ b/shell.css\n@@ -20,7 +20,7 @@ body {\n .help-bubble {\n   position: fixed;\n   right: 12px;\n-  bottom: 12px;\n+  bottom: 88px;\n   z-index: 5;\n   width: 140px;\n   height: 64px;\n",
+  "regressionStates": [
+    {
+      "name": "mobile",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "locale": "en",
+      "theme": "dark"
+    },
+    {
+      "name": "desktop",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "locale": "en",
+      "theme": "dark"
+    }
+  ],
+  "issue": {
+    "id": "holdout-support-widget",
+    "title": "Support bubble covers checkout CTA",
+    "description": "On mobile, a fixed support widget sits on top of the checkout button and obstructs interaction.",
+    "route": "/",
+    "state": {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "locale": "en",
+      "theme": "dark"
+    },
+    "actions": [],
+    "assertions": [
+      {
+        "type": "noOverlap",
+        "a": "#checkout",
+        "b": "#help-bubble"
+      }
+    ]
+  }
+}

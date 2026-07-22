@@ -1,0 +1,91 @@
+{
+  "total": 6,
+  "passed": 6,
+  "results": [
+    {
+      "id": "holdout-btn-clip-vi",
+      "ok": true,
+      "notes": [],
+      "reproduced": true,
+      "expectedDetectorHit": true,
+      "annotatedEvidence": true,
+      "sourceCandidateResolved": true,
+      "answerKeyFileExists": true,
+      "referencePatchApplies": true,
+      "referencePatchApplied": true,
+      "referenceFixesTarget": true,
+      "originalUnchanged": true
+    },
+    {
+      "id": "holdout-cascade-shift",
+      "ok": true,
+      "notes": [],
+      "reproduced": true,
+      "expectedDetectorHit": true,
+      "annotatedEvidence": true,
+      "sourceCandidateResolved": true,
+      "answerKeyFileExists": true,
+      "referencePatchApplies": true,
+      "referencePatchApplied": true,
+      "referenceFixesTarget": true,
+      "originalUnchanged": true
+    },
+    {
+      "id": "holdout-flex-minwidth",
+      "ok": true,
+      "notes": [],
+      "reproduced": true,
+      "expectedDetectorHit": true,
+      "annotatedEvidence": true,
+      "sourceCandidateResolved": true,
+      "answerKeyFileExists": true,
+      "referencePatchApplies": true,
+      "referencePatchApplied": true,
+      "referenceFixesTarget": true,
+      "originalUnchanged": true
+    },
+    {
+      "id": "holdout-grid-token",
+      "ok": true,
+      "notes": [],
+      "reproduced": true,
+      "expectedDetectorHit": true,
+      "annotatedEvidence": true,
+      "sourceCandidateResolved": true,
+      "answerKeyFileExists": true,
+      "referencePatchApplies": true,
+      "referencePatchApplied": true,
+      "referenceFixesTarget": true,
+      "originalUnchanged": true
+    },
+    {
+      "id": "holdout-sticky-docs",
+      "ok": true,
+      "notes": [],
+      "reproduced": true,
+      "expectedDetectorHit": true,
+      "annotatedEvidence": true,
+      "sourceCandidateResolved": true,
+      "answerKeyFileExists": true,
+      "referencePatchApplies": true,
+      "referencePatchApplied": true,
+      "referenceFixesTarget": true,
+      "originalUnchanged": true
+    },
+    {
+      "id": "holdout-support-widget",
+      "ok": true,
+      "notes": [],
+      "reproduced": true,
+      "expectedDetectorHit": true,
+      "annotatedEvidence": true,
+      "sourceCandidateResolved": true,
+      "answerKeyFileExists": true,
+      "referencePatchApplies": true,
+      "referencePatchApplied": true,
+      "referenceFixesTarget": true,
+      "originalUnchanged": true
+    }
+  ],
+  "note": "Deterministic holdout validation of cases/reference patches — not model success."
+}

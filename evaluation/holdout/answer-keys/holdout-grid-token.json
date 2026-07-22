@@ -1,0 +1,60 @@
+{
+  "id": "holdout-grid-token",
+  "fixture": "holdout-grid-token",
+  "port": 4286,
+  "cssFile": "board.css",
+  "difficulty": "medium",
+  "expectedDetector": "horizontalOverflow",
+  "expectedFile": "board.css",
+  "acceptableSelectors": [
+    "#token-cell",
+    ".token",
+    ".tile.token"
+  ],
+  "expectedProperties": [
+    "white-space",
+    "min-width"
+  ],
+  "abstentionAcceptable": false,
+  "referencePatch": "--- a/board.css\n+++ b/board.css\n@@ -10,14 +10,18 @@ body {\n   gap: 10px;\n   padding: 12px;\n   width: 100%;\n-  /* box model intentionally incomplete in buggy state */\n+  max-width: 100%;\n+  box-sizing: border-box;\n }\n .tile {\n   border: 1px solid #334155;\n   padding: 12px;\n   background: #111827;\n+  min-width: 0;\n+  box-sizing: border-box;\n }\n .token {\n-  white-space: nowrap;\n-  min-width: auto;\n+  white-space: normal;\n+  min-width: 0;\n+  overflow-wrap: anywhere;\n+  word-break: break-word;\n }\n",
+  "regressionStates": [
+    {
+      "name": "mobile",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "locale": "en",
+      "theme": "dark"
+    },
+    {
+      "name": "tablet",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "locale": "en",
+      "theme": "dark"
+    }
+  ],
+  "issue": {
+    "id": "holdout-grid-token",
+    "title": "Grid cell with unbreakable token overflows",
+    "description": "A long unbreakable evaluation token in a 1fr grid track expands the page width on mobile.",
+    "route": "/",
+    "state": {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "locale": "en",
+      "theme": "dark"
+    },
+    "actions": [],
+    "assertions": [
+      {
+        "type": "noHorizontalOverflow"
+      }
+    ]
+  }
+}

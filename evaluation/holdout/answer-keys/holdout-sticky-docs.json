@@ -1,0 +1,63 @@
+{
+  "id": "holdout-sticky-docs",
+  "fixture": "holdout-sticky-docs",
+  "port": 4284,
+  "cssFile": "docs.css",
+  "difficulty": "medium",
+  "expectedDetector": "stickyOcclusion",
+  "expectedFile": "docs.css",
+  "acceptableSelectors": [
+    "#api-ref"
+  ],
+  "expectedProperties": [
+    "scroll-margin-top"
+  ],
+  "abstentionAcceptable": false,
+  "referencePatch": "--- a/docs.css\n+++ b/docs.css\n@@ -22,5 +22,6 @@ body {\n   margin: 0;\n   padding: 10px 20px;\n   background: #1e293b;\n+  scroll-margin-top: 72px;\n   /* intentionally missing scroll-margin-top */\n }\n",
+  "regressionStates": [
+    {
+      "name": "desktop",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "locale": "en",
+      "theme": "dark"
+    },
+    {
+      "name": "tablet",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "locale": "en",
+      "theme": "dark"
+    }
+  ],
+  "issue": {
+    "id": "holdout-sticky-docs",
+    "title": "API heading hidden under sticky docs bar",
+    "description": "Scrolling to #api-ref leaves the heading under the sticky documentation bar because scroll-margin-top is missing.",
+    "route": "/",
+    "state": {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "locale": "en",
+      "theme": "dark"
+    },
+    "actions": [
+      {
+        "type": "scrollIntoView",
+        "selector": "#api-ref"
+      }
+    ],
+    "assertions": [
+      {
+        "type": "noStickyOcclusion",
+        "selector": "#api-ref"
+      }
+    ]
+  }
+}

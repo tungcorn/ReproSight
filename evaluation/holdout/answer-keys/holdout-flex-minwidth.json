@@ -1,0 +1,60 @@
+{
+  "id": "holdout-flex-minwidth",
+  "fixture": "holdout-flex-minwidth",
+  "port": 4281,
+  "cssFile": "layout.css",
+  "difficulty": "medium",
+  "expectedDetector": "horizontalOverflow",
+  "expectedFile": "layout.css",
+  "acceptableSelectors": [
+    ".long",
+    "#chip-long",
+    ".chip.long"
+  ],
+  "expectedProperties": [
+    "min-width",
+    "white-space"
+  ],
+  "abstentionAcceptable": false,
+  "referencePatch": "--- a/layout.css\n+++ b/layout.css\n@@ -21,5 +21,7 @@ body {\n }\n .long {\n   /* default min-width:auto prevents shrinking; causes page overflow on mobile */\n-  min-width: auto;\n+  min-width: 0;\n+  overflow: hidden;\n+  text-overflow: ellipsis;\n }\n",
+  "regressionStates": [
+    {
+      "name": "mobile",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "locale": "en",
+      "theme": "dark"
+    },
+    {
+      "name": "tablet",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "locale": "en",
+      "theme": "dark"
+    }
+  ],
+  "issue": {
+    "id": "holdout-flex-minwidth",
+    "title": "Flex toolbar overflows on mobile",
+    "description": "At 390px width, the middle chip with a long unbreakable label prevents flex children from shrinking and extends past the viewport.",
+    "route": "/",
+    "state": {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "locale": "en",
+      "theme": "dark"
+    },
+    "actions": [],
+    "assertions": [
+      {
+        "type": "noHorizontalOverflow"
+      }
+    ]
+  }
+}

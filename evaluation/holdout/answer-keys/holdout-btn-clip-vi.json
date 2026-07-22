@@ -1,0 +1,61 @@
+{
+  "id": "holdout-btn-clip-vi",
+  "fixture": "holdout-btn-clip-vi",
+  "port": 4282,
+  "cssFile": "ui.css",
+  "difficulty": "easy",
+  "expectedDetector": "textClipping",
+  "expectedFile": "ui.css",
+  "acceptableSelectors": [
+    "#submit-cta",
+    ".submit-cta"
+  ],
+  "expectedProperties": [
+    "height",
+    "overflow",
+    "white-space"
+  ],
+  "abstentionAcceptable": false,
+  "referencePatch": "--- a/ui.css\n+++ b/ui.css\n@@ -9,10 +9,10 @@ body {\n }\n .submit-cta {\n   width: 100%;\n-  height: 36px;\n-  overflow: hidden;\n-  white-space: nowrap;\n-  text-overflow: clip;\n+  min-height: 36px;\n+  height: auto;\n+  overflow: visible;\n+  white-space: normal;\n   border: 0;\n   border-radius: 8px;\n   background: #2563eb;\n",
+  "regressionStates": [
+    {
+      "name": "mobile-vi",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "locale": "vi",
+      "theme": "dark"
+    },
+    {
+      "name": "tablet-vi",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "locale": "vi",
+      "theme": "dark"
+    }
+  ],
+  "issue": {
+    "id": "holdout-btn-clip-vi",
+    "title": "Vietnamese CTA label is clipped",
+    "description": "The long Vietnamese submit label is clipped by a fixed button height and hidden overflow.",
+    "route": "/",
+    "state": {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "locale": "vi",
+      "theme": "dark"
+    },
+    "actions": [],
+    "assertions": [
+      {
+        "type": "noTextClipping",
+        "selector": "#submit-cta"
+      }
+    ]
+  }
+}

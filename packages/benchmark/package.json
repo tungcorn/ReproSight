@@ -13,6 +13,8 @@
     "e2e:mock": "tsx src/run-e2e-mock.ts",
     "evaluation:mock-matrix": "tsx src/run-mock-matrix.ts",
     "evaluation:real-provider": "tsx src/run-real-provider-eval.ts",
+    "evaluation:holdout-validate": "tsx src/validate-holdout.ts",
+    "evaluation:holdout-real": "tsx src/run-holdout-real-provider.ts",
     "check:report-integrity": "tsx src/check-report-integrity.ts"
   },
   "dependencies": {
