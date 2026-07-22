@@ -1,0 +1,115 @@
+export const PROTOCOL_VERSION = 1 as const;
+export const TOOL_VERSION = "0.1.0";
+
+export const AGENT_STATUSES = [
+  "OK",
+  "REPRODUCED",
+  "NOT_REPRODUCED",
+  "EVIDENCE_READY",
+  "WORKSPACE_READY",
+  "AGENT_ACTION_REQUIRED",
+  "HUMAN_INPUT_REQUIRED",
+  "HUMAN_REVIEW_REQUIRED",
+  "APPLICATION_START_FAILED",
+  "APPLICATION_URL_AMBIGUOUS",
+  "ROUTE_AMBIGUOUS",
+  "VIEWPORT_UNRESOLVED",
+  "UNSUPPORTED_ACTION",
+  "UNSAFE_REQUEST",
+  "WORKSPACE_NOT_READY",
+  "PATCH_POLICY_REJECTED",
+  "TARGET_STILL_FAILING",
+  "TARGET_FIXED_REGRESSIONS_PASSED",
+  "REGRESSION_INTRODUCED",
+  "BUILD_FAILED",
+  "TEST_FAILED",
+  "NEW_ACCESSIBILITY_FAILURE",
+  "NEW_CONSOLE_ERROR",
+  "VERIFICATION_INFRASTRUCTURE_FAILURE",
+  "INVALID_REQUEST",
+  "ERROR",
+] as const;
+
+export type AgentStatus = (typeof AGENT_STATUSES)[number];
+
+/**
+ * Process exit codes for agent CLI.
+ * Product outcome is always in JSON; exit code indicates command completion class.
+ */
+export const AGENT_EXIT_CODES = {
+  OK: 0,
+  INVALID_REQUEST: 2,
+  UNSAFE_REQUEST: 3,
+  AGENT_ACTION_REQUIRED: 4,
+  HUMAN_INPUT_REQUIRED: 5,
+  APPLICATION_INFRASTRUCTURE_FAILURE: 6,
+  NOT_REPRODUCED: 7,
+  PATCH_POLICY_REJECTED: 8,
+  TARGET_STILL_FAILING: 9,
+  REGRESSION_INTRODUCED: 10,
+  HUMAN_REVIEW_REQUIRED: 11,
+  ERROR: 1,
+} as const;
+
+export type AgentExitCode =
+  (typeof AGENT_EXIT_CODES)[keyof typeof AGENT_EXIT_CODES];
+
+export function exitCodeForStatus(status: AgentStatus): AgentExitCode {
+  switch (status) {
+    case "OK":
+    case "REPRODUCED":
+    case "EVIDENCE_READY":
+    case "WORKSPACE_READY":
+    case "TARGET_FIXED_REGRESSIONS_PASSED":
+      return AGENT_EXIT_CODES.OK;
+    case "INVALID_REQUEST":
+      return AGENT_EXIT_CODES.INVALID_REQUEST;
+    case "UNSAFE_REQUEST":
+      return AGENT_EXIT_CODES.UNSAFE_REQUEST;
+    case "AGENT_ACTION_REQUIRED":
+    case "APPLICATION_URL_AMBIGUOUS":
+    case "ROUTE_AMBIGUOUS":
+    case "VIEWPORT_UNRESOLVED":
+      return AGENT_EXIT_CODES.AGENT_ACTION_REQUIRED;
+    case "HUMAN_INPUT_REQUIRED":
+      return AGENT_EXIT_CODES.HUMAN_INPUT_REQUIRED;
+    case "APPLICATION_START_FAILED":
+    case "VERIFICATION_INFRASTRUCTURE_FAILURE":
+    case "ERROR":
+      return AGENT_EXIT_CODES.APPLICATION_INFRASTRUCTURE_FAILURE;
+    case "NOT_REPRODUCED":
+      return AGENT_EXIT_CODES.NOT_REPRODUCED;
+    case "PATCH_POLICY_REJECTED":
+      return AGENT_EXIT_CODES.PATCH_POLICY_REJECTED;
+    case "TARGET_STILL_FAILING":
+    case "BUILD_FAILED":
+    case "TEST_FAILED":
+    case "NEW_ACCESSIBILITY_FAILURE":
+    case "NEW_CONSOLE_ERROR":
+      return AGENT_EXIT_CODES.TARGET_STILL_FAILING;
+    case "REGRESSION_INTRODUCED":
+      return AGENT_EXIT_CODES.REGRESSION_INTRODUCED;
+    case "HUMAN_REVIEW_REQUIRED":
+      return AGENT_EXIT_CODES.HUMAN_REVIEW_REQUIRED;
+    default:
+      return AGENT_EXIT_CODES.ERROR;
+  }
+}
+
+export const ALLOWED_ACTIONS = [
+  "goto",
+  "click",
+  "fill",
+  "press",
+  "hover",
+  "scrollIntoView",
+  "waitForSelector",
+] as const;
+
+export const DETECTOR_CATEGORIES = [
+  "horizontalOverflow",
+  "overlap",
+  "textClipping",
+  "stickyOcclusion",
+  "accessibility",
+] as const;

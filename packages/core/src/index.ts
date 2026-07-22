@@ -24,3 +24,4 @@ export * from "./source-locator/scoring.js";
 export * from "./verifier/verify.js";
 export * from "./reporting/html-report.js";
 export * from "./orchestrator/pipeline.js";
+export * from "./agent/index.js";

@@ -8,7 +8,7 @@ coverage/
 .env.*
 !.env.example
 
-# All local ReproSight runtime output (runs, worktrees, provider logs, tmp)
+# All local ReproSight runtime output (runs, worktrees, agent sessions, tmp)
 .reprosight/
 .playwright/
 test-results/

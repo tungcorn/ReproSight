@@ -12,6 +12,7 @@ import {
   parseIssue,
   parseConfig,
 } from "@reprosight/core";
+import { registerAgentCommands } from "./agent-cli.js";
 
 const program = new Command();
 
@@ -293,5 +294,7 @@ async function execPipeline(issueFile: string, opts: Record<string, unknown>) {
     process.exitCode = 10;
   }
 }
+
+registerAgentCommands(program);
 
 program.parseAsync(process.argv);

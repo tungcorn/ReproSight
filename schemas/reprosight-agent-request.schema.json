@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://reprosight.dev/schemas/reprosight-agent-request.schema.json",
+  "title": "ReproSight Agent Request",
+  "type": "object",
+  "required": ["task"],
+  "additionalProperties": false,
+  "properties": {
+    "version": { "const": 1, "default": 1 },
+    "repository": {
+      "type": "object",
+      "properties": {
+        "path": { "type": "string", "default": "." },
+        "baseRef": { "type": "string" }
+      }
+    },
+    "task": {
+      "type": "object",
+      "required": ["description"],
+      "properties": {
+        "description": { "type": "string", "minLength": 1 },
+        "screenshot": { "type": ["string", "null"] }
+      }
+    },
+    "stateHints": {
+      "type": "object",
+      "properties": {
+        "route": { "type": "string" },
+        "viewport": {
+          "type": "object",
+          "required": ["width", "height"],
+          "properties": {
+            "width": { "type": "integer", "exclusiveMinimum": 0 },
+            "height": { "type": "integer", "exclusiveMinimum": 0 }
+          }
+        },
+        "locale": { "type": "string" },
+        "theme": { "enum": ["dark", "light"] }
+      }
+    },
+    "projectHints": {
+      "type": "object",
+      "properties": {
+        "packageManager": { "enum": ["npm", "pnpm", "yarn", "bun"] },
+        "installCommand": { "type": "string" },
+        "startCommand": { "type": "string" },
+        "readyUrl": { "type": "string" },
+        "name": { "type": "string" }
+      }
+    },
+    "reproductionHints": {
+      "type": "object",
+      "properties": {
+        "category": {
+          "enum": [
+            "horizontalOverflow",
+            "overlap",
+            "textClipping",
+            "stickyOcclusion",
+            "accessibility"
+          ]
+        },
+        "actions": { "type": "array" },
+        "suspectedSelectors": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "execution": {
+      "type": "object",
+      "properties": {
+        "mode": {
+          "enum": ["external-agent-repair", "standalone"],
+          "default": "external-agent-repair"
+        },
+        "headed": { "type": "boolean", "default": false },
+        "keepWorkspaceOnFailure": { "type": "boolean", "default": true },
+        "noPatch": { "type": "boolean", "default": true }
+      }
+    }
+  }
+}
