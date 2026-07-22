@@ -313,15 +313,33 @@ const KNOWN_PATCHES: Record<string, KnownPatch> = {
     selector: ".long",
     properties: ["white-space", "min-width"],
     explanation: "white-space:nowrap prevents shrinking inside 1fr tracks.",
-    rationale: "Allow wrapping/breaking and permit the grid item to shrink.",
+    rationale:
+      "Allow wrapping/breaking, permit grid items to shrink, and box-size the grid so padding does not overflow the viewport.",
     diff: `--- a/styles.css
 +++ b/styles.css
-@@ -14,8 +14,11 @@
+@@ -1,21 +1,28 @@
+ body {
+   margin: 0;
+   font-family: system-ui, sans-serif;
+   background: #0b1220;
+   color: #e5e7eb;
+ }
+ .grid {
+   display: grid;
+   grid-template-columns: 1fr 1fr 1fr;
+   gap: 8px;
+   padding: 16px;
+-  width: 100%;
++  width: 100%;
++  max-width: 100%;
++  box-sizing: border-box;
+ }
  .cell {
    border: 1px solid #334155;
    padding: 12px;
 -  min-width: auto;
 +  min-width: 0;
++  box-sizing: border-box;
  }
  .long {
 -  white-space: nowrap;
