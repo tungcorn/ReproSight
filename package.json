@@ -17,6 +17,7 @@
     "benchmark:detectors": "npm run benchmark:detectors -w @reprosight/benchmark",
     "benchmark:localization": "npm run benchmark:localization -w @reprosight/benchmark",
     "e2e:mock": "npm run e2e:mock -w @reprosight/benchmark",
+    "evaluation:mock-matrix": "npm run evaluation:mock-matrix -w @reprosight/benchmark",
     "evaluation:real-provider": "npm run evaluation:real-provider -w @reprosight/benchmark",
     "reprosight": "node packages/cli/dist/index.js",
     "postinstall": "node -e \"console.log('Run: npx playwright install chromium')\""
