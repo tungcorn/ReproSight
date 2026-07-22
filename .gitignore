@@ -1,0 +1,34 @@
+node_modules/
+dist/
+build/
+.turbo/
+coverage/
+*.log
+.env
+.env.*
+!.env.example
+
+.reprosight/runs/
+.reprosight/worktrees/
+.reprosight/tmp/
+.playwright/
+test-results/
+playwright-report/
+
+# Fixture local git repos created by benchmark e2e
+fixtures/**/.git/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/*
+!.vscode/extensions.json
+
+# Generated local noise
+*.tsbuildinfo
+.cache/
+
+# Benchmark outputs are intentional under artifacts/benchmark when committed for docs;
+# keep large run dumps ignored by default
+artifacts/demo/*.webm
