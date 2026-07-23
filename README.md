@@ -18,7 +18,20 @@ You (the human) do **not** need to write ReproSight JSON, pick ports/selectors, 
 > The checkout CTA is covered on mobile.  
 > Use ReproSight to fix it and verify the result.
 
-Copy-paste prompt: [docs/prompts/use-reprosight.md](docs/prompts/use-reprosight.md) · Agent guide: [AGENTS.md](AGENTS.md)
+### Quick Install & Usage
+
+No manual setup or configuration required. You can run ReproSight directly with `npx` or install it globally:
+
+```bash
+# Direct run via NPX (Recommended for AI Agents)
+npx reprosight agent run --repo . --description "Checkout CTA button is covered on mobile" --json
+
+# Global installation via NPM
+npm install -g reprosight
+
+# Or install from GitHub Release tarball
+npm install -g https://github.com/tungcorn/ReproSight/releases/latest/download/reprosight-latest.tgz
+```
 
 ### What the agent does internally
 

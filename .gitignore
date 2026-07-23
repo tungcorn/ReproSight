@@ -10,6 +10,7 @@ coverage/
 
 # All local ReproSight runtime output (runs, worktrees, agent sessions, tmp)
 .reprosight/
+.reprosight-tmp/
 .playwright/
 test-results/
 playwright-report/

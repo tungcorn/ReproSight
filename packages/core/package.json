@@ -1,7 +1,8 @@
 {
   "name": "@reprosight/core",
   "version": "0.1.0",
-  "private": true,
+  "description": "Evidence-driven AI visual repair core engine",
+  "license": "MIT",
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -11,6 +12,9 @@
       "import": "./dist/index.js"
     }
   },
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "tsc -b tsconfig.json --force",
     "typecheck": "tsc -p tsconfig.json --noEmit",

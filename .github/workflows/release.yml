@@ -1,0 +1,60 @@
+name: release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  publish-release:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: write
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Run Quality Gates (Typecheck, Lint, Test)
+        run: |
+          npm run typecheck
+          npm run lint
+          npm test
+
+      - name: Build ReproSight
+        run: npm run build
+
+      - name: Pack CLI tarball
+        run: |
+          npm pack -w @reprosight/cli
+          mv reprosight-cli-*.tgz reprosight-latest.tgz
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: reprosight-latest.tgz
+          draft: false
+          prerelease: false
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Publish to NPM (if NPM_TOKEN present)
+        if: env.NPM_TOKEN != ''
+        run: |
+          npm publish -w @reprosight/core --access public
+          npm publish -w @reprosight/cli --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
