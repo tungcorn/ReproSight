@@ -1,6 +1,6 @@
 {
   "name": "@reprosight/benchmark",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "type": "module",
   "scripts": {
@@ -19,7 +19,7 @@
     "e2e:agent": "tsx src/run-agent-e2e.ts"
   },
   "dependencies": {
-    "@reprosight/core": "0.1.0",
+    "@reprosight/core": "0.1.1",
     "execa": "^9.5.2",
     "playwright": "^1.50.1"
   },
