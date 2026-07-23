@@ -14,6 +14,9 @@ jobs:
       id-token: write
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
@@ -35,15 +38,63 @@ jobs:
       - name: Build ReproSight
         run: npm run build
 
-      - name: Pack CLI tarball
+      - name: Pack CLI & Core Tarballs
         run: |
+          TAG_NAME=${GITHUB_REF#refs/tags/}
           npm pack -w reprosight
-          mv reprosight-*.tgz reprosight-latest.tgz
+          npm pack -w @reprosight/core
+          mv reprosight-[0-9]*.tgz "reprosight-${TAG_NAME}.tgz"
+          mv reprosight-core-*.tgz "reprosight-core-${TAG_NAME}.tgz"
+          cp "reprosight-${TAG_NAME}.tgz" reprosight-latest.tgz
+          sha256sum reprosight-*.tgz > SHA256SUMS.txt
 
-      - name: Create GitHub Release
+      - name: Generate Release Body Notes
+        run: |
+          TAG_NAME=${GITHUB_REF#refs/tags/}
+          CHECKSUMS=$(cat SHA256SUMS.txt)
+          cat << EOF > RELEASE_BODY.md
+          ## 🚀 Quick Start (Zero-Setup CLI)
+
+          You can run ReproSight directly via \`npx\` or install it globally:
+
+          \`\`\`bash
+          # Direct run via NPX (Recommended for AI Agents)
+          npx reprosight agent run --repo . --description "<user bug description>" --json
+
+          # Global installation via NPM
+          npm install -g reprosight@latest
+          \`\`\`
+
+          ---
+
+          ## 📦 Release Assets & Distribution Tarballs
+
+          - **CLI Package**: \`reprosight-${TAG_NAME}.tgz\`
+          - **Core Engine**: \`reprosight-core-${TAG_NAME}.tgz\`
+          - **Latest Alias**: \`reprosight-latest.tgz\`
+          - **Checksums**: \`SHA256SUMS.txt\`
+
+          ### 🔒 Verification Checksums (SHA256)
+          \`\`\`text
+          ${CHECKSUMS}
+          \`\`\`
+
+          ---
+
+          ## 🛡️ Integrity & Safety Guarantees
+
+          - **Deterministic Browser Evidence**: Playwright geometry & accessibility detectors.
+          - **Worktree Isolation**: All repairs are executed in temporary Git worktrees without mutating the main checkout.
+          - **Human Review Gate**: Requires explicit human approval before any patch commit.
+          EOF
+
+      - name: Create Professional GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          files: reprosight-latest.tgz
+          files: |
+            reprosight-*.tgz
+            SHA256SUMS.txt
+          body_path: RELEASE_BODY.md
           draft: false
           prerelease: false
           generate_release_notes: true
