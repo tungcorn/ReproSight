@@ -103,7 +103,20 @@ export class OpenAICompatibleModelClient implements ModelClient {
 
     let parsed: unknown;
     try {
-      parsed = JSON.parse(content);
+      // Some models prepend text before the JSON object despite response_format: json_object.
+      // Find the first { or [ and attempt to parse from there.
+      const firstBrace = content.indexOf("{");
+      const firstBracket = content.indexOf("[");
+      let jsonStart = -1;
+      if (firstBrace !== -1 && firstBracket !== -1) {
+        jsonStart = Math.min(firstBrace, firstBracket);
+      } else if (firstBrace !== -1) {
+        jsonStart = firstBrace;
+      } else if (firstBracket !== -1) {
+        jsonStart = firstBracket;
+      }
+      const jsonStr = jsonStart >= 0 ? content.slice(jsonStart) : content;
+      parsed = JSON.parse(jsonStr);
     } catch {
       throw new Error("Model provider returned non-JSON content");
     }

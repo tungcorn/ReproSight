@@ -1,6 +1,6 @@
 {
   "name": "reprosight",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "Evidence-driven AI visual repair CLI",
   "license": "MIT",
   "type": "module",

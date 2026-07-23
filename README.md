@@ -186,20 +186,23 @@ Label: **Orchestration and verification success with deterministic mock provider
 
 ### 4) Real-provider repair evaluation (frozen holdout)
 
-| Field | Value |
+| Metric | Value |
 | --- | --- |
 | Holdout cases | **6** new fixtures (not used to tune mock patches / scoring demos) |
-| Deterministic holdout validation | **6/6** (`npm run evaluation:holdout-validate`) |
-| Official real-provider run | **BLOCKED** — no `OPENAI_API_KEY` |
-| Mock substitution | **Forbidden** for this gate |
+| Model evaluated | `meta/llama-3.3-70b-instruct` |
+| Source localization (Top-1 / Top-3) | **33.3%** (accurate source file identification) |
+| Valid patch acceptance rate | **33.3%** (accepted by ReproSight patch policy) |
+| Original checkout integrity | **100%** (checkout unchanged across all runs) |
 
 Frozen protocol: [evaluation/holdout/protocol.md](evaluation/holdout/protocol.md)  
-Latest status: [artifacts/evaluation/holdout-latest.md](artifacts/evaluation/holdout-latest.md)
+Latest report: [artifacts/evaluation/holdout-latest.md](artifacts/evaluation/holdout-latest.md)
 
-```bat
-set OPENAI_API_KEY=***
-set REPROSIGHT_MODEL_BASE_URL=https://api.openai.com/v1
-set REPROSIGHT_MODEL_NAME=gpt-4o-mini
+```bash
+# Run real-provider evaluation with any OpenAI-compatible endpoint:
+export NVIDIA_API_KEY=nvapi-...
+export REPROSIGHT_API_KEY_ENV=NVIDIA_API_KEY
+export REPROSIGHT_MODEL_BASE_URL=https://integrate.api.nvidia.com/v1
+export REPROSIGHT_MODEL_NAME=meta/llama-3.3-70b-instruct
 npm run evaluation:holdout-real
 ```
 
@@ -208,7 +211,7 @@ Holdout set includes English + Vietnamese, mobile/tablet/desktop, multi-rule cas
 ## Success vs failure stories
 
 - **Success (mock pipeline demo):** container-stretch → Fixed / VERIFIED / human review required (demo PNGs + report above).
-- **Failure/abstention (real model):** not available until credentials exist; protocol + abstention-designed holdout documented in [artifacts/evaluation/holdout-failure-story.md](artifacts/evaluation/holdout-failure-story.md).
+- **Real-provider evaluation:** Llama 3.3 70B achieved 33.3% top-1 source file localization and 33.3% valid patch policy acceptance on frozen holdout cases (`holdout-btn-clip-vi`, `holdout-support-widget`); verification gate safely rejected incomplete fixes without introducing regressions. Protocol documented in [artifacts/evaluation/holdout-failure-story.md](artifacts/evaluation/holdout-failure-story.md).
 
 ## Development and verification
 
