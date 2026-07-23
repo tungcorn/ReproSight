@@ -23,6 +23,7 @@
     "evaluation:holdout-validate": "npm run evaluation:holdout-validate -w @reprosight/benchmark",
     "evaluation:holdout-real": "npm run evaluation:holdout-real -w @reprosight/benchmark",
     "reprosight": "node packages/cli/dist/index.js",
+    "version:bump": "npm version --workspaces --include-workspace-root --no-git-tag-version",
     "postinstall": "node -e \"console.log('Run: npx playwright install chromium')\""
   },
   "devDependencies": {
