@@ -1,6 +1,6 @@
 {
   "name": "reprosight",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "private": true,
   "type": "module",
   "description": "Evidence-driven AI visual repair for frontend defects",
@@ -23,7 +23,7 @@
     "evaluation:holdout-validate": "npm run evaluation:holdout-validate -w @reprosight/benchmark",
     "evaluation:holdout-real": "npm run evaluation:holdout-real -w @reprosight/benchmark",
     "reprosight": "node packages/cli/dist/index.js",
-    "version:bump": "npm version --workspaces --include-workspace-root --no-git-tag-version",
+    "version:bump": "node scripts/bump-version.mjs",
     "postinstall": "node -e \"console.log('Run: npx playwright install chromium')\""
   },
   "devDependencies": {
