@@ -104,7 +104,6 @@ jobs:
       - name: Publish to NPM (if NPM_TOKEN present)
         if: env.NPM_TOKEN != ''
         run: |
-          npm publish -w @reprosight/core --access public
           npm publish -w reprosight --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
