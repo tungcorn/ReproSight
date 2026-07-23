@@ -56,41 +56,97 @@ jobs:
         run: |
           TAG_NAME=${GITHUB_REF#refs/tags/}
           CHECKSUMS=$(cat SHA256SUMS.txt)
-          cat << EOF > RELEASE_BODY.md
+
+          # Find previous tag for changelog range
+          PREV_TAG=$(git tag --sort=-version:refname | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$' | sed -n '2p')
+
+          # Build changelog from conventional commits
+          build_section() {
+            local prefix="$1"
+            local emoji="$2"
+            local title="$3"
+            local commits
+            if [ -n "$PREV_TAG" ]; then
+              commits=$(git log "${PREV_TAG}..HEAD" --pretty=format:"- %s ([%h](https://github.com/${{ github.repository }}/commit/%H))" --no-merges | grep -i "^- ${prefix}" | sed "s/^- ${prefix}[:(]/- /i" || true)
+            else
+              commits=$(git log --pretty=format:"- %s ([%h](https://github.com/${{ github.repository }}/commit/%H))" --no-merges | grep -i "^- ${prefix}" | sed "s/^- ${prefix}[:(]/- /i" || true)
+            fi
+            if [ -n "$commits" ]; then
+              echo "### ${emoji} ${title}"
+              echo ""
+              echo "$commits"
+              echo ""
+            fi
+          }
+
+          FEAT=$(build_section "feat" "🚀" "Tính năng mới")
+          FIX=$(build_section "fix" "🐛" "Sửa lỗi")
+          PERF=$(build_section "perf" "⚡" "Cải thiện hiệu suất")
+          SECURITY=$(build_section "security" "🔐" "Bảo mật")
+          CHORE=$(build_section "chore" "🧹" "Dọn dẹp nội bộ")
+          CI=$(build_section "ci" "🔧" "CI/CD")
+          REFACTOR=$(build_section "refactor" "♻️" "Tái cấu trúc")
+          DOCS=$(build_section "docs" "📖" "Tài liệu")
+
+          CHANGELOG="${FEAT}${FIX}${PERF}${SECURITY}${CHORE}${CI}${REFACTOR}${DOCS}"
+          if [ -z "$CHANGELOG" ]; then
+            if [ -n "$PREV_TAG" ]; then
+              CHANGELOG=$(git log "${PREV_TAG}..HEAD" --pretty=format:"- %s ([%h](https://github.com/${{ github.repository }}/commit/%H))" --no-merges || true)
+            else
+              CHANGELOG=$(git log --pretty=format:"- %s ([%h](https://github.com/${{ github.repository }}/commit/%H))" --no-merges | head -20 || true)
+            fi
+            CHANGELOG="### Tất cả thay đổi
+
+${CHANGELOG}"
+          fi
+
+          COMPARE_URL=""
+          if [ -n "$PREV_TAG" ]; then
+            COMPARE_URL="**Full Diff**: [${PREV_TAG}...${TAG_NAME}](https://github.com/${{ github.repository }}/compare/${PREV_TAG}...${TAG_NAME})"
+          fi
+
+          cat > RELEASE_BODY.md << BODYEOF
+          ## 📋 Changelog
+
+          ${CHANGELOG}
+          ${COMPARE_URL}
+
+          ---
+
           ## 🚀 Quick Start (Zero-Setup CLI)
 
-          You can run ReproSight directly via \`npx\` or install it globally:
-
           \`\`\`bash
-          # Direct run via NPX (Recommended for AI Agents)
-          npx reprosight agent run --repo . --description "<user bug description>" --json
+          # Chạy trực tiếp qua NPX (Khuyến nghị cho AI Agent)
+          npx reprosight agent run --repo . --description "<mô tả lỗi UI>" --json
 
-          # Global installation via NPM
+          # Cài đặt toàn cục qua NPM
           npm install -g reprosight@latest
           \`\`\`
 
           ---
 
-          ## 📦 Release Assets & Distribution Tarballs
+          ## 📦 Release Assets
 
-          - **CLI Package**: \`reprosight-${TAG_NAME}.tgz\`
-          - **Core Engine**: \`reprosight-core-${TAG_NAME}.tgz\`
-          - **Latest Alias**: \`reprosight-latest.tgz\`
-          - **Checksums**: \`SHA256SUMS.txt\`
+          | File | Mô tả |
+          |------|-------|
+          | \`reprosight-${TAG_NAME}.tgz\` | CLI Package (cài qua npm/npx) |
+          | \`reprosight-core-${TAG_NAME}.tgz\` | Core Engine tarball |
+          | \`reprosight-latest.tgz\` | Latest alias |
+          | \`SHA256SUMS.txt\` | Mã kiểm tra toàn vẹn SHA256 |
 
-          ### 🔒 Verification Checksums (SHA256)
+          ### 🔒 SHA256 Checksums
           \`\`\`text
           ${CHECKSUMS}
           \`\`\`
 
           ---
 
-          ## 🛡️ Integrity & Safety Guarantees
+          ## 🛡️ Cam kết an toàn
 
-          - **Deterministic Browser Evidence**: Playwright geometry & accessibility detectors.
-          - **Worktree Isolation**: All repairs are executed in temporary Git worktrees without mutating the main checkout.
-          - **Human Review Gate**: Requires explicit human approval before any patch commit.
-          EOF
+          - **Bằng chứng trình duyệt xác định**: Playwright geometry & accessibility detectors.
+          - **Cách ly Worktree**: Mọi sửa chữa chạy trong Git worktree tạm thời, không thay đổi checkout gốc.
+          - **Cần phê duyệt con người**: Bắt buộc phải được human phê duyệt trước khi commit bất kỳ patch nào.
+          BODYEOF
 
       - name: Create Professional GitHub Release
         uses: softprops/action-gh-release@v2

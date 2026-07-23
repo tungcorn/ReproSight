@@ -1,0 +1,34 @@
+changelog:
+  exclude:
+    labels:
+      - skip-changelog
+  categories:
+    - title: "🚀 Tính năng mới"
+      labels:
+        - feature
+        - enhancement
+        - feat
+    - title: "🐛 Sửa lỗi"
+      labels:
+        - bug
+        - fix
+        - hotfix
+    - title: "⚡ Cải thiện hiệu suất"
+      labels:
+        - performance
+        - perf
+        - optimization
+    - title: "🔐 Bảo mật"
+      labels:
+        - security
+    - title: "📖 Tài liệu"
+      labels:
+        - documentation
+        - docs
+    - title: "🧹 Dọn dẹp & Cải thiện nội bộ"
+      labels:
+        - chore
+        - refactor
+        - ci
+        - dependencies
+    - title: "🔧 Thay đổi khác"
