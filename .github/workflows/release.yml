@@ -37,8 +37,8 @@ jobs:
 
       - name: Pack CLI tarball
         run: |
-          npm pack -w @reprosight/cli
-          mv reprosight-cli-*.tgz reprosight-latest.tgz
+          npm pack -w reprosight
+          mv reprosight-*.tgz reprosight-latest.tgz
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
@@ -54,7 +54,7 @@ jobs:
         if: env.NPM_TOKEN != ''
         run: |
           npm publish -w @reprosight/core --access public
-          npm publish -w @reprosight/cli --access public
+          npm publish -w reprosight --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

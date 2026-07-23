@@ -10,10 +10,10 @@
     "apps/*"
   ],
   "scripts": {
-    "build": "npm run build -w @reprosight/core && npm run build -w @reprosight/cli && npm run build -w @reprosight/benchmark && npm run build -w @reprosight/dashboard",
-    "typecheck": "npm run build -w @reprosight/core && npm run typecheck -w @reprosight/cli && npm run typecheck -w @reprosight/benchmark && npm run typecheck -w @reprosight/dashboard && npm run typecheck -w @reprosight/core",
+    "build": "npm run build -w @reprosight/core && npm run build -w reprosight && npm run build -w @reprosight/benchmark && npm run build -w @reprosight/dashboard",
+    "typecheck": "npm run build -w @reprosight/core && npm run typecheck -w reprosight && npm run typecheck -w @reprosight/benchmark && npm run typecheck -w @reprosight/dashboard && npm run typecheck -w @reprosight/core",
     "lint": "eslint packages apps --max-warnings 0",
-    "test": "npm run test -w @reprosight/core && npm run test -w @reprosight/cli && npm run test -w @reprosight/benchmark",
+    "test": "npm run test -w @reprosight/core && npm run test -w reprosight && npm run test -w @reprosight/benchmark",
     "benchmark:detectors": "npm run benchmark:detectors -w @reprosight/benchmark",
     "benchmark:localization": "npm run benchmark:localization -w @reprosight/benchmark",
     "e2e:mock": "npm run e2e:mock -w @reprosight/benchmark",
